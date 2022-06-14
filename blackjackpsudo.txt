@@ -6,6 +6,7 @@ Dealer deals out cards in a specific order
 Player is dealt 2 cards 
     decides to hit or stand
 
+changes
 
 
 
