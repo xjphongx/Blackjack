@@ -1,9 +1,9 @@
 Basic Blackjack using github commands
 
 Dealer deals out cards in a specific order
-    from a larger deck which contain a certain amount of decks
+    from a larger stack which contains 6 decks
 
-Player is dealt 2 cards 
+Player is dealt 2 cards in alternating order
     decides to hit or stand
 
 changes

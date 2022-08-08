@@ -1,0 +1,53 @@
+03 spades 6
+03 clubs 6
+03 diamonds 6
+03 hearts 6
+04 spades 6
+04 clubs 6
+04 diamonds 6
+04 hearts 6
+05 spades 6
+05 clubs 6
+05 diamonds 6
+05 hearts 6
+06 spades 6
+06 clubs 6
+06 diamonds 6
+06 hearts 6
+07 spades 6
+07 clubs 6
+07 diamonds 6
+07 hearts 6
+08 spades 6
+08 clubs 6
+08 diamonds 6
+08 hearts 6
+09 spades 6
+09 clubs 6
+09 diamonds 6
+09 hearts 6
+10 spades 6
+10 clubs 6
+10 diamonds 6
+10 hearts 6
+ J spades 6
+ J clubs 6
+ J diamonds 6
+ J hearts 6
+ Q spades 6
+ Q clubs 6
+ Q diamonds 6
+ Q hearts 6
+ K spades 6
+ K clubs 6
+ K diamonds 6
+ K hearts 6
+ A spades 6
+ A clubs 6
+ A diamonds 6
+ A hearts 6
+02 spades 6
+02 clubs 6
+02 diamonds 6
+02 hearts 6
+
