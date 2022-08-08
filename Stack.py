@@ -1,15 +1,16 @@
 
 class Stack:
-
+    ## predefined functions: append(),pop()
     def __init__(self):
         self.stack = []
+    def push(self,value):
+        self.stack.append(value)
 
-    def push(self):
-        pass
     def pop(self):
-        pass
+        self.stack.pop()
+    
     def top(self):
-        pass
+        return self.stack[-1]
     
     ##add a access(self) function 
 
