@@ -19,7 +19,7 @@ class Stack:
         return len(self.stack)
     def update_size(self): #update should be used once
         self.size = len(self.stack)
-    def cut(self):#cut the stack in half and place one half over another
+    def cut_deck(self):#cut the stack in half and place one half over another
         tempList = []
 
         ##40% - 60% cut so it cuts randomly
@@ -36,32 +36,26 @@ class Stack:
         self.stack = tempList.copy()
         
     def casino_shuffle(self):
-        tempHighList = []
-        tempLowList = []
+        tempList = [] #put upper half of object's stack into tempList
+        #print(f"half {self.size/2} and full {self.size}")
+        for i in range(int(self.size/2), self.size):
+            tempList.append(self.stack[i])    
+        for j in range(int(self.size/2), self.size):
+            self.stack.pop()
 
-        #put half into tempList
-        print(f"half {self.size/2} and full {self.size}")
-
-        for i in range(int(self.size/2),self.size):
-            print(i, end = " ")
-            tempHighList.append(self.stack[i])
-            #figure out how to remove from self.stack to another list 
+        #Alternately shuffle the two list into a shuffled list
+        shuffledList= []
+        for k in range(int(self.size/2)):
+            try:
+                shuffledList.append(self.stack.pop(0))
+                shuffledList.append(tempList.pop(0))
+            except IndexError:
+                print("Index error when casino shuffling")
+                break
             
-
-        print()
-        print(f"stack {len(tempLowList)}")
-        print(f"temp {len(tempHighList)}")
-        
-            
+        self.stack = shuffledList[:]
 
         
-        
-        
 
-
-
-
-    
-    ##add a access(self) function 
 
    
