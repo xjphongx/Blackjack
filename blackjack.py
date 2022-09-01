@@ -1,7 +1,9 @@
+from turtle import title
 import pygame
 from sys import exit
 
 from Button import Button
+from Gameboard import GameBoard
 
 FPS = 60
 SCREEN_WIDTH= 1300
@@ -11,9 +13,11 @@ def run_game():
     #initialize pygame below
     pygame.init()
     
+    
     #Font and color
-    font = pygame.font.SysFont("arial", 80)
+    font = pygame.font.SysFont("arial", 160)
     text_color = (225,228,230)
+   
 
     #Start screen
     screen = pygame.display.set_mode((SCREEN_WIDTH,SCREEN_HEIGHT))
@@ -29,22 +33,69 @@ def run_game():
     how_to_play_button = Button(510,350, how_to_play_image, .15)
     quit_image = pygame.image.load("images/buttons/quit_button.png").convert_alpha()
     quit_button = Button(510, 450, quit_image, .15)
+    back_image = pygame.image.load("images/buttons/back_button.png").convert_alpha()
+    back_button = Button(50,25,back_image,.10)
+    next_image = pygame.image.load("images/buttons/next_button.png").convert_alpha()
+    next_button = Button(1050,25,next_image, .10)
+    back_image2 = pygame.image.load("images/buttons/back_button.png").convert_alpha()  
+    back_button2 = Button(50,25,back_image2,.10)
 
-
-    #Start up the title menu
-    screen.fill((0,132,113)) 
-    title_image = font.render("Black Jack",True, text_color)
-    screen.blit(title_image, (459,150))    
-    play_game_button.draw(screen)
-    how_to_play_button.draw(screen)
-    quit_button.draw(screen)
-
-
+    #menu bool variables
+    is_menu_screen = True
+    is_game_screen = False
+    is_how_to_play_screen = False
+    is_hot_to_play_screen2 = False
+    is_paused_screen = False
 
     #Game loop
     while True:
         
+        #start up the main menu first
+        screen.fill((0,132,113)) 
+        title_image = font.render("Black Jack",True, text_color)
+        screen.blit(title_image, (280,75))
+
+
+        #click menu button functionality
+        if is_menu_screen:
+            if play_game_button.draw(screen):
+                #go to gameboard
+                is_game_screen = True
+                is_menu_screen = False
+            if how_to_play_button.draw(screen):
+                #go to playing instruction screen
+                is_menu_screen = False
+                is_how_to_play_screen = True
+            if quit_button.draw(screen):
+                pygame.quit()
+                exit()
+
+        #go to this screen if the how to play button is pressed
+        if is_how_to_play_screen:
+            screen.fill((0,132,113))
+            #if this button is click, go back to menu screen
+            if back_button.draw(screen):
+                is_menu_screen = True
+                is_how_to_play_screen = False
+            if next_button.draw(screen):
+                is_how_to_play_screen = False
+                is_hot_to_play_screen2 = True 
         
+        #go to this screen if the next button is pressed
+        if is_hot_to_play_screen2:
+            screen.fill((0,132,113))
+            if back_button2.draw(screen):
+                is_how_to_play_screen = True
+                is_hot_to_play_screen2 = False
+
+        #go to this screen if play game button is pressed
+        if is_game_screen:
+            screen.fill((0,132,113))
+            gameboard = GameBoard()
+            gameboard.play()
+
+
+
 
 
 
@@ -57,7 +108,7 @@ def run_game():
                     pass
 
             
-            
+            #close game if player clicks top right
             if event.type == pygame.QUIT:
                 pygame.quit()
                 exit()

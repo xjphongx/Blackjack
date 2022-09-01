@@ -1,3 +1,4 @@
+from ast import Delete
 import pygame
 
 class Button():
@@ -18,10 +19,13 @@ class Button():
             if pygame.mouse.get_pressed()[0] == 1 and self.clicked==False:
                 self.clicked = True
                 action = True 
-        
+
         if pygame.mouse.get_pressed()[0] == 0:
             self.clicked = False
 
         #draw the button on the screen
         surface.blit(self.image, (self.rect.x, self.rect.y))
         return action #return the action if it is pressed or not
+
+    def delete(self):
+        Delete
