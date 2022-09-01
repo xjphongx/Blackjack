@@ -35,16 +35,14 @@ def run_game():
     quit_button = Button(510, 450, quit_image, .15)
     back_image = pygame.image.load("images/buttons/back_button.png").convert_alpha()
     back_button = Button(50,25,back_image,.10)
-    next_image = pygame.image.load("images/buttons/next_button.png").convert_alpha()
-    next_button = Button(1050,25,next_image, .10)
-    back_image2 = pygame.image.load("images/buttons/back_button.png").convert_alpha()  
-    back_button2 = Button(50,25,back_image2,.10)
+    #next_image = pygame.image.load("images/buttons/next_button.png").convert_alpha()
+    #next_button = Button(1050,25,next_image, .10)
+   
 
     #menu bool variables
     is_menu_screen = True
     is_game_screen = False
     is_how_to_play_screen = False
-    is_hot_to_play_screen2 = False
     is_paused_screen = False
 
     #Game loop
@@ -77,16 +75,6 @@ def run_game():
             if back_button.draw(screen):
                 is_menu_screen = True
                 is_how_to_play_screen = False
-            if next_button.draw(screen):
-                is_how_to_play_screen = False
-                is_hot_to_play_screen2 = True 
-        
-        #go to this screen if the next button is pressed
-        if is_hot_to_play_screen2:
-            screen.fill((0,132,113))
-            if back_button2.draw(screen):
-                is_how_to_play_screen = True
-                is_hot_to_play_screen2 = False
 
         #go to this screen if play game button is pressed
         if is_game_screen:
