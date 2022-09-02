@@ -9,6 +9,14 @@ class GameBoard():
         pass
     def play(self):
         #play the game
+        #set up dealer
+        
+        #set up deck 
+
+        #set up discard pile
+
+        #set up player 
+            #set up player's hands
         pass
 
     
