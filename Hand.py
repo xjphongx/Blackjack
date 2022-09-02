@@ -23,7 +23,7 @@ class Hand:
         self.hand_size+=1       #increase hand size when adding a card
     
     def remove_card_from_hand(self):
-        print(f"testing: {self.card_in_hand_list[-1]}")
+        #print(f"testing: {self.card_in_hand_list[-1]}")
         self.hand_sum -= self.card_in_hand_list[-1].pip_value
         return self.card_in_hand_list.pop()
          #Note: After every removal, call update_hand() to prevent index error
