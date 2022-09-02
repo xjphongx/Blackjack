@@ -1,6 +1,6 @@
 
 class Hand:
-    def __init__(self):
+    def __init__(self): #add bet size when creating a hand, minimum bet
         self.card_in_hand_list = []
         self.bet_size = 0
         self.hand_sum = 0
@@ -12,6 +12,9 @@ class Hand:
 
     def get_size(self):
         return self.hand_size
+
+    def reset_hand_sum(self):
+        self.hand_sum = 0
 
     #when adding cards to my hand, add pip value as well
     def add_card_to_hand(self, card): 
