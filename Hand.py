@@ -16,10 +16,9 @@ class Hand:
     #when adding cards to my hand, add pip value as well
     def add_card_to_hand(self, card): 
         self.card_in_hand_list.append(card)
+        self.hand_sum += card.pip_value
         self.hand_size+=1       #increase hand size when adding a card
     
-    def add_cardpip_to_sum(self,card_pip_value):
-        self.hand_sum += card_pip_value
 
     def remove_card_from_hand(self):
         return self.card_in_hand_list.pop()
