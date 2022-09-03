@@ -1,7 +1,14 @@
 from Stack import Stack ## from Stack.py file, import and use the Stack class
 from Card import Card   ## from Card.py file, import and uses Card class
-import json 
 
+import pygame
+import json 
+import sys
+
+pygame.init()
+screen = pygame.display.set_mode((500,500))
+pygame.display.set_caption('Test Window')
+clock = pygame.time.Clock()
 
 ##testing area
 testStack = Stack()
@@ -11,7 +18,7 @@ with open('cards.json') as jsonfile:
 print(f"The is the amount of decks in this stack {card['amount_of_decks']}")
 for data_item in card['card_decks']:
 ##create a new Card for every interation and push into stack
-    card_Obj = Card(data_item['card_type'], data_item['pip_value'], data_item['suit'])
+    card_Obj = Card(data_item['card_type'], data_item['pip_value'], data_item['suit'],data_item['card_image'])
     testStack.push(card_Obj)
 ##ISSUE: ACES NEED TO HAVE DIFFERENT VALUES PUSHED INTO STACK
 
@@ -30,10 +37,33 @@ for j in range(testStack.get_size()):
 
 print("\nIntializing casino_shuffle()")
 testStack.casino_shuffle()
+testStack.cut_deck()
 testStack.casino_shuffle()
 testStack.casino_shuffle()
+testStack.cut_deck()
 testStack.casino_shuffle()
 for j in range(testStack.get_size()):
     print(testStack.stack[j].get_card_type(), end = " ")
 
 jsonfile.close()
+
+
+
+
+
+
+
+
+
+while True:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            exit()
+
+    pygame.display.update()
+    clock.tick(60)
+
+
+
+
