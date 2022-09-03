@@ -1,3 +1,5 @@
+import pygame
+
 #Card Class
 #@Parameters:
 #@  card_type - Str value that represents the type of card
@@ -10,11 +12,13 @@
 #@  high_pip_value - sets the value to be 11
 #
 
-class Card:
-    def __init__(self, card_type, pip_value, suit):
+class Card(pygame.sprite.Sprite):
+    def __init__(self, card_type, pip_value, suit, card_image):
+        super().__init__()
         self.card_type = card_type
         self.pip_value = pip_value
         self.suit = suit
+        self.card_image_surface = pygame.image.load(card_image).convert_alpha()
         if(card_type) == "Ace":
             self.low_pip_value=1         #used for Aces
             self.high_pip_value=11       #used for Aces

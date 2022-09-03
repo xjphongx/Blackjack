@@ -5,6 +5,8 @@ class Hand:
         self.bet_size = 0
         self.hand_sum = 0
         self.hand_size = 0
+        self.player_action_menu = [] #LOOK AT TUTORIAL
+        #need to add a small menu containing buttons for player to press 
 
     #update hand after every removal of a card to prevent index error
     def update_hand(self):
