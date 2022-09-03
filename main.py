@@ -1,9 +1,9 @@
-import blackjack
+from scripts.blackjack import run_game
 
 #Main function will intialize the game 
 def main():
     #start the game
-    blackjack.run_game()
+    run_game()
 
 
 if __name__ == '__main__':
