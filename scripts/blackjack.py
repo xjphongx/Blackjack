@@ -2,8 +2,8 @@ from turtle import title
 import pygame
 from sys import exit
 
-from scripts.Button import Button
-from scripts.Gameboard import GameBoard
+from scripts.button import Button
+from scripts.gameboard import GameBoard
 
 FPS = 60
 SCREEN_WIDTH= 1300
