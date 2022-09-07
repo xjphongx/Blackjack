@@ -1,14 +1,16 @@
 #from scripts.blackjack import run_game
 from scripts.game import Game
 
+
 #Main function will intialize the game 
 def main():    
-    #start the gameS
-    #run_game()
     game = Game()
     while game.running:
-        game.playing=True
+        game.current_menu.display_menu()
         game.game_loop()
+        
+        
+
 
 
 

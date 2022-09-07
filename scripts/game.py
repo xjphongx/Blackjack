@@ -1,5 +1,6 @@
 import pygame
 import os
+from scripts.menu import BlackjackMenu
 
 
 #import sys
@@ -19,19 +20,19 @@ class Game():
         self.window_title = pygame.display.set_caption("Black Jack")
         self.clock = pygame.time.Clock()
         self.FPS = 60
+        self.background_color = pygame.color.Color(0,132,113)
         self.font_path = os.path.abspath('font/BlackJack.ttf')
-        #self.font = pygame.font.SysFont("arial",140)
-        #self.font = pygame.font.Font('blackjack.otf',)
-        
-        
+        self.current_menu = BlackjackMenu(self)
 
     def game_loop(self):
         while self.playing:
             self.check_events()
-            self.display.fill((0,132,113))
+            self.display.fill(self.background_color)
             self.draw_text('Thanks for Playing', 110, self.display_width/2, self.display_height/2)
             self.window.blit(self.display,(0,0))
             #add a play again or return to menu option
+            
+
             pygame.display.update()
             self.clock.tick(self.FPS)
             self.reset_escape_key()
@@ -41,6 +42,7 @@ class Game():
             if event.type == pygame.QUIT:
                 self.running = False
                 self.playing = False
+                self.current_menu.run_display = False
                 pygame.quit()
                 exit()
             if event.type == pygame.KEYDOWN: #event where player presses a key on the keyboard
