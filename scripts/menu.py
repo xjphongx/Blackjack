@@ -39,9 +39,8 @@ class BlackjackMenu(Menu):
         self.run_display = True
         while self.run_display:
             self.game.check_events()
-            self.check_input()
             self.game.display.fill(self.game.background_color)
-            
+            self.check_input()
             self.blit_screen()
 
 
