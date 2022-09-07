@@ -40,12 +40,17 @@ class BlackjackMenu(Menu):
         while self.run_display:
             self.game.check_events()
             self.game.display.fill(self.game.background_color)
+            #place menu stuff below
             self.check_input()
             self.blit_screen()
 
 
     def check_input(self):
+        #if in the Blackjack menu state, then place all relative objects
         if self.state == 'BlackjackMenu':
+            #Draw the black jack title
+            self.game.draw_text('Black Jack', 100, self.game.display_width/2, self.game.display_height/3)
+            #draw all the buttons for functionality
             if self.how_to_play_button.draw(self.game.display):
                 self.state = 'PlayGame'
             elif self.how_to_play_button.draw(self.game.display):
@@ -64,6 +69,6 @@ class BlackjackMenu(Menu):
             #quit the game
             self.game.playing = False
             self.game.running = False
-            pass
+            
         self.run_display = False
    
