@@ -1,5 +1,5 @@
-from Stack import Stack ## from Stack.py file, import and use the Stack class
-from Card import Card   ## from Card.py file, import and uses Card class
+from stack import Stack ## from Stack.py file, import and use the Stack class
+from card import Card   ## from Card.py file, import and uses Card class
 
 import pygame
 import json 
