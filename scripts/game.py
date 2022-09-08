@@ -1,6 +1,6 @@
 import pygame
 import os
-from scripts.menu import BlackjackMenu
+from scripts.menu import BlackjackMenu, HowToPlayMenu
 
 
 #import sys
@@ -22,7 +22,9 @@ class Game():
         self.FPS = 60
         self.background_color = pygame.color.Color(0,132,113)
         self.font_path = os.path.abspath('font/BlackJack.ttf')
-        self.current_menu = BlackjackMenu(self)
+        self.blackjack_menu = BlackjackMenu(self)
+        self.howtoplay_menu = HowToPlayMenu(self)#this is how to traverse different menus
+        self.current_menu = self.blackjack_menu #so i can change menus and states
 
     def game_loop(self):
         while self.playing:

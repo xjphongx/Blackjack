@@ -18,7 +18,6 @@ class Menu():
 class BlackjackMenu(Menu):
     def __init__(self, game):
         super().__init__(game)
-        self.state = "BlackjackMenu" #starting up menu 
         #play game button
         self.play_game_x = self.center_width
         self.play_game_y = self.center_height-100
@@ -40,23 +39,22 @@ class BlackjackMenu(Menu):
         while self.run_display:
             self.game.check_events()
             self.game.display.fill(self.game.background_color)
+            #Draw the black jack title
+            self.game.draw_text('Black Jack', 150, self.game.display_width/2, self.game.display_height/5)
+            self.game.draw_text('Game by Jimmy Phong',20, 1200,885) #adding game credits to author
             #place menu stuff below
             self.check_input()
             self.blit_screen()
 
 
     def check_input(self):
-        #Draw the black jack title
-        self.game.draw_text('Black Jack', 150, self.game.display_width/2, self.game.display_height/5)
-        self.game.draw_text('Game by Jimmy Phong',20, 1200,885) #adding game credits to author
         #draw all the buttons for functionality
         if self.play_game_button.draw(self.game.display):
-            self.state = 'PlayGame'
+            #PLAY THE GAME HERE
             self.game.playing = True
         elif self.how_to_play_button.draw(self.game.display):
-            self.state = 'HowToPlayMenu'
+            self.game.current_menu = self.game.howtoplay_menu
         elif self.quit_button.draw(self.game.display):
-            self.state = 'Quit'
             self.game.playing = False
             self.game.running = False
         
@@ -67,10 +65,10 @@ class HowToPlayMenu(Menu):
         super().__init__(game)
         self.state = "HowToPlayMenu"
         #add back button
-        self.back_x = self.center_width
-        self.back_y = self.center_height
+        self.back_x = 150
+        self.back_y = 55
         back_image = pygame.image.load("images/buttons/back_button.png").convert_alpha()
-        self.back_button = Button(self.back_x, self.back_y, back_image, IMAGE_SCALE)
+        self.back_button = Button(self.back_x, self.back_y, back_image, .10)
         #add text instructions 
         #add image instructions
         #think about adding multiple pages/states
@@ -80,9 +78,12 @@ class HowToPlayMenu(Menu):
         while self.run_display:
             self.game.check_events()
             self.game.display.fill(self.game.background_color)
+            self.game.draw_text('How to Play', 100, self.game.display_width/2, self.game.display_height/10)
+            #place menu stuff below
             self.check_input()
             self.blit_screen()
 
     def check_input(self):
         if self.back_button.draw(self.game.display):
             self.game.current_menu = self.game.blackjack_menu
+            self.run_display = False #this stops the loop 10 lines above
