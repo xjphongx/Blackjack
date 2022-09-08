@@ -21,17 +21,17 @@ class BlackjackMenu(Menu):
         self.state = "BlackjackMenu" #starting up menu 
         #play game button
         self.play_game_x = self.center_width
-        self.play_game_y = self.center_height + 50
+        self.play_game_y = self.center_height-100
         play_game_image = pygame.image.load("images/buttons/play_game_button.png").convert_alpha()
         self.play_game_button = Button(self.play_game_x,self.play_game_y, play_game_image, IMAGE_SCALE)
         #how to play button
         self.how_to_play_x = self.center_width
-        self.how_to_play_y = self.center_height + 80
+        self.how_to_play_y = self.center_height
         how_to_play_image = pygame.image.load("images/buttons/how_to_play_button.png").convert_alpha() 
         self.how_to_play_button = Button(self.how_to_play_x,self.how_to_play_y, how_to_play_image, IMAGE_SCALE)
         #quit button
         self.quit_x = self.center_width
-        self.quit_y = self.center_height + 110
+        self.quit_y = self.center_height + 100
         quit_image = pygame.image.load("images/buttons/quit_button.png").convert_alpha()
         self.quit_button = Button(self.quit_x, self.quit_y, quit_image, IMAGE_SCALE)
 
@@ -49,9 +49,10 @@ class BlackjackMenu(Menu):
         #if in the Blackjack menu state, then place all relative objects
         if self.state == 'BlackjackMenu':
             #Draw the black jack title
-            self.game.draw_text('Black Jack', 100, self.game.display_width/2, self.game.display_height/3)
+            self.game.draw_text('Black Jack', 150, self.game.display_width/2, self.game.display_height/5)
+            self.game.draw_text('Game by Jimmy Phong',20, 1200,885) #adding game credits to author
             #draw all the buttons for functionality
-            if self.how_to_play_button.draw(self.game.display):
+            if self.play_game_button.draw(self.game.display):
                 self.state = 'PlayGame'
             elif self.how_to_play_button.draw(self.game.display):
                 self.state = 'HowToPlay'
