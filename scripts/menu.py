@@ -72,4 +72,8 @@ class BlackjackMenu(Menu):
             self.game.running = False
             
         self.run_display = False
-   
+
+class HowToPlayMenu(Menu):
+    def __init__(self, game):
+        super().__init__(game)
+           
