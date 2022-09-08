@@ -1,10 +1,7 @@
-import pygame
-import os
+import pygame,os
 from scripts.menu import BlackjackMenu, HowToPlayMenu
+from scripts.playgamestate import PlayGameState
 
-
-#import sys
-#from button import Button
 
 
 class Game():
@@ -16,8 +13,8 @@ class Game():
         self.display_width = 1300
         self.display_height = 900
         self.display = pygame.Surface((self.display_width,self.display_height))
-        self.window = pygame.display.set_mode((self.display_width,self.display_height))
-        self.window_title = pygame.display.set_caption("Black Jack")
+        self.screen = pygame.display.set_mode((self.display_width,self.display_height))
+        self.screen_title = pygame.display.set_caption("Black Jack")
         self.clock = pygame.time.Clock()
         self.FPS = 60
         self.background_color = pygame.color.Color(0,132,113)
@@ -25,14 +22,16 @@ class Game():
         self.blackjack_menu = BlackjackMenu(self)
         self.howtoplay_menu = HowToPlayMenu(self)#this is how to traverse different menus
         self.current_menu = self.blackjack_menu #so i can change menus and states
+        self.play_game_state = PlayGameState(self)
 
+        
     def game_loop(self):
         while self.playing:
             self.check_events()
             self.display.fill(self.background_color)
             self.draw_text('Thanks for Playing', 110, self.display_width/2, self.display_height/2)
-            self.window.blit(self.display,(0,0))
-            #add a play again or return to menu option
+            self.screen.blit(self.display,(0,0))
+            #TODO - add a play again or return to menu option
             
 
             pygame.display.update()

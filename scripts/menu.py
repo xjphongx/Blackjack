@@ -2,7 +2,7 @@ import pygame
 from scripts.button import Button
 
 IMAGE_SCALE = .15
-
+#Abstract data class
 class Menu():
     def __init__(self, game):
         self.game = game #reference to the game class
@@ -15,6 +15,7 @@ class Menu():
         pygame.display.update()
         self.game.reset_escape_key()
 
+#child class
 class BlackjackMenu(Menu):
     def __init__(self, game):
         super().__init__(game)
@@ -46,11 +47,10 @@ class BlackjackMenu(Menu):
             self.check_input()
             self.blit_screen()
 
-
     def check_input(self):
         #draw all the buttons for functionality
         if self.play_game_button.draw(self.game.display):
-            #PLAY THE GAME HERE
+            #TODO-PLAY THE GAME HERE
             self.game.playing = True
         elif self.how_to_play_button.draw(self.game.display):
             self.game.current_menu = self.game.howtoplay_menu
@@ -63,15 +63,13 @@ class BlackjackMenu(Menu):
 class HowToPlayMenu(Menu):
     def __init__(self, game):
         super().__init__(game)
-        self.state = "HowToPlayMenu"
-        #add back button
         self.back_x = 150
         self.back_y = 55
         back_image = pygame.image.load("images/buttons/back_button.png").convert_alpha()
         self.back_button = Button(self.back_x, self.back_y, back_image, .10)
-        #add text instructions 
-        #add image instructions
-        #think about adding multiple pages/states
+        #TODO - add text instructions 
+        #TODO - add image instructions
+        #TODO - think about adding multiple pages/states
     
     def display_menu(self):
         self.run_display = True
