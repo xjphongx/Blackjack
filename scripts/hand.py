@@ -12,9 +12,7 @@ class Hand:
     def update_hand(self):
         self.hand_size = len(self.card_in_hand_list)
 
-    def get_size(self):
-        return self.hand_size
-
+    #reset hand total sum to zero
     def reset_hand_sum(self):
         self.hand_sum = 0
 
