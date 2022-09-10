@@ -1,12 +1,18 @@
-from Hand import Hand
-from Card import Card
-from Stack import Stack
+from hand import Hand
+from card import Card
+from stack import Stack
+import pygame
+
+pygame.init()
+screen = pygame.display.set_mode((500,500))
+display = pygame.Surface((500,500))
+clock = pygame.time.Clock()
 
 #testing adding Card objects to a Hand object
-testCard1 = Card("Five",5,"Hearts")
-testCard2 = Card("Jack",10,"Diamonds")
-testCard3 = Card("King",10,"Spades")
-testCard4 = Card("Three",3,"Clubs")
+testCard1 = Card("Five",5,"Hearts","../images/PNG_cards/5_of_hearts.png")
+testCard2 = Card("Jack",10,"Diamonds","../images/PNG_cards/jack_of_diamonds.png")
+testCard3 = Card("King",10,"Spades","../images/PNG_cards/king_of_spades.png")
+testCard4 = Card("Three",3,"Clubs","../images/PNG_cards/3_of_clubs.png")
 
 testHand = Hand()
 testHand.add_card_to_hand(testCard1)
@@ -15,17 +21,17 @@ testHand.add_card_to_hand(testCard3)
 testHand.add_card_to_hand(testCard4)
 print(f"Sum of Current Hand: {testHand.hand_sum}")
 for i in range(testHand.hand_size):
-    print(testHand.card_in_hand_list[i].get_card_type())
+    print(testHand.card_in_hand_list[i].card_type)
 
 print("\ntesting removals below")
 removed_card = testHand.remove_card_from_hand()
-print(f"removed card: {removed_card.get_card_type()}")
+print(f"removed card: {removed_card.card_type}")
 testHand.update_hand()
 
 print(f"Sum of test Hand after removal: {testHand.hand_sum}")
 print(f"testHand")
 for i in range(testHand.hand_size):
-    print(testHand.card_in_hand_list[i].get_card_type())
+    print(testHand.card_in_hand_list[i].card_type)
 
 #move the whole hand to a discard stack
 print("\nMoving whole hand to discard")
@@ -41,9 +47,18 @@ print(f"test hand container: {testHand.card_in_hand_list}")
 
 print(f"Sum of test Hand: {testHand.hand_sum}")
 for i in range(testHand.hand_size):
-    print(testHand.card_in_hand_list[i].get_card_type())
+    print(testHand.card_in_hand_list[i].card_type)
 
+while True:
 
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            exit()
+
+    screen.blit(display,(0,0))
+    pygame.display.update()
+    clock.tick(60)
 
 
 
