@@ -24,14 +24,17 @@ class Game():
     
     #Function game_loop() contains all the game elements and objects
     def game_loop(self):
+        #Blit all the initial gameboard objects ONCE
+        self.display.fill(self.background_color)
+        self.screen.blit(self.display,(0,0))               
+        self.gameboard.display_gameboard()
+        
+        #game loop
         while self.playing:
             self.check_events()
-            self.display.fill(self.background_color)
-            self.screen.blit(self.display,(0,0))
             
-            #Blit all the initial gameboard objects            
-            self.gameboard.display_gameboard()
-            
+            #TODO - add update function for players and dealer
+
             #self.draw_text('currently playing', 110, self.display_width/2, self.display_height/2)
             #TODO - add a play again or return to menu option
             pygame.display.update()
