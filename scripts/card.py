@@ -1,5 +1,6 @@
 import pygame
 
+
 #Card Class
 #@Parameters:
 #@  card_type - Str value that represents the type of card
@@ -18,23 +19,12 @@ class Card(pygame.sprite.Sprite):
         self.card_type = card_type
         self.pip_value = pip_value
         self.suit = suit
-        self.card_image_surface = pygame.image.load(card_image).convert_alpha()
         if(card_type) == "Ace":
             self.low_pip_value=1         #used for Aces
             self.high_pip_value=11       #used for Aces
-        
-    def get_card_type(self):             #returns card type as str Example: "King"
-        return self.card_type
+        self.card_image_surface = pygame.image.load(card_image).convert_alpha()
+        self.rect = self.card_image_surface.get_rect(center = (1000,600))
+   
 
-    def get_pip_value(self):             #returns pip value as int Example: Kings are worth 10
-        return self.pip_value
 
-    def get_suit(self):                  #returns card's suit as str Example: "Diamonds"
-        return self.suit
-
-    def get_low_pip_value(self):         #return low pip value for Aces
-        return self.low_pip_value
-
-    def get_high_pip_value(self):        #return high pip value for Aces
-        return self.high_pip_value
 
