@@ -2,10 +2,6 @@ import pygame,os
 from scripts.gameboard import GameBoard
 from scripts.menu import BlackjackMenu, HowToPlayMenu
 
-
-
-
-
 class Game():
     def __init__(self):
         pygame.init()
@@ -33,12 +29,11 @@ class Game():
             self.screen.blit(self.display,(0,0))
             
             #blit the gameboard image
-            self.screen.blit(self.gameboard.dealer.dealer_image_surface,self.gameboard.dealer.rect)
+            #self.screen.blit(self.gameboard.dealer.dealer_image_surface,self.gameboard.dealer.rect)
             
-            #self.gameboard.display_gameboard()
+            self.gameboard.display_gameboard()
             
             #self.draw_text('currently playing', 110, self.display_width/2, self.display_height/2)
-            
             #TODO - add a play again or return to menu option
             pygame.display.update()
             self.clock.tick(self.FPS)
