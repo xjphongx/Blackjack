@@ -1,6 +1,6 @@
 import pygame,os
 from scripts.menu import BlackjackMenu, HowToPlayMenu
-from scripts.playgamestate import PlayGameState
+
 
 
 
@@ -22,7 +22,7 @@ class Game():
         self.blackjack_menu = BlackjackMenu(self)
         self.howtoplay_menu = HowToPlayMenu(self)#this is how to traverse different menus
         self.current_menu = self.blackjack_menu #so i can change menus and states
-        self.play_game_state = PlayGameState(self)
+        
 
         
     def game_loop(self):
