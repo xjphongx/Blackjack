@@ -4,7 +4,6 @@ import math
 #Stack Data Structure Class
 #@Parameters: (None)
 #Class variables contain a stack as a list and stack size as an Int    
-
 class Stack:
     ## predefined functions for list: append(),pop()
     def __init__(self):
@@ -24,6 +23,10 @@ class Stack:
     def update_size(self):          #update class size with its current list size
         self.size = len(self.stack)
 
+
+class Deck(Stack):
+    def __init__(self):
+        super().__init__()
     #Function cut_deck() contains 3 steps:
     #   Step 1: Identify the 40% to 60% mark and split accordingly
     #   Step 2: Places the top and bottom portion into a temporary container, respectively
