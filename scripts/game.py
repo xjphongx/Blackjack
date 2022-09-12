@@ -24,19 +24,21 @@ class Game():
         self.blackjack_menu = BlackjackMenu(self)
         self.howtoplay_menu = HowToPlayMenu(self)#this is how to traverse different menus
         self.current_menu = self.blackjack_menu #so i can change menus and states
-        self.gameboard = GameBoard()
+        self.gameboard = GameBoard(self)
     
     def game_loop(self):
         while self.playing:
-            self.display.fill(self.background_color)
             self.check_events()
-            #blit the gameboard image
-                
-            
-            self.gameboard.play() #play the game
-            self.screen.blit(self.gameboard.dealer.dealer_image_surface,self.gameboard.dealer.rect)
-            self.draw_text('currently playing', 110, self.display_width/2, self.display_height/2)
+            self.display.fill(self.background_color)
             self.screen.blit(self.display,(0,0))
+            
+            #blit the gameboard image
+            self.screen.blit(self.gameboard.dealer.dealer_image_surface,self.gameboard.dealer.rect)
+            
+            #self.gameboard.display_gameboard()
+            
+            #self.draw_text('currently playing', 110, self.display_width/2, self.display_height/2)
+            
             #TODO - add a play again or return to menu option
             pygame.display.update()
             self.clock.tick(self.FPS)
