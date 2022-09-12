@@ -45,4 +45,5 @@ class Dealer(Player):
         super().__init__(fund = DEALER_STARTING_FUND)
         self.dealer_image_path = os.path.abspath('images/dealer.png')
         self.dealer_image_surface = pygame.image.load(self.dealer_image_path).convert_alpha()
-        self.rect = self.dealer_image_surface.get_rect()
+        self.dealer_image_surface = pygame.transform.rotozoom(self.dealer_image_surface,0,.2)
+        self.rect = self.dealer_image_surface.get_rect(midtop=(1300/2,-30))
