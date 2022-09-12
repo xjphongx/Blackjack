@@ -24,7 +24,7 @@ class Stack():
         self.size = len(self.stack)
     #add a get top 10 cards
 
-class Deck(Stack,pygame.sprite.Sprite):
+class DeckPile(Stack,pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
         self.deck_back_image_path = os.path.abspath('images/PNG_cards/card_back.png')
@@ -69,8 +69,13 @@ class Deck(Stack,pygame.sprite.Sprite):
                 break   
         self.stack = shuffledList[:]    #updates the class stack
 
-class Discard(Stack):
-    pass     
+class DiscardPile(Stack,pygame.sprite.Sprite):
+    def __init__(self):
+        super().__init__()
+        self.discard_pile_image_path = os.path.abspath('images/discard_pile.png')
+        self.discard_pile_image_surface = pygame.image.load(self.discard_pile_image_path).convert_alpha()
+        self.discard_pile_image_surface = pygame.transform.rotozoom(self.discard_pile_image_surface,0,.4)
+        self.rect = self.discard_pile_image_surface.get_rect(midtop = (100,20))
 
 
    
