@@ -1,6 +1,7 @@
 import pygame
 from scripts.button import Button
 
+
 IMAGE_SCALE = .15
 #Abstract data class
 class Menu():
@@ -50,7 +51,6 @@ class BlackjackMenu(Menu):
     def check_input(self):
         #draw all the buttons for functionality
         if self.play_game_button.draw(self.game.display):
-            #TODO-PLAY THE GAME HERE
             self.game.playing = True
         elif self.how_to_play_button.draw(self.game.display):
             self.game.current_menu = self.game.howtoplay_menu
