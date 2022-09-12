@@ -22,15 +22,14 @@ class Game():
         self.current_menu = self.blackjack_menu #so i can change menus and states
         self.gameboard = GameBoard(self)
     
+    #Function game_loop() contains all the game elements and objects
     def game_loop(self):
         while self.playing:
             self.check_events()
             self.display.fill(self.background_color)
             self.screen.blit(self.display,(0,0))
             
-            #blit the gameboard image
-            #self.screen.blit(self.gameboard.dealer.dealer_image_surface,self.gameboard.dealer.rect)
-            
+            #Blit all the initial gameboard objects            
             self.gameboard.display_gameboard()
             
             #self.draw_text('currently playing', 110, self.display_width/2, self.display_height/2)
