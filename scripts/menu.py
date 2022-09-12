@@ -11,7 +11,7 @@ class Menu():
         self.run_display = True
 
     def blit_screen(self):
-        self.game.window.blit(self.game.display, (0,0))
+        self.game.screen.blit(self.game.display, (0,0))
         pygame.display.update()
         self.game.reset_escape_key()
 
