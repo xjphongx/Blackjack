@@ -1,10 +1,10 @@
-import random
-import math
+import random,math,pygame,os
+
 
 #Stack Data Structure Class
 #@Parameters: (None)
 #Class variables contain a stack as a list and stack size as an Int    
-class Stack:
+class Stack():
     ## predefined functions for list: append(),pop()
     def __init__(self):
         self.stack = []
@@ -24,9 +24,13 @@ class Stack:
         self.size = len(self.stack)
     #add a get top 10 cards
 
-class Deck(Stack):
+class Deck(Stack,pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
+        self.deck_back_image_path = os.path.abspath('images/PNG_cards/card_back.png')
+        self.deck_back_image_surface = pygame.image.load(self.deck_back_image_path).convert_alpha()
+        self.deck_back_image_surface = pygame.transform.rotozoom(self.deck_back_image_surface,0,.2)
+        self.rect = self.deck_back_image_surface.get_rect(midtop = (1200,20))
     #Function cut_deck() contains 3 steps:
     #   Step 1: Identify the 40% to 60% mark and split accordingly
     #   Step 2: Places the top and bottom portion into a temporary container, respectively
@@ -65,7 +69,8 @@ class Deck(Stack):
                 break   
         self.stack = shuffledList[:]    #updates the class stack
 
-        
+class Discard(Stack):
+    pass     
 
 
    
