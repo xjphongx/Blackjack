@@ -4,6 +4,7 @@ from scripts.menu import BlackjackMenu, HowToPlayMenu
 
 
 
+
 class Game():
     def __init__(self):
         pygame.init()
@@ -23,21 +24,20 @@ class Game():
         self.howtoplay_menu = HowToPlayMenu(self)#this is how to traverse different menus
         self.current_menu = self.blackjack_menu #so i can change menus and states
         
-
-        
+    
     def game_loop(self):
+    
         while self.playing:
             self.check_events()
             self.display.fill(self.background_color)
-            self.draw_text('Thanks for Playing', 110, self.display_width/2, self.display_height/2)
+            self.draw_text('currently playing', 110, self.display_width/2, self.display_height/2)
             self.screen.blit(self.display,(0,0))
             #TODO - add a play again or return to menu option
             
-
             pygame.display.update()
             self.clock.tick(self.FPS)
             self.reset_escape_key()
-
+            
     def check_events(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
