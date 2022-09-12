@@ -1,5 +1,7 @@
-from stack import Deck,Stack ## from Stack.py file, import and use the Stack class
+from player import Dealer
+from stack import Deck ## from Stack.py file, import and use the Stack class
 from card import Card   ## from Card.py file, import and uses Card class
+
 
 import pygame
 import json 
@@ -47,12 +49,14 @@ testStack.casino_shuffle()
 for j in range(testStack.get_size()):
     print(testStack.stack[j].card_type, end = " ")
 
-
+#testing dealer
+dealer = Dealer()
 
 while True:
     #screen.blit(image surface, image rectangle)
+    screen.fill((123,132,4))
     screen.blit(testStack.stack[-1].card_image_surface,testStack.stack[-1].rect )
-
+    screen.blit(dealer.dealer_image_surface, dealer.rect)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
