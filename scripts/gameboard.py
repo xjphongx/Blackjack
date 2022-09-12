@@ -16,11 +16,12 @@ class GameBoard():
     #load json png cards into the deck
     def load_cards_to_deck(self):
         pass
-
+    #Function display_gameboard() displays all gameboard objects
     def display_gameboard(self):
         #set up dealer
-        self.game.screen.blit(self.game.gameboard.dealer.dealer_image_surface,self.game.gameboard.dealer.rect)           
-        #set up deck 
+        self.game.screen.blit(self.game.gameboard.dealer.dealer_image_surface, self.game.gameboard.dealer.rect)           
+        #set up deck
+        self.game.screen.blit(self.game.gameboard.deck.deck_back_image_surface, self.game.gameboard.deck.rect) 
         #set up discard pile
         #set up player 
             #set up player's hands
