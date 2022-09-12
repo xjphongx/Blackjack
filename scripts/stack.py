@@ -22,7 +22,7 @@ class Stack:
         return len(self.stack)
     def update_size(self):          #update class size with its current list size
         self.size = len(self.stack)
-
+    #add a get top 10 cards
 
 class Deck(Stack):
     def __init__(self):
