@@ -1,5 +1,5 @@
 from player import Dealer
-from stack import Deck ## from Stack.py file, import and use the Stack class
+from stack import DeckPile ## from Stack.py file, import and use the Stack class
 from card import Card   ## from Card.py file, import and uses Card class
 
 
@@ -13,12 +13,12 @@ pygame.display.set_caption('Test Window')
 clock = pygame.time.Clock()
 
 ##Loading json object to Card object
-testStack = Deck()
+testStack = DeckPile()
 with open('cards.json') as jsonfile:
 #jsonfile = open('cards.json')#another way to open
-    card = json.load(jsonfile)
-print(f"The is the amount of decks in this stack {card['amount_of_decks']}")
-for data_item in card['card_decks']:
+    cards = json.load(jsonfile)
+print(f"The is the amount of decks in this stack {cards['amount_of_decks']}")
+for data_item in cards['card_decks']:
 ##create a new Card for every interation and push into stack
     card_Obj = Card(data_item['card_type'], data_item['pip_value'], data_item['suit'],data_item['card_image'])
     card_Obj.card_image_surface = pygame.transform.rotozoom(card_Obj.card_image_surface,0,.2) #makes the cards smaller
