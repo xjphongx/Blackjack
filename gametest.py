@@ -38,10 +38,10 @@ print(deckpile.size)
 #shuffle the deck
 deckpile.cut_deck()
 deckpile.casino_shuffle()
-#deckpile.cut_deck()
-#deckpile.casino_shuffle()
-#deckpile.cut_deck()
-#deckpile.casino_shuffle()
+deckpile.cut_deck()
+deckpile.casino_shuffle()
+deckpile.cut_deck()
+deckpile.casino_shuffle()
 for i, card in enumerate(deckpile.stack):
     print(card.type, end= " ")
 
@@ -85,7 +85,18 @@ for i, hand in enumerate(turn_list):
     print(f"Player {i}'s hand:", end = " ")
     for j, card in enumerate(hand.card_list):
         print(hand.card_list[j].type,end = " ")
-    print()    
+
+    #if hand has an Ace card, show two different sum values
+    if hand.hasAce:
+        print(f"Hand Sum: {hand.hand_sum}")
+        print(f"Upper Hand Sum: {hand.hand_upper_sum}")
+    else:
+        print(f"Hand Sum: {hand.hand_sum}")
+
+
+
+        
+        
 
 
 #give the player the option to play, hit stand double or split 
