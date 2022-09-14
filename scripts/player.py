@@ -9,7 +9,7 @@ class Player():
         self.hand_list = []
         self.fund = fund
         self.is_player_turn = False
-        self.player_action = None
+        self.player_action = ['hit', 'stand', 'split', 'double']
 
     def add_Hand(self):#Player can add a new hand when SPLITING
         hand = Hand()
