@@ -12,6 +12,7 @@ class Stack():
 
     def push(self,value):           #adds to the end of the list
         self.stack.append(value)
+        self.size +=1
     def pop(self):                  #removes the object at the end of the list
         self.stack.pop()
     def top(self):                  #returns the end of the list 
@@ -27,10 +28,10 @@ class Stack():
 class DeckPile(Stack,pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
-        self.deck_back_image_path = os.path.abspath('images/PNG_cards/card_back.png')
-        self.deck_back_image_surface = pygame.image.load(self.deck_back_image_path).convert_alpha()
-        self.deck_back_image_surface = pygame.transform.rotozoom(self.deck_back_image_surface,0,.2)
-        self.rect = self.deck_back_image_surface.get_rect(midtop = (1200,20))
+        #self.deck_back_image_path = os.path.abspath('images/PNG_cards/card_back.png')
+        #self.deck_back_image_surface = pygame.image.load(self.deck_back_image_path).convert_alpha()
+        #self.deck_back_image_surface = pygame.transform.rotozoom(self.deck_back_image_surface,0,.2)
+        #self.rect = self.deck_back_image_surface.get_rect(midtop = (1200,20))
     #Function cut_deck() contains 3 steps:
     #   Step 1: Identify the 40% to 60% mark and split accordingly
     #   Step 2: Places the top and bottom portion into a temporary container, respectively
@@ -41,7 +42,7 @@ class DeckPile(Stack,pygame.sprite.Sprite):
     def cut_deck(self):
         tempList = []   #temporary container
         ##40% - 60% cut so it cuts randomly
-        cut_limit = random.randrange(math.ceil(.4*self.size),math.ceil(.6*self.size))
+        cut_limit = random.randrange(int(math.ceil(.4*self.size)), int(math.ceil(.6*self.size)))
         for i in range(cut_limit,self.size): #moves the top portion into temp
             tempList.append(self.stack[i])
         for j in range(0,cut_limit):
@@ -72,10 +73,10 @@ class DeckPile(Stack,pygame.sprite.Sprite):
 class DiscardPile(Stack,pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
-        self.discard_pile_image_path = os.path.abspath('images/discard_pile.png')
-        self.discard_pile_image_surface = pygame.image.load(self.discard_pile_image_path).convert_alpha()
-        self.discard_pile_image_surface = pygame.transform.rotozoom(self.discard_pile_image_surface,0,.4)
-        self.rect = self.discard_pile_image_surface.get_rect(midtop = (100,20))
+        #self.discard_pile_image_path = os.path.abspath('images/discard_pile.png')
+        #self.discard_pile_image_surface = pygame.image.load(self.discard_pile_image_path).convert_alpha()
+        #self.discard_pile_image_surface = pygame.transform.rotozoom(self.discard_pile_image_surface,0,.4)
+        #self.rect = self.discard_pile_image_surface.get_rect(midtop = (100,20))
 
 
    
