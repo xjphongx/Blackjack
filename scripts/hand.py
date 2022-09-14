@@ -3,6 +3,7 @@ class Hand:
     def __init__(self): #add bet size when creating a hand, minimum bet
         self.card_list = []
         self.bet_size = 50
+        self.hasAce = False
         self.hand_sum = 0
         self.hand_upper_sum = 0 #calculated for ace egde case
         self.hand_size = 0
@@ -23,19 +24,17 @@ class Hand:
     def add_card(self, card): 
         #set hand_sum to be the lower sum and hand uppper is uppper sum
         if card.type == 'Ace':
+            self.hasAce = True
             self.hand_sum += card.low_pip_value
             self.hand_upper_sum += card.high_pip_value
         else:
-            self.hand_sum = card.pip_value
-            self.hand_upper_sum = card.pip_value
-
+            self.hand_sum += card.pip_value
+            self.hand_upper_sum += card.pip_value
         self.card_list.append(card) 
         self.hand_size+=1       #increase hand size when adding a card
         
 
     def remove_card(self):
-        #print(f"testing: {self.card_in_hand_list[-1]}")
-        
         self.hand_sum -= self.card_list[-1].pip_value
         temp_card = self.card_list.pop()
         self.hand_size = len(self.card_list) #update hand size after pop, to prevent error
