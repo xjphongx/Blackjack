@@ -65,16 +65,16 @@ print(f"Turn List: {turn_list}")
 #this is the passing out cards phase
 for rotation in range(2): 
     #pass out one card to each hand
-    print(f"Rotation: {rotation}")
+    #print(f"Rotation: {rotation}")#
     for i, hand in enumerate(turn_list):
         #pop top of deck stack and add to that specific hand
-        print(f"Iteration: {i} Hand: {hand}")
+        #print(f"Iteration: {i} Hand: {hand}")
         topcard = deckpile.top() 
         deckpile.pop()
-        print(f"Top card of deck stack: {topcard.type}")
-        print(f"Hand: {hand} This is the real hand")
+        #print(f"Top card of deck stack: {topcard.type}")
+        #print(f"Hand: {hand} This is the real hand")
         hand.add_card(topcard)
-print(turn_list[0].card_list[0].type)
+#print(turn_list[0].card_list[0].type)
 
 
 #This is looking at the cards phase
@@ -97,10 +97,28 @@ for i, hand in enumerate(turn_list):
 
         
         
+#get the player action response
+def get_player_action():
+    #get the player's action input
+    action = input("hit, stand, double, or split")
+    if action == 'hit':
+        #hit
+        pass
+    elif action == 'stand':
+        #stand
+        pass        
+    elif action == 'split':
+        pass
+    elif action == 'double':
+        pass 
+    else:
+        print("input error")
 
 
-#give the player the option to play, hit stand double or split 
-        
+
+def hit():
+    
+    pass
         
         
 
