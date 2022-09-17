@@ -49,9 +49,13 @@ for i, card in enumerate(deckpile.stack):
 print("Welcome to the Black Jack Test")
 print("Minimum bet is 50 coins per hand\n")
 #get player input, how many hands do player want
-print("How many hands are you playing?")
-handAmount = int(input()) #raise exception error if out side of amount range
+print("loop test below")
+
+
+handAmount = input("How many hands are you playing?") #raise exception error if out side of amount range
+print(handAmount)
 for i in range(handAmount):
+    print("testing")
     player.add_Hand()
     player.subtract_funds(MINIMUM_BET)
 
@@ -109,7 +113,7 @@ def hit(hand, deck): #recieve hand object to hit and update
     print(f"After hit(): ", end= " " )
     hand.show()
     
-    pass
+
 
 
 ###########################################################        
