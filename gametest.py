@@ -95,30 +95,47 @@ for i, hand in enumerate(turn_list):
 
 
 
-        
-        
+
+def hit(hand, deck): #recieve hand object to hit and update
+    print(f"Lengh of deck before hit: {len(deck.stack)}")
+    print(f"Current top of deck: {deck.stack[-1].type}")
+    print(f"Before hit(): ", end= " ")
+    hand.show()
+    hand.add_card(deck.stack[-1])
+    deck.pop()
+    #deck.update_size
+    print(f"Lengh of deck before hit: {len(deck.stack)}")
+    print(f"Current top of deck: {deck.stack[-1].type}")
+    print(f"After hit(): ", end= " " )
+    hand.show()
+    
+    pass
+
+
+###########################################################        
 #get the player action response
-def get_player_action():
-    #get the player's action input
-    action = input("hit, stand, double, or split")
+#get the player's action input
+turn_counter = 0
+while turn_counter < len(turn_list):
+    action = input("hit, stand, double, or split\n")
+
     if action == 'hit':
-        #hit
+        hit(turn_list[turn_counter],deckpile) #player will hit a hand
         pass
     elif action == 'stand':
         #stand
-        pass        
+        turn_counter += 1
+        break       
     elif action == 'split':
         pass
     elif action == 'double':
         pass 
     else:
         print("input error")
+        break
 
 
 
-def hit():
-    
-    pass
         
         
 
