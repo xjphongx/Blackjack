@@ -2,6 +2,7 @@
 class Hand:
     def __init__(self): #add bet size when creating a hand, minimum bet
         self.card_list = []
+        self.isTurn = True
         self.bet_size = 50
         self.hasAce = False
         self.hand_sum = 0
@@ -13,7 +14,8 @@ class Hand:
     #print out on terminal the contains of the card_list
     def show(self):
         for i, card in enumerate(self.card_list) :
-            print(card.type)    
+            print(card.type, end= " ")  
+        print()  
     
 
     #reset hand total sum to zero

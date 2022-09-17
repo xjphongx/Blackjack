@@ -15,6 +15,7 @@ class Stack():
         self.size +=1
     def pop(self):                  #removes the object at the end of the list
         self.stack.pop()
+        #self.size = len(self.stack)
     def top(self):                  #returns the end of the list 
         return self.stack[-1]
     def show(self):                 #returns the whole list
@@ -23,6 +24,7 @@ class Stack():
         return len(self.stack)
     def update_size(self):          #update class size with its current list size
         self.size = len(self.stack)
+        #i might not need this if i update after every pop
     #add a get top 10 cards
 
 class DeckPile(Stack,pygame.sprite.Sprite):
