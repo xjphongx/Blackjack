@@ -1,4 +1,5 @@
-import random,math,pygame,os
+import random,math,pygame,os,json
+from scripts.card import Card
 
 
 #Stack Data Structure Class
@@ -25,15 +26,47 @@ class Stack():
     def update_size(self):          #update class size with its current list size
         self.size = len(self.stack)
         #i might not need this if i update after every pop
-    #add a get top 10 cards
+    #add a get top 10 
+    
+    
+
 
 class DeckPile(Stack,pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
-        #self.deck_back_image_path = os.path.abspath('images/PNG_cards/card_back.png')
-        #self.deck_back_image_surface = pygame.image.load(self.deck_back_image_path).convert_alpha()
-        #self.deck_back_image_surface = pygame.transform.rotozoom(self.deck_back_image_surface,0,.2)
-        #self.rect = self.deck_back_image_surface.get_rect(midtop = (1200,20))
+        self.deck_back_image_path = os.path.abspath('images/PNG_cards/card_back.png')
+        self.deck_back_image_surface = pygame.image.load(self.deck_back_image_path).convert_alpha()
+        self.deck_back_image_surface = pygame.transform.rotozoom(self.deck_back_image_surface,0,.2)
+        self.rect = self.deck_back_image_surface.get_rect(midtop = (1200,20))
+        
+    #load json png cards into the deck
+    def load_cards_to_deck(self):
+        CARD_PATH_TO_JSON = 'scripts/cards.json'
+        with open(CARD_PATH_TO_JSON) as jsonfile: #opens the cards json file
+            cards = json.load(jsonfile)
+        for data_item in cards['card_decks']:
+            #create a new card for every iteration
+            card_object = Card(
+                data_item['type'],
+                data_item['pip_value'],
+                data_item['suit'],
+                data_item['card_image']
+            )#end of card_object
+            self.stack.append(card_object)#push the card object into gameboard's deck_pile
+
+        jsonfile.close() #close the json file
+        #print(self.stack.show())
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     #Function cut_deck() contains 3 steps:
     #   Step 1: Identify the 40% to 60% mark and split accordingly
     #   Step 2: Places the top and bottom portion into a temporary container, respectively
@@ -75,10 +108,10 @@ class DeckPile(Stack,pygame.sprite.Sprite):
 class DiscardPile(Stack,pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
-        #self.discard_pile_image_path = os.path.abspath('images/discard_pile.png')
-        #self.discard_pile_image_surface = pygame.image.load(self.discard_pile_image_path).convert_alpha()
-        #self.discard_pile_image_surface = pygame.transform.rotozoom(self.discard_pile_image_surface,0,.4)
-        #self.rect = self.discard_pile_image_surface.get_rect(midtop = (100,20))
+        self.discard_pile_image_path = os.path.abspath('images/discard_pile.png')
+        self.discard_pile_image_surface = pygame.image.load(self.discard_pile_image_path).convert_alpha()
+        self.discard_pile_image_surface = pygame.transform.rotozoom(self.discard_pile_image_surface,0,.4)
+        self.rect = self.discard_pile_image_surface.get_rect(midtop = (100,20))
 
 
    

@@ -15,7 +15,7 @@ import pygame
 #
 
 class Card(pygame.sprite.Sprite):
-    def __init__(self, type, pip_value, suit, image=None):
+    def __init__(self, type, pip_value, suit, image):
         super().__init__()
         self.type = type
         self.pip_value = pip_value
@@ -23,8 +23,8 @@ class Card(pygame.sprite.Sprite):
         if(type) == "Ace":
             self.low_pip_value=1         #used for Aces
             self.high_pip_value=11       #used for Aces
-        #self.image_surface = pygame.image.load(image).convert_alpha()
-        #self.rect = self.image_surface.get_rect(center = (1000,600))
+        self.image_surface = pygame.image.load(image).convert_alpha()
+        self.rect = self.image_surface.get_rect(center = (1000,600))
    
 
 

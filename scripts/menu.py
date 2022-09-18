@@ -52,8 +52,12 @@ class BlackjackMenu(Menu):
         #draw all the buttons for functionality
         if self.play_game_button.draw(self.game.display):
             self.game.playing = True
+            self.game.current_menu = self.game.gameboard_menu
+            #self.run_display = False
+
         elif self.how_to_play_button.draw(self.game.display):
             self.game.current_menu = self.game.howtoplay_menu
+
         elif self.quit_button.draw(self.game.display):
             self.game.playing = False
             self.game.running = False
@@ -85,3 +89,29 @@ class HowToPlayMenu(Menu):
         if self.back_button.draw(self.game.display):
             self.game.current_menu = self.game.blackjack_menu
             self.run_display = False #this stops the loop 10 lines above
+
+#this is the state where the game is being played
+class GameboardMenu(Menu):
+    def __init__(self, game):
+        super().__init__(game)
+        #initialize the game board objects
+
+    def display_menu(self):
+        self.run_display = True
+        while self.run_display:
+            self.game.check_events()
+            self.game.display.fill(self.game.background_color)
+            self.game.draw_text('Playing game', 100, self.game.display_width/2,self.game.display_height/10)
+            self.check_input()
+            self.blit_screen()
+
+
+    def check_input(self):
+        #add stuff here
+        pass
+
+
+
+
+
+

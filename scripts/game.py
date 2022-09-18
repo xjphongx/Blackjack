@@ -1,6 +1,6 @@
 import pygame,os
 from scripts.gameboard import GameBoard
-from scripts.menu import BlackjackMenu, HowToPlayMenu
+from scripts.menu import BlackjackMenu, GameboardMenu, HowToPlayMenu
 
 class Game():
     def __init__(self):
@@ -19,18 +19,26 @@ class Game():
         self.font_path = os.path.abspath('font/BlackJack.ttf')
         self.blackjack_menu = BlackjackMenu(self)
         self.howtoplay_menu = HowToPlayMenu(self)#this is how to traverse different menus
+        self.gameboard_menu = GameboardMenu(self)
         self.current_menu = self.blackjack_menu #so i can change menus and states
-        self.gameboard = GameBoard(self)
+        #self.gameboard = GameBoard(self)
+        #self.gameboard.initialize_gameboard()
     
     #Function game_loop() contains all the game elements and objects
     def game_loop(self):
+        
         #Blit all the initial gameboard objects ONCE
-        self.display.fill(self.background_color)
-        self.screen.blit(self.display,(0,0))               
-        self.gameboard.display_gameboard()
+        
+        #This is where gameboard objects are initialized               
+        #self.gameboard.initialize_gameboard()
+        #print("hello")
+        #print(self.gameboard.deck_pile.stack)
         
         #game loop
         while self.playing:
+            #print("running while loop")
+            #self.display.fill(self.background_color)
+            #self.screen.blit(self.display,(0,0))
             self.check_events()
             
             #TODO - add update function for players and dealer
@@ -40,7 +48,10 @@ class Game():
             pygame.display.update()
             self.clock.tick(self.FPS)
             self.reset_escape_key()
-            
+            break #used for testing 1 iteration
+
+
+    #Function  check_events() checks for user input on pygame events     
     def check_events(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:

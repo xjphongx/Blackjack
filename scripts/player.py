@@ -1,4 +1,4 @@
-import pygame
+import pygame,os
 from scripts.hand import Hand
 
 DEALER_STARTING_FUND = 99999999999999999999999999999999999999999
@@ -42,7 +42,7 @@ class Dealer(Player,pygame.sprite.Sprite):
     def __init__(self):
         super().__init__(fund = DEALER_STARTING_FUND)
         self.hand_list = [Hand()]
-        #self.dealer_image_path = os.path.abspath('images/dealer.png')
-        #self.dealer_image_surface = pygame.image.load(self.dealer_image_path).convert_alpha()
-        #self.dealer_image_surface = pygame.transform.rotozoom(self.dealer_image_surface,0,.2)
-        #self.rect = self.dealer_image_surface.get_rect(midtop=(1300/2,20)) #screen dimension is 1300x900
+        self.dealer_image_path = os.path.abspath('images/dealer.png')
+        self.dealer_image_surface = pygame.image.load(self.dealer_image_path).convert_alpha()
+        self.dealer_image_surface = pygame.transform.rotozoom(self.dealer_image_surface,0,.2)
+        self.rect = self.dealer_image_surface.get_rect(midtop=(1300/2,20)) #screen dimension is 1300x900
