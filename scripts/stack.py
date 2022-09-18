@@ -80,7 +80,7 @@ class DeckPile(Stack,pygame.sprite.Sprite):
     def cut_deck(self):
         tempList = []   #temporary container
         ##40% - 60% cut so it cuts randomly
-        cut_limit = random.randrange(int(math.ceil(.4*self.size)), int(math.ceil(.6*self.size)))
+        cut_limit = random.randint(int(math.ceil(.4*self.size)), int(math.ceil(.6*self.size)))
         for i in range(cut_limit,self.size): #moves the top portion into temp
             tempList.append(self.stack[i])
         for j in range(0,cut_limit):
