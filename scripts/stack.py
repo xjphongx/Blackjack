@@ -19,8 +19,11 @@ class Stack():
         #self.size = len(self.stack)
     def top(self):                  #returns the end of the list 
         return self.stack[-1]
-    def show(self):                 #returns the whole list
-        return self.stack
+    def show(self):                 #print the list of card type
+        for i, card in enumerate(self.stack) :
+            print(card.type, end= " ")  
+        print() #skips a line
+                     
     def get_size(self):             #return length of the list
         return len(self.stack)
     def update_size(self):          #update class size with its current list size
