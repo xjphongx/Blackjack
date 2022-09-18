@@ -1,5 +1,5 @@
 #test player and dealer on a board with gameboard instances
-from turtle import end_fill
+#from turtle import end_fill
 from scripts.player import Dealer,Player
 from scripts.card import Card
 from scripts.hand import Hand
@@ -50,9 +50,8 @@ print("Welcome to the Black Jack Test")
 print("Minimum bet is 50 coins per hand\n")
 #get player input, how many hands do player want
 print("loop test below")
-
-
-handAmount = input("How many hands are you playing?") #raise exception error if out side of amount range
+handAmount = int(input("How many hands are you playing?")) #raise exception error if out side of amount range
+handAmount = 1
 print(handAmount)
 for i in range(handAmount):
     print("testing")
@@ -112,6 +111,9 @@ def hit(hand, deck): #recieve hand object to hit and update
     print(f"Current top of deck: {deck.stack[-1].type}")
     print(f"After hit(): ", end= " " )
     hand.show()
+#Testing update: For some reason, the input function is looping 
+# and not taking any input, I will retest at home.
+
     
 
 
