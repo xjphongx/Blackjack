@@ -56,9 +56,9 @@ class DeckPile(Stack,pygame.sprite.Sprite):
                 data_item['card_image']
             )#end of card_object
             self.stack.append(card_object)#push the card object into gameboard's deck_pile
+            self.size += 1 #update size after adding card
 
         jsonfile.close() #close the json file
-        #print(self.stack.show())
     
     
     
@@ -86,6 +86,7 @@ class DeckPile(Stack,pygame.sprite.Sprite):
         for j in range(0,cut_limit):
             tempList.append(self.stack[j])   #moves the bottom portion into temp
         self.stack = tempList.copy()         #updates the class stack to the resulting temp list
+        print(self.stack)
 
     #Function casino_shuffle() contains three steps:
     #   Step 1: Split the stack into two equal halves

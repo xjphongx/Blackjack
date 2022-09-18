@@ -1,4 +1,4 @@
-import pygame
+import pygame, random, math
 from scripts.button import Button
 from scripts.player import Dealer, Player
 from scripts.stack import DeckPile,DiscardPile
@@ -102,6 +102,9 @@ class Gameboard(Menu):
         self.deck_pile = DeckPile()
         self.deck_pile.load_cards_to_deck()
         self.discard_pile = DiscardPile()
+        for i in range(10):     #shuffle the deck when starting the gameboard
+            self.deck_pile.cut_deck()
+            self.deck_pile.casino_shuffle()
         self.deck_pile.show()
         
 
