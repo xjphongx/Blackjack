@@ -1,5 +1,6 @@
 import pygame,os
 from scripts.menu import BlackjackMenu, Gameboard, HowToPlayMenu
+from scripts.turn_system import TurnSystem
 
 class Game():
     def __init__(self):
@@ -20,10 +21,10 @@ class Game():
         self.howtoplay_menu = HowToPlayMenu(self)#this is how to traverse different menus
         self.gameboard = Gameboard(self)
         self.current_menu = self.blackjack_menu #so i can change menus and states
-        
+        self.turn_system = TurnSystem(self)
     
     #Function game_loop() contains all the game elements and objects
-    def game_loop(self):
+    def game_loop(self): 
         
         #game loop
         while self.playing:
