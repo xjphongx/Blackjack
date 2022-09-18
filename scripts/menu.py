@@ -1,5 +1,7 @@
 import pygame
 from scripts.button import Button
+from scripts.player import Dealer, Player
+from scripts.stack import DeckPile,DiscardPile
 
 
 IMAGE_SCALE = .15
@@ -8,7 +10,7 @@ class Menu():
     def __init__(self, game):
         self.game = game #reference to the game class
         self.center_width = self.game.display_width/2
-        self.center_height =self.game.display_height/2
+        self.center_height = self.game.display_height/2
         self.run_display = True
 
     def blit_screen(self):
@@ -52,7 +54,7 @@ class BlackjackMenu(Menu):
         #draw all the buttons for functionality
         if self.play_game_button.draw(self.game.display):
             self.game.playing = True
-            self.game.current_menu = self.game.gameboard_menu
+            self.game.current_menu = self.game.gameboard
             #self.run_display = False
 
         elif self.how_to_play_button.draw(self.game.display):
@@ -89,18 +91,32 @@ class HowToPlayMenu(Menu):
         if self.back_button.draw(self.game.display):
             self.game.current_menu = self.game.blackjack_menu
             self.run_display = False #this stops the loop 10 lines above
+            #^^^ this stops the CURRENT display
 
 #this is the state where the game is being played
-class GameboardMenu(Menu):
+class Gameboard(Menu):
     def __init__(self, game):
         super().__init__(game)
         #initialize the game board objects
+        self.dealer = Dealer()
+        self.deck_pile = DeckPile()
+        self.deck_pile.load_cards_to_deck()
+        self.discard_pile = DiscardPile()
+        self.deck_pile.show()
+        
 
     def display_menu(self):
         self.run_display = True
+        print("gameboard display running")
         while self.run_display:
             self.game.check_events()
             self.game.display.fill(self.game.background_color)
+            #set up dealer
+            self.game.display.blit(self.dealer.dealer_image_surface, self.dealer.rect)           
+            #set up deck
+            self.game.display.blit(self.deck_pile.deck_back_image_surface, self.deck_pile.rect) 
+            #set up discard pile
+            self.game.display.blit(self.discard_pile.discard_pile_image_surface, self.discard_pile.rect)
             self.game.draw_text('Playing game', 100, self.game.display_width/2,self.game.display_height/10)
             self.check_input()
             self.blit_screen()
