@@ -21,7 +21,7 @@ class Game():
         self.howtoplay_menu = HowToPlayMenu(self)#this is how to traverse different menus
         self.gameboard = Gameboard(self)
         self.current_menu = self.blackjack_menu #so i can change menus and states
-        self.turn_system = TurnSystem(self)
+        #self.turn_system = TurnSystem(self)
     
     #Function game_loop() contains all the game elements and objects
     def game_loop(self): 
