@@ -22,23 +22,29 @@ class Game():
         self.gameboard = Gameboard(self)
         self.current_state = self.blackjack_state #so i can change menus and states
         #self.turn_system = TurnSystem(self)
+        
+        
     
     #Function game_loop() contains all the game elements and objects
     def game_loop(self): 
-        
         #game loop
         while self.playing:
             self.check_events()
-            
             #TODO - add update function for players and dealer
+            if isinstance(self.current_state, Gameboard):
+                print("true")
+                #if the current state is in the gameboard state
+                #add player text input
+              
+                
 
-            #self.draw_text('currently playing', 110, self.display_width/2, self.display_height/2)
+
             #TODO - add a play again or return to menu option
-            pygame.display.update()
+            #pygame.display.update()
+            pygame.display.flip()
             self.clock.tick(self.FPS)
             self.reset_escape_key()
             break #used for testing 1 iteration
-
 
     #Function  check_events() checks for user input on pygame events     
     def check_events(self):
@@ -46,13 +52,13 @@ class Game():
             if event.type == pygame.QUIT:
                 self.running = False
                 self.playing = False
-                self.current_menu.run_display = False
+                self.current_state.run_display = False
                 pygame.quit()
                 exit()
             if event.type == pygame.KEYDOWN: #event where player presses a key on the keyboard
                 if event.key == pygame.K_ESCAPE:
                     self.ESCAPE_KEY = True
-                    
+
     def reset_escape_key(self):
         self.ESCAPE_KEY = False     
 

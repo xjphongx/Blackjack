@@ -86,7 +86,7 @@ class DeckPile(Stack,pygame.sprite.Sprite):
         for j in range(0,cut_limit):
             tempList.append(self.stack[j])   #moves the bottom portion into temp
         self.stack = tempList.copy()         #updates the class stack to the resulting temp list
-        print(self.stack)
+        #print(self.stack)
 
     #Function casino_shuffle() contains three steps:
     #   Step 1: Split the stack into two equal halves
