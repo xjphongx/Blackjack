@@ -4,6 +4,12 @@ from scripts.player import Dealer,Player
 from scripts.card import Card
 from scripts.hand import Hand
 import json
+import pygame
+
+pygame.init()
+screen = pygame.display.set_mode((500,500))
+display = pygame.Surface((500,500))
+clock = pygame.time.Clock()
 
 
 from scripts.stack import DeckPile, Stack
@@ -28,8 +34,8 @@ for data_item in cards['card_decks']:
         data_item['type'],
         data_item['pip_value'], 
         data_item['suit'],
-        ) #data_item['card_image'] put this back in
-        
+        data_item['card_image']
+    )
     deckpile.push(card_object)
 
 jsonfile.close()
@@ -51,7 +57,7 @@ print("Minimum bet is 50 coins per hand\n")
 #get player input, how many hands do player want
 print("loop test below")
 handAmount = int(input("How many hands are you playing?")) #raise exception error if out side of amount range
-handAmount = 1
+#handAmount = 1
 print(handAmount)
 for i in range(handAmount):
     print("testing")
@@ -141,8 +147,17 @@ while turn_counter < len(turn_list):
         break
 
 
+while True:
 
-        
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            exit()
+
+    screen.blit(display,(0,0))
+    pygame.display.update()
+    clock.tick(60)
+      
         
 
 
