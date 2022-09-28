@@ -6,7 +6,7 @@ from scripts.game import Game
 def main():    
     game = Game()
     while game.running:
-        game.current_menu.display_menu()
+        game.current_state.display_menu()
         game.game_loop()
 
 if __name__ == '__main__':

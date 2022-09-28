@@ -1,5 +1,5 @@
 import pygame,os
-from scripts.menu import BlackjackMenu, Gameboard, HowToPlayMenu
+from scripts.state import BlackjackMenu, Gameboard, HowToPlayMenu
 from scripts.turn_system import TurnSystem
 
 class Game():
@@ -17,10 +17,10 @@ class Game():
         self.FPS = 60
         self.background_color = pygame.color.Color(0,132,113)
         self.font_path = os.path.abspath('font/BlackJack.ttf')
-        self.blackjack_menu = BlackjackMenu(self)
-        self.howtoplay_menu = HowToPlayMenu(self)#this is how to traverse different menus
+        self.blackjack_state = BlackjackMenu(self)
+        self.howtoplay_state = HowToPlayMenu(self)#this is how to traverse different menus
         self.gameboard = Gameboard(self)
-        self.current_menu = self.blackjack_menu #so i can change menus and states
+        self.current_state = self.blackjack_state #so i can change menus and states
         #self.turn_system = TurnSystem(self)
     
     #Function game_loop() contains all the game elements and objects
