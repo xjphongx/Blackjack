@@ -24,6 +24,10 @@ class Player():
     def move_hand_to_discard(self):
         pass
 
+    def get_player_hand_amount(self):
+        #TODO figure out how to get input from user with pygame
+        pass
+
     ####Player Actions: Hit, Stand, Split, Double
     def hit():
         pass

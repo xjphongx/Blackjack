@@ -20,5 +20,7 @@ class TurnSystem():
         hand_amount = 2
 
 
-
+    def turn(self):
+        self.active = True
+        pass
 

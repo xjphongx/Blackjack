@@ -2,6 +2,7 @@ import pygame, random, math
 from scripts.button import Button
 from scripts.player import Dealer, Player
 from scripts.stack import DeckPile,DiscardPile
+from scripts.turn_system import TurnSystem
 
 
 IMAGE_SCALE = .15
@@ -106,11 +107,15 @@ class Gameboard(Menu):
             self.deck_pile.cut_deck()
             self.deck_pile.casino_shuffle()
         self.deck_pile.show()
+        self.turn_system = TurnSystem(self.game)
+        
+
         
 
     def display_menu(self):
         self.run_display = True
         print("gameboard display running")
+        self.turn_system.intoduction()
         while self.run_display:
             self.game.check_events()
             self.game.display.fill(self.game.background_color)
@@ -120,7 +125,12 @@ class Gameboard(Menu):
             self.game.display.blit(self.deck_pile.deck_back_image_surface, self.deck_pile.rect) 
             #set up discard pile
             self.game.display.blit(self.discard_pile.discard_pile_image_surface, self.discard_pile.rect)
-            self.game.draw_text('Playing game', 100, self.game.display_width/2,self.game.display_height/10)
+            self.game.draw_text('Playing game', 100, self.game.display_width/2,self.game.display_height/10)            
+            self.game.draw_text("How many hands are you playing?", 50, self.game.display_width/2,self.game.display_height/2)
+            #get player hand amount input 
+            
+
+
             self.check_input()
             self.blit_screen()
 
