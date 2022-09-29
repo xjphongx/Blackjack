@@ -17,7 +17,7 @@ class State():
     def blit_screen(self):
         self.game.screen.blit(self.game.display, (0,0))
         pygame.display.update()
-        self.game.reset_escape_key()
+        
 
 #child class
 class BlackjackMenu(State):
@@ -39,33 +39,42 @@ class BlackjackMenu(State):
         quit_image = pygame.image.load("images/buttons/quit_button.png").convert_alpha()
         self.quit_button = Button(self.quit_x, self.quit_y, quit_image, IMAGE_SCALE)
 
-    def display_menu(self):
-        self.run_display = True
+    def display(self):
+        print("blackjack state")
+        self.run_display = True 
         while self.run_display:
+            #print("running while loopp")
             self.game.check_events()
-            self.game.display.fill(self.game.background_color)
             #Draw the black jack title
+            self.game.display.fill(self.game.background_color)
             self.game.draw_text('Black Jack', 150, self.game.display_width/2, self.game.display_height/5)
             self.game.draw_text('Game by Jimmy Phong',20, 1200,885) #adding game credits to author
-            #place menu stuff below
+            #place menu stuff below    
             self.check_input()
+            #print(f"checking boolean {self.run_display}")
             self.blit_screen()
+            #print(f"checking boolean {self.run_display}")
+
+        #if self.run_display == False:
+            #print("breaking")
+                
 
     def check_input(self):
         #draw all the buttons for functionality
         if self.play_game_button.draw(self.game.display):
+            print("clicked play")
+            self.game.current_state = self.game.gameboard_state           
             self.game.playing = True
-            self.game.current_menu = self.game.gameboard
-            #self.run_display = False
-
+            self.run_display = False
         elif self.how_to_play_button.draw(self.game.display):
-            self.game.current_menu = self.game.howtoplay_menu
-
+            self.game.current_state = self.game.howtoplay_state
+            self.run_display = False
         elif self.quit_button.draw(self.game.display):
+            print("quit")
             self.game.playing = False
             self.game.running = False
-        
-        self.run_display = False
+            self.run_display = False
+
 
 class HowToPlayMenu(State):
     def __init__(self, game):
@@ -78,7 +87,7 @@ class HowToPlayMenu(State):
         #TODO - add image instructions
         #TODO - think about adding multiple pages/states
     
-    def display_menu(self):
+    def display(self):
         self.run_display = True
         while self.run_display:
             self.game.check_events()
@@ -90,7 +99,7 @@ class HowToPlayMenu(State):
 
     def check_input(self):
         if self.back_button.draw(self.game.display):
-            self.game.current_menu = self.game.blackjack_menu
+            self.game.current_state = self.game.blackjack_state
             self.run_display = False #this stops the loop 10 lines above
             #^^^ this stops the CURRENT display
 
@@ -99,6 +108,10 @@ class Gameboard(State):
     def __init__(self, game):
         super().__init__(game)
         #initialize the game board objects
+        self.back_x = 150
+        self.back_y = 500
+        back_image = pygame.image.load("images/buttons/back_button.png").convert_alpha()
+        self.back_button = Button(self.back_x, self.back_y, back_image, .10)
         self.dealer = Dealer()
         self.deck_pile = DeckPile()
         self.deck_pile.load_cards_to_deck()
@@ -106,16 +119,10 @@ class Gameboard(State):
         for i in range(10):     #shuffle the deck when starting the gameboard
             self.deck_pile.cut_deck()
             self.deck_pile.casino_shuffle()
-        #self.deck_pile.show()
-        self.turn_system = TurnSystem(self.game)
         
-
-        
-
-    def display_menu(self):
-        self.run_display = True
-        print("gameboard display running")
-        self.turn_system.intoduction()
+    def display(self):
+        print("display gameboard")
+        self.run_display = True   
         while self.run_display:
             self.game.check_events()
             self.game.display.fill(self.game.background_color)
@@ -127,17 +134,17 @@ class Gameboard(State):
             self.game.display.blit(self.discard_pile.discard_pile_image_surface, self.discard_pile.rect)
             self.game.draw_text('Playing game', 100, self.game.display_width/2,self.game.display_height/10)            
             self.game.draw_text("How many hands are you playing?", 50, self.game.display_width/2,self.game.display_height/2)
-            #get player hand amount input 
+            #TODO set up the hand placement
             
-
-
             self.check_input()
             self.blit_screen()
 
-
     def check_input(self):
         #add stuff here
-        pass
+        if self.back_button.draw(self.game.display):
+            self.game.current_state = self.game.blackjack_state
+            self.run_display = False
+            self.game.playing = False
 
 
 
