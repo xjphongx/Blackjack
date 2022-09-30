@@ -19,45 +19,58 @@ class Game():
         self.font_path = os.path.abspath('font/BlackJack.ttf')
         self.blackjack_state = BlackjackMenu(self)
         self.howtoplay_state = HowToPlayMenu(self)#this is how to traverse different menus
-        self.gameboard = Gameboard(self)
+        self.gameboard_state = Gameboard(self)
         self.current_state = self.blackjack_state #so i can change menus and states
         #self.turn_system = TurnSystem(self)
-        
+        self.base_font = pygame.font.Font(None,32)
+        self.user_text = 'test' #recieve player input 
         
     
     #Function game_loop() contains all the game elements and objects
     def game_loop(self): 
+        print("gameloop")
+        
         #game loop
         while self.playing:
+            print("while looop in gameloop")
             self.check_events()
             #TODO - add update function for players and dealer
             if isinstance(self.current_state, Gameboard):
-                print("true")
+                print("entering gameboard state")
+                #self.check_events()
                 #if the current state is in the gameboard state
                 #add player text input
-              
-                
-
-
+                #text_surface = self.base_font.render(self.user_text, True,(255,255,255))
+                #self.display.blit(text_surface,(self.display_width/2,self.display_height/1.5))
+                #print(self.user_text)
             #TODO - add a play again or return to menu option
-            #pygame.display.update()
-            pygame.display.flip()
+        
+            pygame.display.update()
             self.clock.tick(self.FPS)
             self.reset_escape_key()
-            break #used for testing 1 iteration
+            #used for testing 1 iteration
+            break #TODO I have to pause this loop for player to hit hand and etc
+            
 
     #Function  check_events() checks for user input on pygame events     
     def check_events(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                print("exiting")
                 self.running = False
                 self.playing = False
                 self.current_state.run_display = False
                 pygame.quit()
                 exit()
+            
             if event.type == pygame.KEYDOWN: #event where player presses a key on the keyboard
                 if event.key == pygame.K_ESCAPE:
                     self.ESCAPE_KEY = True
+                #self.user_text += event.unicode
+                if event.key == pygame.K_BACKSPACE:
+                    self.user_text = self.user_text[0:-1]
+                else:
+                    self.user_text += event.unicode
 
     def reset_escape_key(self):
         self.ESCAPE_KEY = False     

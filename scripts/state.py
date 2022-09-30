@@ -119,7 +119,10 @@ class Gameboard(State):
         for i in range(10):     #shuffle the deck when starting the gameboard
             self.deck_pile.cut_deck()
             self.deck_pile.casino_shuffle()
-        
+        #self.base_font = pygame.font.Font(None,32)
+        #self.user_text = 'test' #recieve player input
+
+
     def display(self):
         print("display gameboard")
         self.run_display = True   
@@ -135,7 +138,11 @@ class Gameboard(State):
             self.game.draw_text('Playing game', 100, self.game.display_width/2,self.game.display_height/10)            
             self.game.draw_text("How many hands are you playing?", 50, self.game.display_width/2,self.game.display_height/2)
             #TODO set up the hand placement
-            
+            text_surface = self.game.base_font.render(self.game.user_text, True,(255,255,255))
+            self.game.display.blit(text_surface,(self.game.display_width/2,self.game.display_height/1.5))
+            #print(self.user_text)
+
+
             self.check_input()
             self.blit_screen()
 
