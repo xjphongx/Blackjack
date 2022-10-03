@@ -1,4 +1,5 @@
 import pygame,os
+from scripts.player import Player
 from scripts.title import Title
 
 
@@ -12,6 +13,7 @@ class Game():
         self.running, self.playing = True , False
         self.clock = pygame.time.Clock()
         self.FPS = 60
+        self.IMAGE_SCALE = 0.15
         self.screen_title = pygame.display.set_caption("Black Jack")
         self.background_color = pygame.color.Color(0,132,113)
         self.font_path = os.path.abspath('font/BlackJack.ttf')
@@ -26,6 +28,7 @@ class Game():
             "double":False,
             "split":False
         }
+        self.player = Player()
 
 
     def render(self):

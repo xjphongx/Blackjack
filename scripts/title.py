@@ -8,22 +8,21 @@ from scripts.button import Button
 class Title(State):
     def __init__(self, game):
         super().__init__(game)
-        IMAGE_SCALE = 0.15
         #play game button
         self.play_game_x = self.center_width
         self.play_game_y = self.center_height-100
         play_game_image = pygame.image.load("images/buttons/play_game_button.png").convert_alpha()
-        self.play_game_button = Button(self.play_game_x,self.play_game_y, play_game_image, IMAGE_SCALE)
+        self.play_game_button = Button(self.play_game_x,self.play_game_y, play_game_image, self.game.IMAGE_SCALE)
         #how to play button
         self.how_to_play_x = self.center_width
         self.how_to_play_y = self.center_height
         how_to_play_image = pygame.image.load("images/buttons/how_to_play_button.png").convert_alpha() 
-        self.how_to_play_button = Button(self.how_to_play_x,self.how_to_play_y, how_to_play_image, IMAGE_SCALE)
+        self.how_to_play_button = Button(self.how_to_play_x,self.how_to_play_y, how_to_play_image, self.game.IMAGE_SCALE)
         #quit button
         self.quit_x = self.center_width
         self.quit_y = self.center_height + 100
         quit_image = pygame.image.load("images/buttons/quit_button.png").convert_alpha()
-        self.quit_button = Button(self.quit_x, self.quit_y, quit_image, IMAGE_SCALE)
+        self.quit_button = Button(self.quit_x, self.quit_y, quit_image, self.game.IMAGE_SCALE)
 
 
     def render(self, display):
