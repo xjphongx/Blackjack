@@ -1,7 +1,6 @@
 import pygame,os
-from scripts.state import BlackjackMenu, Gameboarde, HowToPlayMenu
 from scripts.title import Title
-from scripts.turn_system import TurnSystem
+
 
 class Game():
     def __init__(self):
@@ -21,50 +20,37 @@ class Game():
         self.actions = {
             "play":False,
             "howtoplay":False,
-            "backhowtoplay":False,
+            "back":False,
             "hit":False, #might not need player actions here
             "stand":False,
             "double":False,
             "split":False
         }
 
-        self.blackjack_state = BlackjackMenu(self)
-        self.howtoplay_state = HowToPlayMenu(self)#this is how to traverse different menus
-        self.gameboard_state = Gameboarde(self)
-        self.current_state = self.blackjack_state #so i can change menus and states
-        #self.turn_system = TurnSystem(self)
-        #self.base_font = pygame.font.Font(None,32)
-        #self.user_text = 'test' #recieve player input 
-        
-    def update(self):
-        self.state_stack[-1].update(self.actions) #add parameters?
 
     def render(self):
         self.state_stack[-1].render(self.display)
         self.screen.blit(pygame.transform.scale(self.display,(self.display_width, self.display_height)),(0,0))
         pygame.display.flip()
 
+    def update(self):
+        self.state_stack[-1].update(self.actions) #add parameters?
 
     #Function game_loop() contains all the game elements and objects
     def game_loop(self): 
-        print("gameloop")
-        
+        print("gameloop") 
         #game loop
         while self.running:
             #print("while looop in gameloop")
             self.check_events()
-            #TODO - add update function for players and dealer
-                
+            #TODO - add update function for players and dealer   
             #TODO - add a play again or return to menu option
             self.render()
             self.update()
             
-            #self.clock.tick(self.FPS)
+            self.clock.tick(self.FPS)
             #self.reset_escape_key()
-            #used for testing 1 iteration
-            #break #TODO I have to pause this loop for player to hit hand and etc
             
-
     #Function  check_events() checks for user input on pygame events     
     def check_events(self):
         for event in pygame.event.get():
@@ -72,7 +58,6 @@ class Game():
                 print("exiting")
                 self.running = False
                 self.playing = False
-                #self.current_state.run_display = False
                 pygame.quit()
                 exit()
             
@@ -80,14 +65,14 @@ class Game():
                 if event.key == pygame.K_ESCAPE:
                     self.ESCAPE_KEY = True
                 #self.user_text += event.unicode
-                if event.key == pygame.K_BACKSPACE:
-                    self.gameboard_state.user_text = self.gameboard_state.user_text[0:-1]
-                else:
-                    self.gameboard_state.user_text += event.unicode
-                if event.key == pygame.K_RETURN:
+               # if event.key == pygame.K_BACKSPACE:
+               #     self.user_text = self.user_text[0:-1]
+               # else:
+                   # self.user_text += event.unicode
+                #if event.key == pygame.K_RETURN:
                     #TODO Take user input of ONLY 1-5 hands, try and except
                     # case: if NOT 1-5, EMPTY user_text, draw_text invalid input try again
-                    print("enter")
+                    #print("enter")
 
     def reset_actions(self):
         for key in self.actions:

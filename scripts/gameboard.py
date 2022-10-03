@@ -15,7 +15,7 @@ class Gameboard(State):
         self.deck_pile = DeckPile()
         self.deck_pile.load_cards_to_deck()
         self.discard_pile = DiscardPile()
-        for i in range(10):     #shuffle the deck when starting the gameboard
+        for i in range(5):     #shuffle the deck when starting the gameboard
             self.deck_pile.cut_deck()
             self.deck_pile.casino_shuffle()
         #Set up player input variables
@@ -29,8 +29,36 @@ class Gameboard(State):
                                         self.user_textbox_y)
         self.color = pygame.Color((255,255,255))
 
-    def update(self,actions):
-        pass
 
     def render(self,display):
         display.fill(self.game.background_color)
+        #set up dealer
+        self.game.draw_text("Dealer", 30, self.game.display_width/2,125)
+        self.game.display.blit(self.dealer.dealer_image_surface, self.dealer.rect)           
+        #set up deck
+        self.game.display.blit(self.deck_pile.deck_back_image_surface, self.deck_pile.rect) 
+        #set up discard pile
+        self.game.display.blit(self.discard_pile.discard_pile_image_surface, self.discard_pile.rect)
+        #self.game.draw_text('Playing game', 100, self.game.display_width/2,self.game.display_height/10)            
+        self.game.draw_text("How many hands are you playing?", 70, self.game.display_width/2,self.game.display_height/4)
+        
+        #TODO set up player input
+        pygame.draw.rect(self.game.display, self.color, self.user_text_rect, 2)
+        text_surface = self.input_font.render(self.user_text, True,(255,255,255))
+        self.game.display.blit(text_surface, (self.user_text_rect.x+5,self.user_text_rect.y + 5)) #centers the text in the box
+        
+        self.user_text_rect.w = max(text_surface.get_width()+10, 100) #updates the textbox to dynamicly change size 
+
+        #TODO set up the hand placement
+    
+        #render the clickable button
+        if self.back_button.draw(self.game.display):
+            self.game.actions["back"] = True
+
+
+
+
+    def update(self,actions):
+        if actions["back"]:
+            self.exit_state()
+        self.game.reset_actions()
