@@ -1,22 +1,26 @@
 import pygame,os
 from scripts.state import BlackjackMenu, Gameboard, HowToPlayMenu
+from scripts.title import Title
 from scripts.turn_system import TurnSystem
 
 class Game():
     def __init__(self):
         pygame.init()
-        self.running = True 
-        self.playing = False
         self.ESCAPE_KEY = False
         self.display_width = 1300
         self.display_height = 900
         self.display = pygame.Surface((self.display_width,self.display_height))
         self.screen = pygame.display.set_mode((self.display_width,self.display_height))
+        self.running = True 
+        self.playing = True
         self.screen_title = pygame.display.set_caption("Black Jack")
         self.clock = pygame.time.Clock()
         self.FPS = 60
         self.background_color = pygame.color.Color(0,132,113)
         self.font_path = os.path.abspath('font/BlackJack.ttf')
+        self.state_stack = []
+        self.load_states()
+
         self.blackjack_state = BlackjackMenu(self)
         self.howtoplay_state = HowToPlayMenu(self)#this is how to traverse different menus
         self.gameboard_state = Gameboard(self)
@@ -25,7 +29,15 @@ class Game():
         #self.base_font = pygame.font.Font(None,32)
         #self.user_text = 'test' #recieve player input 
         
-    
+    def update(self):
+        self.state_stack[-1].update() #add parameters?
+
+    def render(self):
+        self.state_stack[-1].render(self.display)
+        self.screen.blit(pygame.transform.scale(self.display,(self.display_width, self.display_height)),(0,0))
+        pygame.display.flip()
+
+
     #Function game_loop() contains all the game elements and objects
     def game_loop(self): 
         print("gameloop")
@@ -40,9 +52,10 @@ class Game():
                 
             #TODO - add a play again or return to menu option
         
-            pygame.display.update()
-            self.clock.tick(self.FPS)
-            self.reset_escape_key()
+            self.update()
+            self.render()
+            #self.clock.tick(self.FPS)
+            #self.reset_escape_key()
             #used for testing 1 iteration
             #break #TODO I have to pause this loop for player to hit hand and etc
             
@@ -54,7 +67,7 @@ class Game():
                 print("exiting")
                 self.running = False
                 self.playing = False
-                self.current_state.run_display = False
+                #self.current_state.run_display = False
                 pygame.quit()
                 exit()
             
@@ -82,5 +95,7 @@ class Game():
          text_rect.center = (x,y) #used to center the text
          self.display.blit(text_surface,text_rect)
 
-
+    def load_states(self):
+        self.title_screen = Title(self) #this is similar to loading in constructor
+        self.state_stack.append(self.title_screen)
 
