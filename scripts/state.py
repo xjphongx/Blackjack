@@ -43,7 +43,7 @@ class BlackjackMenu(State):
         print("blackjack state")
         self.run_display = True 
         while self.run_display:
-            #print("running while loopp")
+            print("running while loopp")
             self.game.check_events()
             #Draw the black jack title
             self.game.display.fill(self.game.background_color)
@@ -51,6 +51,7 @@ class BlackjackMenu(State):
             self.game.draw_text('Game by Jimmy Phong',20, 1200,885) #adding game credits to author
             #place menu stuff below    
             self.check_input()
+
             #print(f"checking boolean {self.run_display}")
             self.blit_screen()
             #print(f"checking boolean {self.run_display}")
@@ -119,8 +120,16 @@ class Gameboard(State):
         for i in range(10):     #shuffle the deck when starting the gameboard
             self.deck_pile.cut_deck()
             self.deck_pile.casino_shuffle()
-        #self.base_font = pygame.font.Font(None,32)
-        #self.user_text = 'test' #recieve player input
+        #Set up player input variables
+        self.input_font = pygame.font.Font(None,32)
+        self.user_text = 'test' #recieve player input
+        self.user_textbox_x = 150
+        self.user_textbox_y = 40
+        self.user_text_rect = pygame.Rect(self.game.display_width/2, 
+                                        self.game.display_height/3,
+                                        self.user_textbox_x,
+                                        self.user_textbox_y)
+        self.color = pygame.Color((255,255,255))
 
 
     def display(self):
@@ -130,18 +139,23 @@ class Gameboard(State):
             self.game.check_events()
             self.game.display.fill(self.game.background_color)
             #set up dealer
+            self.game.draw_text("Dealer", 30, self.game.display_width/2,125)
             self.game.display.blit(self.dealer.dealer_image_surface, self.dealer.rect)           
             #set up deck
             self.game.display.blit(self.deck_pile.deck_back_image_surface, self.deck_pile.rect) 
             #set up discard pile
             self.game.display.blit(self.discard_pile.discard_pile_image_surface, self.discard_pile.rect)
-            self.game.draw_text('Playing game', 100, self.game.display_width/2,self.game.display_height/10)            
-            self.game.draw_text("How many hands are you playing?", 50, self.game.display_width/2,self.game.display_height/2)
-            #TODO set up the hand placement
-            text_surface = self.game.base_font.render(self.game.user_text, True,(255,255,255))
-            self.game.display.blit(text_surface,(self.game.display_width/2,self.game.display_height/1.5))
-            #print(self.user_text)
+            #self.game.draw_text('Playing game', 100, self.game.display_width/2,self.game.display_height/10)            
+            self.game.draw_text("How many hands are you playing?", 70, self.game.display_width/2,self.game.display_height/4)
+            
+            #TODO set up player input
+            pygame.draw.rect(self.game.display, self.color, self.user_text_rect, 2)
+            text_surface = self.input_font.render(self.user_text, True,(255,255,255))
+            self.game.display.blit(text_surface, (self.user_text_rect.x+5,self.user_text_rect.y + 5)) #centers the text in the box
+            
+            self.user_text_rect.w = max(text_surface.get_width()+10, 100) #updates the textbox to dynamicly change size 
 
+            #TODO set up the hand placement
 
             self.check_input()
             self.blit_screen()
