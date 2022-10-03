@@ -1,5 +1,7 @@
 import pygame
+from scripts.gameboard import Gameboard
 from scripts.state import State
+from scripts.howtoplay import HowToPlay #allow state transition interation
 from scripts.button import Button
 
 class Title(State):
@@ -22,12 +24,9 @@ class Title(State):
         quit_image = pygame.image.load("images/buttons/quit_button.png").convert_alpha()
         self.quit_button = Button(self.quit_x, self.quit_y, quit_image, IMAGE_SCALE)
 
-    def update(self):
-        pass
-    
+
     def render(self, display):
         #render all title screen objects here
-        display.fill(self.game.background_color)
         display.fill(self.game.background_color)
         self.game.draw_text('Black Jack', 150, self.game.display_width/2, self.game.display_height/5)
         self.game.draw_text('Game by Jimmy Phong',20, 1200,885) #adding game credits to author    
@@ -35,17 +34,25 @@ class Title(State):
         #render the clickable buttons 
         if self.play_game_button.draw(self.game.display):
             print("clicked play")
-            self.game.current_state = self.game.gameboard_state           
-            #self.game.playing = True
-            #self.run_display = False
+            self.game.actions["play"] = True
         elif self.how_to_play_button.draw(self.game.display):
-            self.game.current_state = self.game.howtoplay_state
-            #self.run_display = False
+            self.game.actions["howtoplay"] = True
         elif self.quit_button.draw(self.game.display):
             print("quit")
+            self.game.running = False
+            self.game.playing = False
             pygame.quit()
             exit()
-            #self.game.playing = False
-            #self.game.running = False
-            #self.run_display = False
-    
+
+
+    def update(self, actions):
+        #checks actions and creates state for state transition
+        if actions["howtoplay"]:
+            self.prev_state = self.game.state_stack[-1]
+            print(self.prev_state)
+            next_state = HowToPlay(self.game)
+            next_state.enter_state()
+        elif actions["play"]:
+            next_state = Gameboard(self.game)
+            next_state.enter_state()
+        self.game.reset_actions()

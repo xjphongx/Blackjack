@@ -119,7 +119,7 @@ class HowToPlayMenu(State):
             #^^^ this stops the CURRENT display
 
 #this is the state where the game is being played
-class Gameboard(State):
+class Gameboarde(State):
     def __init__(self, game):
         super().__init__(game)
         #initialize the game board objects
