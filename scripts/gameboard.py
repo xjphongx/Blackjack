@@ -15,7 +15,7 @@ class Gameboard(State):
         self.deck_pile = DeckPile()
         self.deck_pile.load_cards_to_deck()
         self.discard_pile = DiscardPile()
-        for i in range(5):     #shuffle the deck when starting the gameboard
+        for i in range(8):     #shuffle the deck when starting the gameboard
             self.deck_pile.cut_deck()
             self.deck_pile.casino_shuffle()
         #Set up player input variables
