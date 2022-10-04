@@ -6,7 +6,6 @@ class Loading(State):
     def __init__(self, game):
         super().__init__(game)
 
-
     def render(self, display):
         display.fill(self.game.background_color)
         self.game.draw_text("Loading screen...", 
