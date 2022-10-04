@@ -1,5 +1,5 @@
 
-class Hand:
+class Hand():
     def __init__(self, order): #add bet size when creating a hand, minimum bet
         self.order = order #the hand's order
         self.isTurn = True

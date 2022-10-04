@@ -11,6 +11,7 @@ class Button():
         self.clicked = False
         self.isActive = False
 
+    #this function takes a surface and blits the given image
     def draw(self, surface):
         action = False
         mouse_position = pygame.mouse.get_pos()
@@ -21,7 +22,6 @@ class Button():
                 self.clicked = True
                 action = True 
                 
-
         if pygame.mouse.get_pressed()[0] == 0:
             self.clicked = False
 
@@ -29,5 +29,6 @@ class Button():
         surface.blit(self.image, (self.rect.x, self.rect.y))
         return action #return the action if it is pressed or not
 
+    
     def delete(self):
         Delete
