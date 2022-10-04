@@ -48,30 +48,30 @@ class Gameboard(State):
         
         if self.hand_1_button.draw(self.game.display):
             if self.hand_1_button.isActive == False:
-                self.game.player.add_Hand()
+                self.game.player.add_Hand(1)
                 self.hand_1_button.isActive = True #makes the button active once
             
         if self.hand_2_button.draw(self.game.display):
             if self.hand_2_button.isActive == False:
-                self.game.player.add_Hand()
-                self.hand_2_button.isActive = True    
+                self.game.player.add_Hand(2)
+                self.hand_2_button.isActive = True   
 
         if self.hand_3_button.draw(self.game.display):
             if self.hand_3_button.isActive == False:
-                self.game.player.add_Hand()
+                self.game.player.add_Hand(3)
                 self.hand_3_button.isActive = True    
 
         if self.hand_4_button.draw(self.game.display):
             if self.hand_4_button.isActive == False:
-                self.game.player.add_Hand()
+                self.game.player.add_Hand(4)
                 self.hand_4_button.isActive = True    
             
         if self.hand_5_button.draw(self.game.display):
             if self.hand_5_button.isActive == False:
-                self.game.player.add_Hand()
+                self.game.player.add_Hand(5)
                 self.hand_5_button.isActive = True    
             
-
+        
         #TODO set up the hand placement
     
         #render the clickable button
