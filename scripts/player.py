@@ -1,3 +1,4 @@
+from bdb import effective
 import pygame,os
 from scripts.hand import Hand
 
@@ -6,14 +7,22 @@ PLAYER_STARTING_FUND = 1000
 
 class Player():
     def __init__(self, fund = PLAYER_STARTING_FUND):
-        self.hand_list = []
+        self.hand_list = [1,2,3,4,5] 
         self.fund = fund
         self.is_player_turn = False
-        self.action_list = ['hit', 'stand', 'split', 'double']
-        self.action = str
-    def add_Hand(self):#Player can add a new hand when SPLITING
-        hand = Hand()
-        self.hand_list.append(hand)
+        self.action_list = {
+            'hit':False, 
+            'stand':False, 
+            'split':False, 
+            'double':False
+            }
+
+
+    def add_Hand(self, order):#Player can add a new hand when SPLITING
+        hand = Hand(order) #create hand with a specific order
+        self.hand_list.insert(hand.order-1, hand) #add into list at the given index
+        self.hand_list.remove(hand.order)      #remove the value at the next index location
+        print(f"{hand.order} : {hand}")
     
     def add_funds(self, added_amount):
         self.fund += added_amount
@@ -45,7 +54,7 @@ class Player():
 class Dealer(Player,pygame.sprite.Sprite):
     def __init__(self):
         super().__init__(fund = DEALER_STARTING_FUND)
-        self.hand_list = [Hand()]
+        self.hand_list = [Hand(6)]
         self.dealer_image_path = os.path.abspath('images/dealer.png')
         self.dealer_image_surface = pygame.image.load(self.dealer_image_path).convert_alpha()
         self.dealer_image_surface = pygame.transform.rotozoom(self.dealer_image_surface,0,.2)
