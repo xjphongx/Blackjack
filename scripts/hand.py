@@ -1,8 +1,9 @@
 
 class Hand:
-    def __init__(self): #add bet size when creating a hand, minimum bet
-        self.card_list = []
+    def __init__(self, order): #add bet size when creating a hand, minimum bet
+        self.order = order #the hand's order
         self.isTurn = True
+        self.card_list = []
         self.bet_size = 50
         self.hasAce = False
         self.hand_sum = 0
