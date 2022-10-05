@@ -59,7 +59,8 @@ class Game():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 print("exiting")
-                print(self.player.hand_list)
+                #print(self.player.hand_list)
+                #print(self.state_stack[-1].turn_list)
                 self.running = False
                 self.playing = False
                 pygame.quit()
@@ -68,15 +69,6 @@ class Game():
             if event.type == pygame.KEYDOWN: #event where player presses a key on the keyboard
                 if event.key == pygame.K_ESCAPE:
                     self.ESCAPE_KEY = True
-                #self.user_text += event.unicode
-               # if event.key == pygame.K_BACKSPACE:
-               #     self.user_text = self.user_text[0:-1]
-               # else:
-                   # self.user_text += event.unicode
-                #if event.key == pygame.K_RETURN:
-                    #TODO Take user input of ONLY 1-5 hands, try and except
-                    # case: if NOT 1-5, EMPTY user_text, draw_text invalid input try again
-                    #print("enter")
 
     def reset_actions(self):
         for key in self.actions:
@@ -86,6 +78,7 @@ class Game():
         self.ESCAPE_KEY = False     
 
     def draw_text(self, text, text_size, x, y):
+         #TODO Figure out how to prevent text from expanding both direction 
          font = pygame.font.Font(self.font_path, text_size)
          text_surface = font.render(text, True, (225,228,230))
          text_rect = text_surface.get_rect()
