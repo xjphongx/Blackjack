@@ -6,7 +6,7 @@ from scripts.game import Game
 def main():    
     game = Game()
     while game.running:
-        print(game.state_stack[-1])
+        #print(game.state_stack[-1])
         game.game_loop()
    
 
