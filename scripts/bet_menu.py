@@ -5,7 +5,10 @@ class Bet_Menu():
     def __init__(self, game):
         self.game = game #get a reference to the game
         self.player_fund = game.player.fund
+        self.bet_amount = 0
         self.x, self.y = self.game.display_width/2 , self.game.display_height - 50
+        self.bet_text_x, self.bet_text_y = self.x , self.y
+        self.fund_text_x, self.fund_text_y = 1100,850
         position_x_1, position_x_2, position_x_3 = self.x-270, self.x-180, self.x-90
         position_x_4 = self.x #center and fixed positions around the center
         position_x_5, position_x_6, position_x_7 = self.x+90, self.x+180, self.x+270
@@ -29,12 +32,21 @@ class Bet_Menu():
 
     #display all the buttons 
     def display(self):
-        self.white_chip_button.draw(self.game.display)
-        self.red_chip_button.draw(self.game.display)
-        self.blue_chip_button.draw(self.game.display)
-        self.green_chip_button.draw(self.game.display)
-        self.black_chip_button.draw(self.game.display)
-        self.yellow_chip_button.draw(self.game.display)
-        self.allin_chip_button.draw(self.game.display)
-        
+        self.game.draw_text(f"Bet size: {self.bet_amount}", 40, self.bet_text_x, self.bet_text_y-70)
+        self.game.draw_text(f"Fund: {self.player_fund}", 40, self.fund_text_x, self.fund_text_y)
+        if self.white_chip_button.draw(self.game.display):
+            self.bet_amount += 5
+        if self.red_chip_button.draw(self.game.display):
+            self.bet_amount += 10
+        if self.blue_chip_button.draw(self.game.display):
+            self.bet_amount += 25
+        if self.green_chip_button.draw(self.game.display):
+            self.bet_amount += 50
+        if self.black_chip_button.draw(self.game.display):
+            self.bet_amount += 100
+        if self.yellow_chip_button.draw(self.game.display):
+            self.bet_amount += 500
+        if self.allin_chip_button.draw(self.game.display):
+            self.bet_amount = self.player_fund
+        #TODO add more functionality
 
