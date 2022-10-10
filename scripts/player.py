@@ -8,6 +8,7 @@ class Player():
     def __init__(self, fund = PLAYER_STARTING_FUND):
         self.hand_list = [5,4,3,2,1] 
         self.fund = fund
+        self.bet_amount = 0
         self.is_player_turn = False
         self.action_list = {
             'hit':False, 

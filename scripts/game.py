@@ -1,5 +1,6 @@
 import pygame,os
 from scripts.player import Player
+from scripts.cursor import Cursor
 from scripts.title import Title
 
 
@@ -29,6 +30,7 @@ class Game():
             "split":False
         }
         self.player = Player()
+    
 
 
     def render(self):
