@@ -6,11 +6,12 @@ class Cursor():
         self.game = game
         #self.chip_stack = []
         
-        self.last_chip = None
+        self.chip = None
+        #self.hasChip = False
 
     def update(self):
         #update and blit the image at the cursors location
         x, y = pygame.mouse.get_pos()
-        if(self.last_chip != None):
-            self.game.display.blit(self.last_chip,(x,y))
+        if(self.chip != None):
+            self.game.display.blit(self.chip,(x,y))
 

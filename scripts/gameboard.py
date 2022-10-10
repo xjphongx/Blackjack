@@ -3,6 +3,7 @@ from scripts.ring import Ring
 from scripts.bet_menu import Bet_Menu
 from scripts.cursor import Cursor
 from scripts.player import Dealer
+from scripts.ring_row import Ring_Row
 from scripts.stack import DeckPile, DiscardPile
 from scripts.state import State
 from scripts.button import Button
@@ -33,12 +34,8 @@ class Gameboard(State):
         self.hand_5_button = Button(self.hand_5_x,self.hand_5_y, hand_ring_image, scale=.25)
         confirm_button_image = pygame.image.load("images/buttons/confirm_button.png").convert_alpha()
         self.confirm_button = Button(self.game.display_width/2, self.game.display_height/2, confirm_button_image,scale=.1)
-        #intialize ring objects
-        self.ring_1 = Ring(self.game,1150,645,order=1)
-        self.ring_2 = Ring(self.game,900,685,order=2)
-        self.ring_3 = Ring(self.game,650,700,order=3)
-        self.ring_4 = Ring(self.game,400,685,order=4)
-        self.ring_5 = Ring(self.game,150,645,order=5)
+        #intialize ring row
+        self.ring_row = Ring_Row(self.game, self)
         #intialize bet menu
         self.bet_menu = Bet_Menu(self.game, self)
         #intialize cursor object 
@@ -62,12 +59,8 @@ class Gameboard(State):
         self.bet_menu.display()
 
         #hand ring functionality
-        self.ring_1.display()
-        self.ring_2.display()
-        self.ring_3.display()
-        self.ring_4.display()
-        self.ring_5.display()
-        
+        self.ring_row.display()
+
         if self.confirm_button.draw(self.game.display): #figure out how to clear this button
             if self.confirm_button.isActive == False:
                 #combine the player and dealer hands, player goes first
@@ -80,10 +73,6 @@ class Gameboard(State):
                 print(f"Turn list {self.turn_list}")
 
                 #TODO pass out cards at the respective locations
-
-
-        
-        
 
 
 

@@ -23,6 +23,15 @@ class Player():
         self.hand_list.insert(new_index, hand) #add into list at the given index
         self.hand_list.remove(hand.order)      #remove the value from list
         print(f"{hand.order} : {hand}")
+
+    def remove_Hand(self,order):
+        #TODO remove hand from list and replace with order value
+
+
+
+
+        pass
+    
     def add_funds(self, added_amount):
         self.fund += added_amount
     def subtract_funds(self, subtracted_amount):
