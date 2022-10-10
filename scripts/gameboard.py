@@ -1,5 +1,6 @@
 import pygame
 from scripts.bet_menu import Bet_Menu
+from scripts.cursor import Cursor
 from scripts.player import Dealer
 from scripts.stack import DeckPile, DiscardPile
 from scripts.state import State
@@ -32,9 +33,11 @@ class Gameboard(State):
         hand_5_x, hand_5_y = 150, 645
         self.hand_5_button = Button(hand_5_x,hand_5_y, hand_ring_image, scale=.25)
         confirm_button_image = pygame.image.load("images/buttons/confirm_button.png").convert_alpha()
-        self.confirm_button = Button(self.game.display_width/2, self.game.display_height/2, confirm_button_image,scale=.25)
+        self.confirm_button = Button(self.game.display_width/2, self.game.display_height/2, confirm_button_image,scale=.1)
         #intialize bet menu
-        self.bet_menu = Bet_Menu(self.game)
+        self.bet_menu = Bet_Menu(self.game, self)
+        #intialize cursor object 
+        self.cursor = Cursor(self.game) 
 
         #turn list
         self.turn_list = []
@@ -58,6 +61,12 @@ class Gameboard(State):
             if self.hand_1_button.isActive == False:
                 self.player.add_Hand(1) #add hand at position 1
                 self.hand_1_button.isActive = True #makes the button active once
+
+
+
+        
+        
+        
         if self.hand_2_button.draw(self.game.display):
             if self.hand_2_button.isActive == False:
                 self.player.add_Hand(2)
@@ -74,16 +83,17 @@ class Gameboard(State):
             if self.hand_5_button.isActive == False:
                 self.player.add_Hand(5)
                 self.hand_5_button.isActive = True    
-        if self.confirm_button.draw(self.game.display):
+        #game starts when confirm button is pressed
+        if self.confirm_button.draw(self.game.display): #figure out how to clear this button
             if self.confirm_button.isActive == False:
                 #combine the player and dealer hands, player goes first
                 self.turn_list.extend(self.dealer.hand_list)
                 self.turn_list.extend(self.player.hand_list)
                 self.confirm_button.isActive = True
+                self.game.display.blit(self.hand_1_button.image,(self.confirm_button.rect.x,self.confirm_button.rect.y))
                 print(f"Player's Hand {self.player.hand_list}")
                 print(f"Dealer's Hand {self.dealer.hand_list}")
                 print(f"Turn list {self.turn_list}")
-
 
                 #TODO pass out cards at the respective locations
 
