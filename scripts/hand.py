@@ -7,7 +7,7 @@ class Hand():
         self.bet_size = 50
         self.hasAce = False
         self.hand_sum = 0
-        self.hand_upper_sum = 0 #calculated for ace egde case
+        self.hand_upper_sum = 0 #calculated for ace edge case
         self.hand_size = 0
         self.player_action_menu = [] #LOOK AT TUTORIAL
         #need to add a small menu containing buttons for player to press 
