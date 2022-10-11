@@ -38,53 +38,53 @@ class Bet_Menu():
     def display(self):
         #TODO click button will add an image to cursor object 
         #and it will be dragged on the board 
-        self.game.draw_text(f"Bet: {self.game.player.bet_amount}", 40, self.bet_text_x, self.bet_text_y-63)
+        self.game.draw_text(f"Current Bet: {self.game.player.current_bet}", 40, self.bet_text_x, self.bet_text_y-63)
         self.game.draw_text(f"Fund: {self.game.player.fund}", 40, self.fund_text_x, self.fund_text_y)
         if self.white_chip_button.draw(self.game.display):
             if 5 <= self.game.player.fund:
                 self.game.player.fund -= 5
-                self.game.player.bet_amount += 5
+                self.game.player.current_bet += 5
                 self.gameboard.cursor.chip = self.white_chip_button.image
 
         if self.red_chip_button.draw(self.game.display):
             if 10 <= self.game.player.fund:
                 self.game.player.fund -= 10
-                self.game.player.bet_amount += 10
+                self.game.player.current_bet += 10
                 self.gameboard.cursor.chip = self.red_chip_button.image
 
         if self.blue_chip_button.draw(self.game.display):
             if 25 <= self.game.player.fund:
                 self.game.player.fund -= 25
-                self.game.player.bet_amount += 25
+                self.game.player.current_bet += 25
                 self.gameboard.cursor.chip = self.blue_chip_button.image
 
         if self.green_chip_button.draw(self.game.display):
             if 50 <= self.game.player.fund:
                 self.game.player.fund -= 50
-                self.game.player.bet_amount += 50
+                self.game.player.current_bet += 50
                 self.gameboard.cursor.chip = self.green_chip_button.image
 
         if self.black_chip_button.draw(self.game.display):
             if 100 <= self.game.player.fund:
                 self.game.player.fund -= 100
-                self.game.player.bet_amount += 100
+                self.game.player.current_bet += 100
                 self.gameboard.cursor.chip = self.black_chip_button.image
 
         if self.yellow_chip_button.draw(self.game.display):
             if 500 <= self.game.player.fund:
                 self.game.player.fund -= 500
-                self.game.player.bet_amount += 500
+                self.game.player.current_bet += 500
                 self.gameboard.cursor.chip = self.yellow_chip_button.image
 
         if self.allin_chip_button.draw(self.game.display):
             if self.game.player.fund != 0: #prevents 0 fund replacing bet amount
-                self.game.player.bet_amount += self.game.player.fund
+                self.game.player.current_bet += self.game.player.fund
                 self.game.player.fund = 0
                 self.gameboard.cursor.chip = self.allin_chip_button.image
 
         if self.clear_button.draw(self.game.display):
-            self.game.player.fund += self.game.player.bet_amount
-            self.game.player.bet_amount = 0
+            self.game.player.fund += self.game.player.current_bet
+            self.game.player.current_bet = 0
             self.gameboard.cursor.chip = None #resets cursor chip when pressed clear
             self.gameboard.ring_row.clear()
                 
