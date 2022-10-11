@@ -10,7 +10,8 @@ class Ring():
         hand_ring_image = pygame.image.load("images/hand_ring.png").convert_alpha() 
         self.button = Button(self.x, self.y, hand_ring_image,scale=.25)
         self.chip = None
-        self.background_dot_image = pygame.image.load("images/background_dot.png").convert_alpha()
+        self.hasChip = False
+        
         
 
     def display(self):
@@ -19,19 +20,25 @@ class Ring():
                 self.game.player.add_Hand(self.order) #add hand at position 1
                 self.button.isActive = True #makes the button active once
                 self.chip = self.gameboard.cursor.chip
-                self.rect = self.chip.get_rect() #used to center the chip in ring
-                self.rect.center = (self.x,self.y)
-                #clear cursor
-                self.gameboard.cursor.chip = None
-                       
+                self.hasChip = True
+                self.gameboard.cursor.chip = None #resets the cursor
+                #self.rect = self.chip.get_rect() #used to center the chip in ring
+                #self.rect.center = (self.x,self.y)
+                
+    def clear(self):
+        self.chip = None
+        self.hasChip = False
+        self.clear_hand()
+
     def clear_hand(self):
         self.game.player.remove_Hand(self.order)
         self.button.isActive = False
 
 
     def update(self):
-        if self.chip != None:
-            self.game.display.blit(self.chip, (self.rect.x, self.rect.y))
+        #print(self.chip)
+        if self.hasChip == True:
+            self.game.display.blit(self.chip, (self.x, self.y))
         
 
 
