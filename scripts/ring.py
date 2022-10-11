@@ -11,11 +11,12 @@ class Ring():
         self.button = Button(self.x, self.y, hand_ring_image,scale=.25)
         self.chip = None
         self.hasChip = False
+        self.bet_amount = 0
         
     #function display draws the ring image and adds functionality
     def display(self):
         if self.button.draw(self.game.display):
-            if self.button.isActive == False and self.game.player.bet_amount > 0:
+            if self.button.isActive == False and self.game.player.current_bet > 0:
                 self.game.player.add_Hand(self.order) #add hand at position 1
                 self.button.isActive = True #makes the button active once
                 self.chip = self.gameboard.cursor.chip
@@ -23,17 +24,25 @@ class Ring():
                 self.rect.center = (self.x,self.y)
                 self.hasChip = True #ring has a chip inside
                 self.gameboard.cursor.chip = None #resets the cursor to hold nothing
+
+                #calculate and updates bet
+                self.bet_amount += self.game.player.current_bet
+                self.game.player.current_bet = 0
                 
     #function clear resets the ring to default            
     def clear(self):
         self.chip = None
         self.hasChip = False
         self.button.isActive = False
+        #update bet amounts
+        self.game.player.fund += self.bet_amount
+        self.bet_amount = 0
 
     #function update blits the chip onto and within the ring
     def update(self):
         #print(self.chip)
         if self.hasChip == True:
+            self.game.draw_text(str(self.bet_amount),40, self.rect.x+45, self.rect.y-25)
             self.game.display.blit(self.chip, (self.rect.x, self.rect.y))
         
 
