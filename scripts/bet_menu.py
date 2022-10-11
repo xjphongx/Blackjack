@@ -32,7 +32,7 @@ class Bet_Menu():
         self.yellow_chip_button = Button(position_x_6,self.y,self.yellow_chip_image,IMAGE_SCALE)
         self.allin_chip_button = Button(position_x_7, self.y,self.allin_chip_image,IMAGE_SCALE)
         self.clear_button = Button(position_x_7,785,clear_button_image,scale=.04)
-        self.background_dot_image = pygame.image.load("images/background_dot.png").convert_alpha()
+        
 
     #display all the buttons 
     def display(self):
