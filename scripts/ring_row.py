@@ -2,9 +2,10 @@
 from scripts.ring import Ring
 
 class Ring_Row():
-    def __init__(self,game, gameboard):
+    def __init__(self, game, gameboard):
         self.game = game
         self.gameboard = gameboard
+        self.isEmpty = True
 
         #intialize ring objects
         self.ring_1 = Ring(self.game,self.gameboard,1150,645,order=1)

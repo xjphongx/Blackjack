@@ -11,7 +11,7 @@ class Ring():
         self.button = Button(self.x, self.y, hand_ring_image,scale=.25)
         self.chip = None
         self.hasChip = False
-        self.bet_amount = 0
+        self.bet_amount = 0 #used to update with dealer
         
     #function display draws the ring image and adds functionality
     def display(self):
@@ -29,7 +29,7 @@ class Ring():
                 #calculate and updates bet
                 self.bet_amount += self.game.player.current_bet
                 self.game.player.current_bet = 0
-
+                
             #continuesly able to add bets when the hand is active
             elif self.game.player.current_bet > 0:
                 self.chip = self.gameboard.cursor.chip
@@ -37,10 +37,6 @@ class Ring():
                 #calculate and updates bet
                 self.bet_amount += self.game.player.current_bet
                 self.game.player.current_bet = 0
-
-
-
-
                 
     #function clear resets the ring to default            
     def clear(self):
