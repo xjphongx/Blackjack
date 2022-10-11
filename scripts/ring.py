@@ -24,6 +24,7 @@ class Ring():
                 self.rect = self.chip.get_rect() #used to center the chip in ring
                 self.rect.center = (self.x,self.y)
                 self.hasChip = True #ring has a chip inside
+                self.gameboard.ring_row.isEmpty = False #once a hand is filled, the row cotains a hand
                 self.gameboard.cursor.chip = None #resets the cursor to hold nothing
 
                 #calculate and updates bet
@@ -42,7 +43,8 @@ class Ring():
     def clear(self):
         self.chip = None
         self.hasChip = False
-        self.button.isActive = False
+        self.button.isActive = False #Resets the button
+        self.gameboard.ring_row.isEmpty = True #row is empty
         #update bet amounts
         self.game.player.fund += self.bet_amount
         self.bet_amount = 0

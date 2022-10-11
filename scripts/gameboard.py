@@ -63,18 +63,23 @@ class Gameboard(State):
 
         #checks if player is deciding, if clicked, pass out cards
         if self.confirm_button.isActive == False: 
-            #if #hand list is not empty or ring row is empty
-                if self.confirm_button.draw(self.game.display): #figure out how to clear this button
-                    #combine the player and dealer hands, player goes first
-                    self.turn_list.extend(self.dealer.hand_list)
-                    self.turn_list.extend(self.game.player.hand_list)
-                    self.confirm_button.isActive = True
-                    #self.game.display.blit(self.hand_1_button.image,(self.confirm_button.rect.x,self.confirm_button.rect.y))
-                    print(f"Player's Hand {self.game.player.hand_list}")
-                    print(f"Dealer's Hand {self.dealer.hand_list}")
-                    print(f"Turn list {self.turn_list}")
+                #if player clicks the confirm button and the row is empty, do nothing
+                if self.ring_row.isEmpty == True :
+                    self.confirm_button.draw(self.game.display) #still display the button
+                #if player places a bet, confirm and play the game
+                elif self.ring_row.isEmpty == False: 
+                    if self.confirm_button.draw(self.game.display): #figure out how to clear this button
+                     #hand list is not empty or ring row is empty
+                        #combine the player and dealer hands, player goes first
+                        self.turn_list.extend(self.dealer.hand_list)
+                        self.turn_list.extend(self.game.player.hand_list)
+                        self.confirm_button.isActive = True #removes the confirm button from screen
+                        #self.game.display.blit(self.hand_1_button.image,(self.confirm_button.rect.x,self.confirm_button.rect.y))
+                        print(f"Player's Hand {self.game.player.hand_list}")
+                        print(f"Dealer's Hand {self.dealer.hand_list}")
+                        print(f"Turn list {self.turn_list}")
 
-                    #TODO pass out cards at the respective locations
+                        #TODO pass out cards at the respective locations
 
 
 
@@ -83,6 +88,7 @@ class Gameboard(State):
 
         #render the clickable button
         if self.back_button.draw(self.game.display):
+            self.ring_row.clear() #clears the row 
             self.game.actions["back"] = True
 
     #state change to the title

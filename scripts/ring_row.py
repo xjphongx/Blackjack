@@ -35,7 +35,8 @@ class Ring_Row():
         self.ring_3.clear()
         self.ring_4.clear()
         self.ring_5.clear()
-        self.game.player.hand_list.clear() #list function to clear list
-        self.game.player.hand_list = [5,4,3,2,1] #sets the hand list to default order
+        self.isEmpty=True #ring row is empty
+        self.game.player.clear_bets()
+        
 
         

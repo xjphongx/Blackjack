@@ -26,12 +26,18 @@ class Player():
 
     def remove_Hand(self,order):
         pass
-        
+    
+
 
     def add_funds(self, added_amount):
         self.fund += added_amount
     def subtract_funds(self, subtracted_amount):
         self.fund -= subtracted_amount
+
+    def clear_bets(self):
+        self.hand_list.clear() #list function to clear list
+        self.hand_list = [5,4,3,2,1] #sets the hand list to default order
+
     def move_hand_to_discard(self):
         pass
 
