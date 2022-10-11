@@ -18,7 +18,6 @@ class Hand():
             print(card.type, end= " ")  
         print()  
     
-
     #reset hand total sum to zero
     def reset_hand_sum(self):
         self.hand_sum = 0
