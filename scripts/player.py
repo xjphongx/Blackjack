@@ -1,4 +1,4 @@
-from bdb import effective
+
 import pygame,os
 from scripts.hand import Hand
 
@@ -16,7 +16,7 @@ class Player():
             'split':False, 
             'double':False
             }
-
+    #function add_Hand takes a specified order and adds it to player hand list
     def add_Hand(self, order):#Player can add a new hand when SPLITING
         hand = Hand(order) #create hand with a specific order
         new_index = self.hand_list.index(hand.order)
@@ -25,13 +25,9 @@ class Player():
         print(f"{hand.order} : {hand}")
 
     def remove_Hand(self,order):
-        #TODO remove hand from list and replace with order value
-
-
-
-
         pass
-    
+        
+
     def add_funds(self, added_amount):
         self.fund += added_amount
     def subtract_funds(self, subtracted_amount):
