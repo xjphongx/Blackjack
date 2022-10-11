@@ -15,15 +15,22 @@ class Ring_Row():
 
 
     def display(self):
-        self.ring_1.display(),self.ring_1.update()
-        self.ring_2.display(),self.ring_2.update()
-        self.ring_3.display(),self.ring_3.update()
-        self.ring_4.display(),self.ring_4.update()
-        self.ring_5.display(),self.ring_5.update()
+        self.ring_1.display()
+        self.ring_2.display()
+        self.ring_3.display()
+        self.ring_4.display()
+        self.ring_5.display()
+        self.ring_1.update()
+        self.ring_2.update()
+        self.ring_3.update()
+        self.ring_4.update()
+        self.ring_5.update()
 
     def clear(self):
-        self.ring_1.chip = None, self.ring_1.clear_hand()
-        self.ring_2.chip = None, self.ring_2.clear_hand()
-        self.ring_3.chip = None, self.ring_3.clear_hand()
-        self.ring_4.chip = None, self.ring_4.clear_hand()
-        self.ring_5.chip = None, self.ring_5.clear_hand()
+        print("clearing")
+        self.ring_1.clear()
+        self.ring_2.clear()
+        self.ring_3.clear()
+        self.ring_4.clear()
+        self.ring_5.clear()
+        

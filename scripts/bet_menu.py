@@ -32,6 +32,7 @@ class Bet_Menu():
         self.yellow_chip_button = Button(position_x_6,self.y,self.yellow_chip_image,IMAGE_SCALE)
         self.allin_chip_button = Button(position_x_7, self.y,self.allin_chip_image,IMAGE_SCALE)
         self.clear_button = Button(position_x_7,785,clear_button_image,scale=.04)
+        self.background_dot_image = pygame.image.load("images/background_dot.png").convert_alpha()
 
     #display all the buttons 
     def display(self):
@@ -50,36 +51,42 @@ class Bet_Menu():
                 self.game.player.fund -= 10
                 self.game.player.bet_amount += 10
                 self.gameboard.cursor.chip = self.red_chip_button.image
+
         if self.blue_chip_button.draw(self.game.display):
             if 25 <= self.game.player.fund:
                 self.game.player.fund -= 25
                 self.game.player.bet_amount += 25
                 self.gameboard.cursor.chip = self.blue_chip_button.image
+
         if self.green_chip_button.draw(self.game.display):
             if 50 <= self.game.player.fund:
                 self.game.player.fund -= 50
                 self.game.player.bet_amount += 50
                 self.gameboard.cursor.chip = self.green_chip_button.image
+
         if self.black_chip_button.draw(self.game.display):
             if 100 <= self.game.player.fund:
                 self.game.player.fund -= 100
                 self.game.player.bet_amount += 100
                 self.gameboard.cursor.chip = self.black_chip_button.image
+
         if self.yellow_chip_button.draw(self.game.display):
             if 500 <= self.game.player.fund:
                 self.game.player.fund -= 500
                 self.game.player.bet_amount += 500
                 self.gameboard.cursor.chip = self.yellow_chip_button.image
+
         if self.allin_chip_button.draw(self.game.display):
             if self.game.player.fund != 0: #prevents 0 fund replacing bet amount
                 self.game.player.bet_amount += self.game.player.fund
                 self.game.player.fund = 0
                 self.gameboard.cursor.chip = self.allin_chip_button.image
+
         if self.clear_button.draw(self.game.display):
             self.game.player.fund += self.game.player.bet_amount
             self.game.player.bet_amount = 0
-            self.gameboard.cursor.chip = None
-            self.gameboard.ring_row.clear()#removes all bets from each hand
+            self.gameboard.cursor.chip = None #resets cursor chip when pressed clear
+            self.gameboard.ring_row.clear()
                 
         #TODO add more functionality
         self.gameboard.cursor.update() #updates the cursor with the last chip image
