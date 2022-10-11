@@ -13,7 +13,7 @@ class Ring_Row():
         self.ring_4 = Ring(self.game,self.gameboard,400,685,order=4)
         self.ring_5 = Ring(self.game,self.gameboard,150,645,order=5)
 
-
+    #display function blits the ring images and updates if a chip is placed
     def display(self):
         self.ring_1.display()
         self.ring_2.display()
@@ -26,6 +26,7 @@ class Ring_Row():
         self.ring_4.update()
         self.ring_5.update()
 
+    #function clear sets all the ring's bools to false and clears player hand list
     def clear(self):
         print("clearing")
         self.ring_1.clear()
@@ -33,4 +34,7 @@ class Ring_Row():
         self.ring_3.clear()
         self.ring_4.clear()
         self.ring_5.clear()
+        self.game.player.hand_list.clear() #list function to clear list
+        self.game.player.hand_list = [5,4,3,2,1] #sets the hand list to default order
+
         
