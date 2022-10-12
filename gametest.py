@@ -86,8 +86,6 @@ for rotation in range(2):
 #print(turn_list[0].card_list[0].type)
 
 
-#This is looking at the cards phase
-playingHandAmount = handAmount+1 #plus 1 for the dealers hand
 #loop through all the hands
 for i, hand in enumerate(turn_list):
     #loop through the cards in THAT specific hand

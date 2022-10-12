@@ -1,6 +1,8 @@
+
 import pygame
 from scripts.bet_menu import Bet_Menu
 from scripts.cursor import Cursor
+from scripts.hand import Hand
 from scripts.player import Dealer, Player
 from scripts.ring_row import Ring_Row
 from scripts.stack import DeckPile, DiscardPile
@@ -66,11 +68,15 @@ class Gameboard(State):
                         self.turn_list.extend(self.player.hand_list)
                         self.confirm_button.isActive = True #removes the confirm button from screen
                         #self.game.display.blit(self.hand_1_button.image,(self.confirm_button.rect.x,self.confirm_button.rect.y))
-                        print(f"Player's Hand {self.player.hand_list}")
-                        print(f"Dealer's Hand {self.dealer.hand_list}")
-                        print(f"Turn list {self.turn_list}")
+                        #print(f"Player's Hand {self.player.hand_list}")
+                        #print(f"Dealer's Hand {self.dealer.hand_list}")
+                        #print(f"Turn list {self.turn_list}")
 
-                        #TODO pass out cards at the respective locations
+                        self.filter_List()
+                        #print(f"After filter Turn list {self.turn_list}")
+
+                        #start the blackjack game
+                        self.play()
 
 
 
@@ -87,3 +93,51 @@ class Gameboard(State):
         if actions["back"]:
             self.exit_state()
         self.game.reset_actions()
+
+    #function filter list uses a simple algorithm to search and replace the list
+    def filter_List(self):
+        temp_list = []   #temperary list to contain hand objects     
+        for i, hand in enumerate(self.turn_list): #cycles and gets the hand 
+            if isinstance(hand, Hand): #test if hand is a hand object
+                temp_list.append(hand)
+
+        self.turn_list = temp_list.copy() #turn list is replaced with the filtered lsit
+        temp_list.clear()
+        
+
+
+
+    def play(self):
+        print("playing blackjack")
+        #intial passing of cards to each hand and dealer, only passes out 2 cards
+        #this algorithm passes out cards in circle order from hand 1 - 5 and dealer's hand
+        for rotation in range(2):
+            for i, hand in enumerate(self.turn_list):
+                top_card = self.deck_pile.top()
+                self.deck_pile.pop()
+                hand.add_card(top_card)
+
+        self.printTest()   
+
+        
+             
+        
+
+
+
+
+
+    def printTest(self):
+            #loop through all the hands to test print
+        for i, hand in enumerate(self.turn_list):
+            #loop through the cards in THAT specific hand
+            print(f"hand {hand.order}", end = " ")
+            for j, card in enumerate(hand.card_list):
+                print(hand.card_list[j].type,end = " ")
+
+            #if hand has an Ace card, show two different sum values
+            if hand.hasAce:
+                print(f"Hand Sum: {hand.hand_sum}")
+                print(f"Upper Hand Sum: {hand.hand_upper_sum}")
+            else:
+                print(f"Hand Sum: {hand.hand_sum}")
