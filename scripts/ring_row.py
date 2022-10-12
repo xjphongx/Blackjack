@@ -36,7 +36,7 @@ class Ring_Row():
         self.ring_4.clear()
         self.ring_5.clear()
         self.isEmpty=True #ring row is empty
-        self.game.player.clear_bets()
+        self.gameboard.player.clear_bets()
         
 
         

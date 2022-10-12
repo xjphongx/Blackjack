@@ -1,8 +1,7 @@
 import pygame
-from scripts.ring import Ring
 from scripts.bet_menu import Bet_Menu
 from scripts.cursor import Cursor
-from scripts.player import Dealer
+from scripts.player import Dealer, Player
 from scripts.ring_row import Ring_Row
 from scripts.stack import DeckPile, DiscardPile
 from scripts.state import State
@@ -20,18 +19,8 @@ class Gameboard(State):
         self.discard_pile = DiscardPile()
         for i in range(8):     #shuffle the deck when starting the gameboard
             self.deck_pile.cut_deck()
-            self.deck_pile.casino_shuffle()
-        #clickable hand images and curved placement       
-        hand_ring_image = pygame.image.load("images/hand_ring.png").convert_alpha()
-
-        self.hand_2_x, self.hand_2_y = 900, 685
-        self.hand_2_button = Button(self.hand_2_x,self.hand_2_y,hand_ring_image, scale=.25)
-        self.hand_3_x, self.hand_3_y = 650, 700 #center
-        self.hand_3_button = Button(self.hand_3_x,self.hand_3_y,hand_ring_image, scale=.25)
-        self.hand_4_x, self.hand_4_y = 400, 685
-        self.hand_4_button = Button(self.hand_4_x,self.hand_4_y, hand_ring_image, scale=.25)
-        self.hand_5_x, self.hand_5_y = 150, 645
-        self.hand_5_button = Button(self.hand_5_x,self.hand_5_y, hand_ring_image, scale=.25)
+            self.deck_pile.casino_shuffle()          
+        #temporary button
         confirm_button_image = pygame.image.load("images/buttons/confirm_button.png").convert_alpha()
         self.confirm_button = Button(self.game.display_width/2, self.game.display_height/2, confirm_button_image,scale=.1)
         #intialize ring row
@@ -41,6 +30,7 @@ class Gameboard(State):
         #intialize cursor object 
         self.cursor = Cursor(self.game) 
 
+        self.player = Player()
         #turn list
         self.turn_list = []
         
@@ -55,6 +45,7 @@ class Gameboard(State):
         self.game.display.blit(self.discard_pile.discard_pile_image_surface, self.discard_pile.rect)
         #self.game.draw_text('Playing game', 100, self.game.display_width/2,self.game.display_height/10)            
         self.game.draw_text("How many hands are you playing?", 50, self.game.display_width/2,self.game.display_height/5)
+        
         #betting bar and functionality
         self.bet_menu.display()
 
@@ -72,10 +63,10 @@ class Gameboard(State):
                      #hand list is not empty or ring row is empty
                         #combine the player and dealer hands, player goes first
                         self.turn_list.extend(self.dealer.hand_list)
-                        self.turn_list.extend(self.game.player.hand_list)
+                        self.turn_list.extend(self.player.hand_list)
                         self.confirm_button.isActive = True #removes the confirm button from screen
                         #self.game.display.blit(self.hand_1_button.image,(self.confirm_button.rect.x,self.confirm_button.rect.y))
-                        print(f"Player's Hand {self.game.player.hand_list}")
+                        print(f"Player's Hand {self.player.hand_list}")
                         print(f"Dealer's Hand {self.dealer.hand_list}")
                         print(f"Turn list {self.turn_list}")
 

@@ -29,7 +29,7 @@ class Game():
             "double":False,
             "split":False
         }
-        self.player = Player()
+        #self.player = Player()
     
 
 
