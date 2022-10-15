@@ -47,10 +47,8 @@ class Gameboard(State):
         self.game.display.blit(self.discard_pile.discard_pile_image_surface, self.discard_pile.rect)
         #self.game.draw_text('Playing game', 100, self.game.display_width/2,self.game.display_height/10)            
         self.game.draw_text("How many hands are you playing?", 50, self.game.display_width/2,self.game.display_height/5)
-        
         #betting bar and functionality
         self.bet_menu.display()
-
         #hand ring functionality
         self.ring_row.display()
 
