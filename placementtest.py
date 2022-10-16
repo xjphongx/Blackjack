@@ -1,8 +1,7 @@
 
 
 #testing class object
-from audioop import avg
-from statistics import mean
+
 
 
 class placement():
