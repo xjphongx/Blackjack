@@ -11,7 +11,7 @@ class Game():
         self.display_width, self.display_height = 1300, 900
         self.display = pygame.Surface((self.display_width,self.display_height))
         self.screen = pygame.display.set_mode((self.display_width,self.display_height))
-        self.running, self.playing = True , False
+        self.running = True
         self.clock = pygame.time.Clock()
         self.FPS = 60
         self.IMAGE_SCALE = 0.15

@@ -12,6 +12,11 @@ class Hand():
         self.player_action_menu = [] #LOOK AT TUTORIAL
         #need to add a small menu containing buttons for player to press 
     
+    #function display updates the pygame game display with cards
+    def display(self, display):
+        for i, card in enumerate(self.card_list):
+            display.blit(card.image_surface,card.rect)
+    
     #print out on terminal the contains of the card_list
     def show(self):
         for i, card in enumerate(self.card_list) :
@@ -35,13 +40,14 @@ class Hand():
         self.card_list.append(card) 
         self.hand_size+=1       #increase hand size when adding a card
         
-
     def remove_card(self):
         self.hand_sum -= self.card_list[-1].pip_value
         temp_card = self.card_list.pop()
         self.hand_size = len(self.card_list) #update hand size after pop, to prevent error
         return temp_card
          
+
+
 
 
         

@@ -13,6 +13,7 @@ class Gameboard(State):
     def __init__(self, game):
         super().__init__(game)
         #instantiating gameboard objects
+        self.playing = False
         back_image = pygame.image.load("images/buttons/back_button.png").convert_alpha()
         self.back_button = Button(325, 50, back_image, self.game.IMAGE_SCALE)
         self.dealer = Dealer()
@@ -73,10 +74,18 @@ class Gameboard(State):
                         self.filter_List()
                         #print(f"After filter Turn list {self.turn_list}")
 
-                        #start the blackjack game
-                        self.play()
+                        #pass out cards and start the blackjack game
+                        self.pass_cards()
+                        self.playing = True
+                        
+                        
 
-
+        
+        if self.playing:
+            #Start the game
+            #display the cards from each hand
+            for i, hand in enumerate(self.turn_list):
+                hand.display(self.game.display)
 
 
 
@@ -105,17 +114,26 @@ class Gameboard(State):
 
 
 
-    def play(self):
-        print("playing blackjack")
+    def pass_cards(self):
         #intial passing of cards to each hand and dealer, only passes out 2 cards
         #this algorithm passes out cards in circle order from hand 1 - 5 and dealer's hand
         for rotation in range(2):
             for i, hand in enumerate(self.turn_list):
+                #add the top card into the hand in turn list
                 top_card = self.deck_pile.top()
                 self.deck_pile.pop()
                 hand.add_card(top_card)
+                
+
+                
+
 
         self.printTest()   
+
+
+
+
+
 
         
              
