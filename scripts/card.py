@@ -25,7 +25,7 @@ class Card(pygame.sprite.Sprite):
             self.high_pip_value=11       #used for Aces
         self.image_surface = pygame.image.load(image).convert_alpha()
         self.image_surface = pygame.transform.rotozoom(self.image_surface,0,.2) #scales the image better
-        self.rect = self.image_surface.get_rect(center = (1000,600))
+        self.rect = self.image_surface.get_rect(center = (1000,600)) #temp 
         
         
    

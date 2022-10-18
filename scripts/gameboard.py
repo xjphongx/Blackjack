@@ -123,6 +123,8 @@ class Gameboard(State):
                 top_card = self.deck_pile.top()
                 self.deck_pile.pop()
                 hand.add_card(top_card)
+                hand.placement.y -= 40 #maybe update placement
+
                 
 
                 

@@ -39,8 +39,6 @@ class Title(State):
             self.game.actions["howtoplay"] = True
         elif self.quit_button.draw(self.game.display):
             print("quit")
-            print(self.game.player.hand_list)
-            print(f"top of list: {self.game.player.hand_list[-1]}")
             self.game.running = False
             self.game.playing = False
             pygame.quit()

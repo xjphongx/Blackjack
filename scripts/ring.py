@@ -18,7 +18,7 @@ class Ring():
         if self.button.draw(self.game.display):
             #add hand if the ring is empty
             if self.button.isActive == False and self.gameboard.player.current_bet > 0:
-                self.gameboard.player.add_Hand(self.order) #add hand at position 1
+                self.gameboard.player.add_Hand(self.order, self.x, self.y) #add hand at position 1
                 self.button.isActive = True #makes the button active once
                 self.chip = self.gameboard.cursor.chip
                 self.rect = self.chip.get_rect() #used to center the chip in ring

@@ -17,8 +17,8 @@ class Player():
             'double':False
             }
     #function add_Hand takes a specified order and adds it to player hand list
-    def add_Hand(self, order):#Player can add a new hand when SPLITING
-        hand = Hand(order) #create hand with a specific order
+    def add_Hand(self, order, x, y):#Player can add a new hand when SPLITING
+        hand = Hand(order, x , y) #create hand with a specific order
         new_index = self.hand_list.index(hand.order)
         self.hand_list.insert(new_index, hand) #add into list at the given index
         self.hand_list.remove(hand.order)      #remove the value from list
@@ -55,7 +55,7 @@ class Dealer(Player,pygame.sprite.Sprite):
     def __init__(self):
         super().__init__(fund = DEALER_STARTING_FUND)
         self.hand_list = [6]
-        self.add_Hand(6)
+        self.add_Hand(6, 650, 370)
         self.dealer_image_path = os.path.abspath('images/dealer.png')
         self.dealer_image_surface = pygame.image.load(self.dealer_image_path).convert_alpha()
         self.dealer_image_surface = pygame.transform.rotozoom(self.dealer_image_surface,0,.2)
