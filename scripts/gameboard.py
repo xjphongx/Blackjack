@@ -45,9 +45,7 @@ class Gameboard(State):
         #set up deck
         self.game.display.blit(self.deck_pile.deck_back_image_surface, self.deck_pile.rect) 
         #set up discard pile
-        self.game.display.blit(self.discard_pile.discard_pile_image_surface, self.discard_pile.rect)
-        #self.game.draw_text('Playing game', 100, self.game.display_width/2,self.game.display_height/10)            
-        self.game.draw_text("How many hands are you playing?", 50, self.game.display_width/2,self.game.display_height/5)
+        self.game.display.blit(self.discard_pile.discard_pile_image_surface, self.discard_pile.rect)       
         #betting bar and functionality
         self.bet_menu.display()
         #hand ring functionality
@@ -61,7 +59,6 @@ class Gameboard(State):
                 #if player places a bet, confirm and play the game
                 elif self.ring_row.isEmpty == False: 
                     if self.confirm_button.draw(self.game.display): #figure out how to clear this button
-                     #hand list is not empty or ring row is empty
                         #combine the player and dealer hands, player goes first
                         self.turn_list.extend(self.dealer.hand_list)
                         self.turn_list.extend(self.player.hand_list)
@@ -86,6 +83,8 @@ class Gameboard(State):
             #display the cards from each hand
             for i, hand in enumerate(self.turn_list):
                 hand.display(self.game.display)
+        else:
+            self.game.draw_text("How many hands are you playing?", 50, self.game.display_width/2,self.game.display_height/5)
 
 
 
@@ -122,8 +121,15 @@ class Gameboard(State):
                 #add the top card into the hand in turn list
                 top_card = self.deck_pile.top()
                 self.deck_pile.pop()
+                #set topcard at a specific spot
+                top_card.rect = top_card.image_surface.get_rect(center= (hand.x,hand.y))
+
                 hand.add_card(top_card)
-                hand.placement.y -= 40 #maybe update placement
+                #update THIS hand object with a new x and y
+                hand.x -= 15 
+                hand.y -= 20
+                
+                
 
                 
 

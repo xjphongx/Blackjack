@@ -1,6 +1,8 @@
 import pygame
 
 
+
+
 #Card Class
 #@Parameters:
 #@  type - Str value that represents the type of card
@@ -25,7 +27,9 @@ class Card(pygame.sprite.Sprite):
             self.high_pip_value=11       #used for Aces
         self.image_surface = pygame.image.load(image).convert_alpha()
         self.image_surface = pygame.transform.rotozoom(self.image_surface,0,.2) #scales the image better
-        self.rect = self.image_surface.get_rect(center = (1000,600)) #temp 
+        self.x, self.y = 1200,100
+        self.rect = self.image_surface.get_rect(center = (self.x,self.y)) #temp 
+        #self.placement = Placement()
         
         
    
