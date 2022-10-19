@@ -40,7 +40,7 @@ class DeckPile(Stack,pygame.sprite.Sprite):
         self.deck_back_image_path = os.path.abspath('images/PNG_cards/card_back.png')
         self.deck_back_image_surface = pygame.image.load(self.deck_back_image_path).convert_alpha()
         self.deck_back_image_surface = pygame.transform.rotozoom(self.deck_back_image_surface,0,.2)
-        self.rect = self.deck_back_image_surface.get_rect(midtop = (1200,20))
+        self.rect = self.deck_back_image_surface.get_rect(center = (1225,80))
         
     #load json png cards into the deck
     def load_cards_to_deck(self):
@@ -59,15 +59,6 @@ class DeckPile(Stack,pygame.sprite.Sprite):
             self.size += 1 #update size after adding card
 
         jsonfile.close() #close the json file
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
     
     #Function cut_deck() contains 3 steps:
@@ -115,7 +106,7 @@ class DiscardPile(Stack,pygame.sprite.Sprite):
         self.discard_pile_image_path = os.path.abspath('images/discard_pile.png')
         self.discard_pile_image_surface = pygame.image.load(self.discard_pile_image_path).convert_alpha()
         self.discard_pile_image_surface = pygame.transform.rotozoom(self.discard_pile_image_surface,0,.4)
-        self.rect = self.discard_pile_image_surface.get_rect(midtop = (100,20))
+        self.rect = self.discard_pile_image_surface.get_rect(center = (80,100))
 
 
    

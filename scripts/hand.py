@@ -1,11 +1,12 @@
 from scripts.placement import Placement
 class Hand():
-    def __init__(self, order,x ,y): #add bet size when creating a hand, minimum bet
+    def __init__(self, order,x ,y, isDealer = False): #add bet size when creating a hand, minimum bet
         self.order = order #the hand's order
         self.x, self.y = x, y
         self.placement = Placement(x,y)
+        self.isDealer = isDealer
         self.card_list = []
-        self.bet_size = 50
+        self.min_bet = 50
         self.hasAce = False
         self.hand_sum = 0
         self.hand_upper_sum = 0 #calculated for ace edge case
@@ -15,9 +16,13 @@ class Hand():
     
     #function display updates the pygame game display with cards
     def display(self, display):
+        
         for i, card in enumerate(self.card_list):
-            #card.rect = card.image_surface.get_rect(center= (1000, 500)) #changes the center
+            card.rect = card.image_surface.get_rect(center= (card.x,card.y)) #changes the center
             display.blit(card.image_surface, card.rect)
+            if card.x != self.placement.x and card.y != self.placement.y:
+                card.x-=10 
+                card.y+=10
 
     
     #print out on terminal the contains of the card_list

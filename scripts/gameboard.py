@@ -1,5 +1,5 @@
 
-import pygame
+import pygame, math
 from scripts.bet_menu import Bet_Menu
 from scripts.cursor import Cursor
 from scripts.hand import Hand
@@ -26,16 +26,15 @@ class Gameboard(State):
         #temporary button
         confirm_button_image = pygame.image.load("images/buttons/confirm_button.png").convert_alpha()
         self.confirm_button = Button(self.game.display_width/2, self.game.display_height/2, confirm_button_image,scale=.1)
-        #intialize ring row
-        self.ring_row = Ring_Row(self.game, self) #self.game,
-        #intialize bet menu
-        self.bet_menu = Bet_Menu(self.game, self)
-        #intialize cursor object 
+        
+        self.ring_row = Ring_Row(self.game, self)
+        self.bet_menu = Bet_Menu(self.game, self) 
         self.cursor = Cursor(self.game) 
-
         self.player = Player()
-        #turn list
         self.turn_list = []
+
+        self.current_time = 0
+        self.static_time = 0
         
     def render(self,display):
         display.fill(self.game.background_color)
@@ -51,14 +50,25 @@ class Gameboard(State):
         #hand ring functionality
         self.ring_row.display()
 
+        if self.playing:
+            #Start the game
+            #display the cards from each hand
+            for i, hand in enumerate(self.turn_list):
+                hand.display(self.game.display)
+        else:
+            self.game.draw_text("How many hands are you playing?", 50, self.game.display_width/2,self.game.display_height/5)
+
         #checks if player is deciding, if clicked, pass out cards
         if self.confirm_button.isActive == False: 
+                
                 #if player clicks the confirm button and the row is empty, do nothing
                 if self.ring_row.isEmpty == True :
                     self.confirm_button.draw(self.game.display) #still display the button
+                    
                 #if player places a bet, confirm and play the game
                 elif self.ring_row.isEmpty == False: 
                     if self.confirm_button.draw(self.game.display): #figure out how to clear this button
+                        
                         #combine the player and dealer hands, player goes first
                         self.turn_list.extend(self.dealer.hand_list)
                         self.turn_list.extend(self.player.hand_list)
@@ -72,21 +82,9 @@ class Gameboard(State):
                         #print(f"After filter Turn list {self.turn_list}")
 
                         #pass out cards and start the blackjack game
+                    
                         self.pass_cards()
                         self.playing = True
-                        
-                        
-
-        
-        if self.playing:
-            #Start the game
-            #display the cards from each hand
-            for i, hand in enumerate(self.turn_list):
-                hand.display(self.game.display)
-        else:
-            self.game.draw_text("How many hands are you playing?", 50, self.game.display_width/2,self.game.display_height/5)
-
-
 
 
         #render the clickable button
@@ -114,6 +112,7 @@ class Gameboard(State):
 
 
     def pass_cards(self):
+        
         #intial passing of cards to each hand and dealer, only passes out 2 cards
         #this algorithm passes out cards in circle order from hand 1 - 5 and dealer's hand
         for rotation in range(2):
@@ -121,32 +120,21 @@ class Gameboard(State):
                 #add the top card into the hand in turn list
                 top_card = self.deck_pile.top()
                 self.deck_pile.pop()
+                #calculate distance from card to hand placement
+                distance = math.dist((top_card.x,top_card.y),(hand.placement.x,hand.placement.y))
+                print(f"Distance of {hand}: {distance}")
                 #set topcard at a specific spot
-                top_card.rect = top_card.image_surface.get_rect(center= (hand.x,hand.y))
-
+                #top_card.rect = top_card.image_surface.get_rect(center= (hand.x,hand.y))
+                #top_card.rect = top_card.image_surface.get_rect(center= (hand.placement.x,hand.placement.y))
                 hand.add_card(top_card)
                 #update THIS hand object with a new x and y
-                hand.x -= 15 
-                hand.y -= 20
-                
-                
+                hand.placement.x -= 15 
+                hand.placement.y -= 20 #<---- next placement
 
                 
-
+                    
                 
-
-
         self.printTest()   
-
-
-
-
-
-
-        
-             
-        
-
 
 
 
