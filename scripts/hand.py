@@ -16,13 +16,10 @@ class Hand():
     
     #function display updates the pygame game display with cards
     def display(self, display):
-        
         for i, card in enumerate(self.card_list):
-            card.rect = card.image_surface.get_rect(center= (card.x,card.y)) #changes the center
             display.blit(card.image_surface, card.rect)
-            if card.x != self.placement.x and card.y != self.placement.y:
-                card.x-=10 
-                card.y+=10
+            
+            
 
     
     #print out on terminal the contains of the card_list
