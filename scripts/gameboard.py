@@ -1,5 +1,5 @@
 
-import pygame, math
+import pygame, math, time
 from scripts.bet_menu import Bet_Menu
 from scripts.cursor import Cursor
 from scripts.hand import Hand
@@ -72,6 +72,7 @@ class Gameboard(State):
                         #combine the player and dealer hands, player goes first
                         self.turn_list.extend(self.dealer.hand_list)
                         self.turn_list.extend(self.player.hand_list)
+                        self.turn_list.reverse() #makes sure the player is dealt cards first
                         self.confirm_button.isActive = True #removes the confirm button from screen
                         #self.game.display.blit(self.hand_1_button.image,(self.confirm_button.rect.x,self.confirm_button.rect.y))
                         #print(f"Player's Hand {self.player.hand_list}")
@@ -112,24 +113,43 @@ class Gameboard(State):
 
 
     def pass_cards(self):
-        
+        print(self.turn_list)
         #intial passing of cards to each hand and dealer, only passes out 2 cards
         #this algorithm passes out cards in circle order from hand 1 - 5 and dealer's hand
         for rotation in range(2):
             for i, hand in enumerate(self.turn_list):
                 #add the top card into the hand in turn list
+                
                 top_card = self.deck_pile.top()
                 self.deck_pile.pop()
                 #calculate distance from card to hand placement
                 distance = math.dist((top_card.x,top_card.y),(hand.placement.x,hand.placement.y))
-                print(f"Distance of {hand}: {distance}")
-                #set topcard at a specific spot
-                #top_card.rect = top_card.image_surface.get_rect(center= (hand.x,hand.y))
-                #top_card.rect = top_card.image_surface.get_rect(center= (hand.placement.x,hand.placement.y))
+                print(f"Distance: {distance}")
+                top_card.delta_x = abs(top_card.x - hand.placement.x)/20
+                top_card.delta_y= abs(top_card.y - hand.placement.y)/20
+                print(f"Change X: {top_card.delta_x}")
+                print(f"Change Y: {top_card.delta_y}")
+
+                while True:
+                    top_card.rect = top_card.image_surface.get_rect(center= (top_card.x,top_card.y))
+                    self.game.display.blit(top_card.image_surface, top_card.rect)
+                    top_card.x-= top_card.delta_x 
+                    top_card.y+= top_card.delta_y
+                    if top_card.x <= hand.placement.x or top_card.y >= hand.placement.y:
+                        break
+                
                 hand.add_card(top_card)
                 #update THIS hand object with a new x and y
                 hand.placement.x -= 15 
                 hand.placement.y -= 20 #<---- next placement
+                
+
+                #try to delay for 1 second
+                #TODO make the cards passing slower
+                
+                    
+                    
+
 
                 
                     
