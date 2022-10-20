@@ -30,6 +30,7 @@ class Card(pygame.sprite.Sprite):
         self.x, self.y = 1225,80
         self.rect = self.image_surface.get_rect(center = (self.x,self.y)) #temp 
         #self.placement = Placement()
+        self.delta_x, self.delta_y = 0 , 0 #
         
         
    
