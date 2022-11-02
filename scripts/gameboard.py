@@ -109,7 +109,32 @@ class Gameboard(State):
         self.turn_list = temp_list.copy() #turn list is replaced with the filtered lsit
         temp_list.clear()
         
+    #function hit allows the player to add one card to the current hand object"
+    def hit(self,hand):
+        top_card = self.deck_pile.top()
+        self.deck_pile.pop()
 
+        #calculate distance from card to hand placement
+        distance = math.dist((top_card.x,top_card.y),(hand.placement.x,hand.placement.y))
+        print(f"Distance: {distance}")
+        top_card.delta_x = abs(top_card.x - hand.placement.x)/20
+        top_card.delta_y= abs(top_card.y - hand.placement.y)/20
+        print(f"Change X: {top_card.delta_x}")
+        print(f"Change Y: {top_card.delta_y}")
+
+        while True:
+            top_card.rect = top_card.image_surface.get_rect(center= (top_card.x,top_card.y))
+            self.game.display.blit(top_card.image_surface, top_card.rect)
+            top_card.x-= top_card.delta_x 
+            top_card.y+= top_card.delta_y
+            if top_card.x <= hand.placement.x or top_card.y >= hand.placement.y:
+                break
+
+        hand.add_card(top_card)
+        #update THIS hand object with a new x and y
+        hand.placement.x -= 15 
+        hand.placement.y -= 20 #<---- next placement
+        
 
 
     def pass_cards(self):
@@ -120,40 +145,12 @@ class Gameboard(State):
             for i, hand in enumerate(self.turn_list):
                 #add the top card into the hand in turn list
                 
-                top_card = self.deck_pile.top()
-                self.deck_pile.pop()
-                #calculate distance from card to hand placement
-                distance = math.dist((top_card.x,top_card.y),(hand.placement.x,hand.placement.y))
-                print(f"Distance: {distance}")
-                top_card.delta_x = abs(top_card.x - hand.placement.x)/20
-                top_card.delta_y= abs(top_card.y - hand.placement.y)/20
-                print(f"Change X: {top_card.delta_x}")
-                print(f"Change Y: {top_card.delta_y}")
-
-                while True:
-                    top_card.rect = top_card.image_surface.get_rect(center= (top_card.x,top_card.y))
-                    self.game.display.blit(top_card.image_surface, top_card.rect)
-                    top_card.x-= top_card.delta_x 
-                    top_card.y+= top_card.delta_y
-                    if top_card.x <= hand.placement.x or top_card.y >= hand.placement.y:
-                        break
-                
-                hand.add_card(top_card)
-                #update THIS hand object with a new x and y
-                hand.placement.x -= 15 
-                hand.placement.y -= 20 #<---- next placement
-                
-
-                #try to delay for 1 second
+                #hit hand function
+                self.hit(hand)
+ 
                 #TODO make the cards passing slower
                 
-                    
-                    
-
-
-                
-                    
-                
+   
         self.printTest()   
 
 

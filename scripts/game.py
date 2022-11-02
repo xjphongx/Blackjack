@@ -1,4 +1,4 @@
-import pygame,os
+import pygame,os, sys
 from scripts.player import Player
 from scripts.cursor import Cursor
 from scripts.title import Title
@@ -66,7 +66,7 @@ class Game():
                 self.running = False
                 self.playing = False
                 pygame.quit()
-                exit()
+                sys.exit()
             
             if event.type == pygame.KEYDOWN: #event where player presses a key on the keyboard
                 if event.key == pygame.K_ESCAPE:
