@@ -122,6 +122,7 @@ class Gameboard(State):
         print(f"Change X: {top_card.delta_x}")
         print(f"Change Y: {top_card.delta_y}")
 
+        #Loop card blit animation from deck pile to targeted placement
         while True:
             top_card.rect = top_card.image_surface.get_rect(center= (top_card.x,top_card.y))
             self.game.display.blit(top_card.image_surface, top_card.rect)
@@ -130,22 +131,31 @@ class Gameboard(State):
             if top_card.x <= hand.placement.x or top_card.y >= hand.placement.y:
                 break
 
+
+        #add top card to current hand object
         hand.add_card(top_card)
-        #update THIS hand object with a new x and y
-        hand.placement.x -= 15 
-        hand.placement.y -= 20 #<---- next placement
+
+        #check if the hand is dealer or player for specified placement
+        if hand.isDealer:
+            hand.placement.x -= 125
+        else:
+            hand.placement.x -= 15 
+            hand.placement.y -= 20 #<---- next placement
         
 
-
+    #funcdtion pass cards will give out 2 cards to each active hand
     def pass_cards(self):
         print(self.turn_list)
         #intial passing of cards to each hand and dealer, only passes out 2 cards
         #this algorithm passes out cards in circle order from hand 1 - 5 and dealer's hand
         for rotation in range(2):
             for i, hand in enumerate(self.turn_list):
-                #add the top card into the hand in turn list
+                #edge case where dealer's last card will be faced down
+                if rotation == 1 and hand.isDealer:
+                    print("dealers last card")
+                    #blit a face down card 
                 
-                #hit hand function
+                #add the top card into the hand in turn list
                 self.hit(hand)
  
                 #TODO make the cards passing slower

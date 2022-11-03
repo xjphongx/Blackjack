@@ -61,8 +61,6 @@ class Game():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 print("exiting")
-                #print(self.player.hand_list)
-                #print(self.state_stack[-1].turn_list)
                 self.running = False
                 self.playing = False
                 pygame.quit()
