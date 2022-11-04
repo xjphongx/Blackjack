@@ -1,5 +1,6 @@
 {
     "amount_of_decks":6,
+    "card_back_image": "images/PNG_cards/card_back.png", 
     "card_decks":[
         {"type":"Two","pip_value":2,"suit":"Spades","card_image": "images/PNG_cards/2_of_spades.png"},
         {"type":"Two","pip_value":2,"suit":"Clubs","card_image": "images/PNG_cards/2_of_clubs.png"},

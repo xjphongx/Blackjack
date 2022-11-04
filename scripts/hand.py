@@ -17,7 +17,11 @@ class Hand():
     #function display updates the pygame game display with cards
     def display(self, display):
         for i, card in enumerate(self.card_list):
-            display.blit(card.image_surface, card.rect)
+            #if card is faced down
+            if card.isFaceDown:
+                display.blit(card.card_back_surface, card.rect)
+            else:
+                display.blit(card.image_surface, card.rect)
             
             
 

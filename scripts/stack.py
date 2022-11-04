@@ -53,7 +53,8 @@ class DeckPile(Stack,pygame.sprite.Sprite):
                 data_item['type'],
                 data_item['pip_value'],
                 data_item['suit'],
-                data_item['card_image']
+                data_item['card_image'],
+                cards['card_back_image']
             )#end of card_object
             self.stack.append(card_object)#push the card object into gameboard's deck_pile
             self.size += 1 #update size after adding card

@@ -110,10 +110,8 @@ class Gameboard(State):
         temp_list.clear()
         
     #function hit allows the player to add one card to the current hand object"
-    def hit(self,hand):
-        top_card = self.deck_pile.top()
-        self.deck_pile.pop()
-
+    def hit(self,hand, top_card):
+        
         #calculate distance from card to hand placement
         distance = math.dist((top_card.x,top_card.y),(hand.placement.x,hand.placement.y))
         print(f"Distance: {distance}")
@@ -124,8 +122,8 @@ class Gameboard(State):
 
         #Loop card blit animation from deck pile to targeted placement
         while True:
-            top_card.rect = top_card.image_surface.get_rect(center= (top_card.x,top_card.y))
-            self.game.display.blit(top_card.image_surface, top_card.rect)
+            top_card.rect = top_card.card_back_surface.get_rect(center= (top_card.x,top_card.y))
+            self.game.display.blit(top_card.card_back_surface, top_card.rect)
             top_card.x-= top_card.delta_x 
             top_card.y+= top_card.delta_y
             if top_card.x <= hand.placement.x or top_card.y >= hand.placement.y:
@@ -137,10 +135,10 @@ class Gameboard(State):
 
         #check if the hand is dealer or player for specified placement
         if hand.isDealer:
-            hand.placement.x -= 125
+            hand.placement.x -= 125 #updates to the left
         else:
-            hand.placement.x -= 15 
-            hand.placement.y -= 20 #<---- next placement
+            hand.placement.x -= 15  #updates the player's hand ontop
+            hand.placement.y -= 20 
         
 
     #funcdtion pass cards will give out 2 cards to each active hand
@@ -150,13 +148,18 @@ class Gameboard(State):
         #this algorithm passes out cards in circle order from hand 1 - 5 and dealer's hand
         for rotation in range(2):
             for i, hand in enumerate(self.turn_list):
+                #get the top card
+                top_card = self.deck_pile.top()
+                self.deck_pile.pop()
+                
                 #edge case where dealer's last card will be faced down
                 if rotation == 1 and hand.isDealer:
                     print("dealers last card")
                     #blit a face down card 
-                
+                    top_card.isFaceDown = True
+
                 #add the top card into the hand in turn list
-                self.hit(hand)
+                self.hit(hand,top_card)
  
                 #TODO make the cards passing slower
                 
