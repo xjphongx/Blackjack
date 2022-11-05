@@ -1,5 +1,5 @@
 
-import pygame, math, time
+import pygame, math
 from scripts.bet_menu import Bet_Menu
 from scripts.cursor import Cursor
 from scripts.hand import Hand
@@ -8,6 +8,7 @@ from scripts.ring_row import Ring_Row
 from scripts.stack import DeckPile, DiscardPile
 from scripts.state import State
 from scripts.button import Button
+from scripts.action_menu import Action_Menu
 
 class Gameboard(State):
     def __init__(self, game):
@@ -53,8 +54,13 @@ class Gameboard(State):
         if self.playing:
             #Start the game
             #display the cards from each hand
+            #and display the menu to choose from
             for i, hand in enumerate(self.turn_list):
                 hand.display(self.game.display)
+
+            #initiate turn system
+           
+            
         else:
             self.game.draw_text("How many hands are you playing?", 50, self.game.display_width/2,self.game.display_height/5)
 
@@ -68,7 +74,6 @@ class Gameboard(State):
                 #if player places a bet, confirm and play the game
                 elif self.ring_row.isEmpty == False: 
                     if self.confirm_button.draw(self.game.display): #figure out how to clear this button
-                        
                         #combine the player and dealer hands, player goes first
                         self.turn_list.extend(self.dealer.hand_list)
                         self.turn_list.extend(self.player.hand_list)
@@ -78,12 +83,8 @@ class Gameboard(State):
                         #print(f"Player's Hand {self.player.hand_list}")
                         #print(f"Dealer's Hand {self.dealer.hand_list}")
                         #print(f"Turn list {self.turn_list}")
-
                         self.filter_List()
-                        #print(f"After filter Turn list {self.turn_list}")
-
                         #pass out cards and start the blackjack game
-                    
                         self.pass_cards()
                         self.playing = True
 
@@ -105,13 +106,14 @@ class Gameboard(State):
         for i, hand in enumerate(self.turn_list): #cycles and gets the hand 
             if isinstance(hand, Hand): #test if hand is a hand object
                 temp_list.append(hand)
-
         self.turn_list = temp_list.copy() #turn list is replaced with the filtered lsit
         temp_list.clear()
         
     #function hit allows the player to add one card to the current hand object"
-    def hit(self,hand, top_card):
-        
+    def hit(self,hand):
+        #get the top card
+        top_card = self.deck_pile.top()
+        self.deck_pile.pop()
         #calculate distance from card to hand placement
         distance = math.dist((top_card.x,top_card.y),(hand.placement.x,hand.placement.y))
         print(f"Distance: {distance}")
@@ -119,7 +121,6 @@ class Gameboard(State):
         top_card.delta_y= abs(top_card.y - hand.placement.y)/20
         print(f"Change X: {top_card.delta_x}")
         print(f"Change Y: {top_card.delta_y}")
-
         #Loop card blit animation from deck pile to targeted placement
         while True:
             top_card.rect = top_card.card_back_surface.get_rect(center= (top_card.x,top_card.y))
@@ -128,11 +129,8 @@ class Gameboard(State):
             top_card.y+= top_card.delta_y
             if top_card.x <= hand.placement.x or top_card.y >= hand.placement.y:
                 break
-
-
         #add top card to current hand object
         hand.add_card(top_card)
-
         #check if the hand is dealer or player for specified placement
         if hand.isDealer:
             hand.placement.x -= 125 #updates to the left
@@ -140,7 +138,6 @@ class Gameboard(State):
             hand.placement.x -= 15  #updates the player's hand ontop
             hand.placement.y -= 20 
         
-
     #funcdtion pass cards will give out 2 cards to each active hand
     def pass_cards(self):
         print(self.turn_list)
@@ -148,18 +145,12 @@ class Gameboard(State):
         #this algorithm passes out cards in circle order from hand 1 - 5 and dealer's hand
         for rotation in range(2):
             for i, hand in enumerate(self.turn_list):
-                #get the top card
-                top_card = self.deck_pile.top()
-                self.deck_pile.pop()
-                
                 #edge case where dealer's last card will be faced down
                 if rotation == 1 and hand.isDealer:
-                    print("dealers last card")
-                    #blit a face down card 
+                    top_card = self.deck_pile.top()
                     top_card.isFaceDown = True
-
                 #add the top card into the hand in turn list
-                self.hit(hand,top_card)
+                self.hit(hand)
  
                 #TODO make the cards passing slower
                 

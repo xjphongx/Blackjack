@@ -12,8 +12,9 @@ class Hand():
         self.hand_upper_sum = 0 #calculated for ace edge case
         self.hand_size = 0
         self.player_action_menu = [] #LOOK AT TUTORIAL
+        self.isTurn = False
         #need to add a small menu containing buttons for player to press 
-    
+
     #function display updates the pygame game display with cards
     def display(self, display):
         for i, card in enumerate(self.card_list):
@@ -22,10 +23,7 @@ class Hand():
                 display.blit(card.card_back_surface, card.rect)
             else:
                 display.blit(card.image_surface, card.rect)
-            
-            
 
-    
     #print out on terminal the contains of the card_list
     def show(self):
         for i, card in enumerate(self.card_list) :

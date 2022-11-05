@@ -9,7 +9,6 @@ class Player():
         self.hand_list = [5,4,3,2,1] 
         self.fund = fund
         self.current_bet = 0
-        self.is_player_turn = False
         self.action_list = {
             'hit':False, 
             'stand':False, 
