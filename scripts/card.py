@@ -32,7 +32,7 @@ class Card(pygame.sprite.Sprite):
         self.image_surface = pygame.image.load(image).convert_alpha()
         self.image_surface = pygame.transform.rotozoom(self.image_surface,0,.2) #scales the image better
         self.rect = self.image_surface.get_rect(center = (self.x,self.y)) #temp 
-        self.delta_x, self.delta_y = 0 , 0 #
+        self.delta_x, self.delta_y = 0 , 0 
         
         
    

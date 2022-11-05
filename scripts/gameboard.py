@@ -119,8 +119,8 @@ class Gameboard(State):
         #calculate distance from card to hand placement
         distance = math.dist((top_card.x,top_card.y),(hand.placement.x,hand.placement.y))
         #print(f"Distance: {distance}")
-        top_card.delta_x = abs(top_card.x - hand.placement.x)/20
-        top_card.delta_y= abs(top_card.y - hand.placement.y)/20
+        top_card.delta_x = abs(top_card.x - hand.placement.x)/60
+        top_card.delta_y = abs(top_card.y - hand.placement.y)/60
         #print(f"Change X: {top_card.delta_x}")
         #print(f"Change Y: {top_card.delta_y}")
         #Loop card blit animation from deck pile to targeted placement
@@ -137,7 +137,7 @@ class Gameboard(State):
         if hand.isDealer:
             hand.placement.x -= 125 #updates to the left
         else:
-            hand.placement.x -= 15  #updates the player's hand ontop
+            hand.placement.x -= 20  #updates the player's hand ontop
             hand.placement.y -= 20 
         
     #funcdtion pass cards will give out 2 cards to each active hand

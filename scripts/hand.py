@@ -15,7 +15,7 @@ class Hand():
         self.hand_upper_sum = 0 #calculated for ace edge case
         self.hand_size = 0
         self.isTurn = False
-        self.action_menu = Action_Menu(self.game,self.x, self.y) 
+        self.action_menu = Action_Menu(self.game, self, self.x, self.y)  #pass itself by reference
 
     #function display updates the pygame game display with cards
     def display(self, display):

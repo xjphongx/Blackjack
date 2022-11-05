@@ -2,8 +2,9 @@ import pygame
 from scripts.button import Button
 
 class Action_Menu():
-    def __init__(self, game, x, y):
+    def __init__(self, game, hand, x, y):
         self.game = game
+        self.hand = hand
         self.x = x + 75 #offset away from the hand center
         self.y = y - 100
         SCALE = .07
