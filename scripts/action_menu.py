@@ -4,7 +4,7 @@ from scripts.button import Button
 class Action_Menu():
     def __init__(self, game, x, y):
         self.game = game
-        self.x = x + 125 #offset away from the hand center
+        self.x = x + 75 #offset away from the hand center
         self.y = y - 100
         SCALE = .07
         OFFSET = 35
