@@ -86,6 +86,8 @@ class Gameboard(State):
                         self.filter_List()
                         #pass out cards and start the blackjack game
                         self.pass_cards()
+                        #set first hand's turn and start game
+                        self.turn_list[0].isTurn = True
                         self.playing = True
 
 
@@ -116,11 +118,11 @@ class Gameboard(State):
         self.deck_pile.pop()
         #calculate distance from card to hand placement
         distance = math.dist((top_card.x,top_card.y),(hand.placement.x,hand.placement.y))
-        print(f"Distance: {distance}")
+        #print(f"Distance: {distance}")
         top_card.delta_x = abs(top_card.x - hand.placement.x)/20
         top_card.delta_y= abs(top_card.y - hand.placement.y)/20
-        print(f"Change X: {top_card.delta_x}")
-        print(f"Change Y: {top_card.delta_y}")
+        #print(f"Change X: {top_card.delta_x}")
+        #print(f"Change Y: {top_card.delta_y}")
         #Loop card blit animation from deck pile to targeted placement
         while True:
             top_card.rect = top_card.card_back_surface.get_rect(center= (top_card.x,top_card.y))
