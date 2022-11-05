@@ -81,7 +81,7 @@ class Bet_Menu():
                 self.gameboard.player.fund = 0
                 self.gameboard.cursor.chip = self.allin_chip_button.image
 
-        if self.clear_button.draw(self.game.display):
+        if self.clear_button.draw(self.game.display) and not self.gameboard.confirm_button.isActive:
             self.gameboard.player.fund += self.gameboard.player.current_bet
             self.gameboard.player.current_bet = 0
             self.gameboard.cursor.chip = None #resets cursor chip when pressed clear
