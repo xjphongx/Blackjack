@@ -17,7 +17,7 @@ class Gameboard(State):
         self.playing = False
         back_image = pygame.image.load("images/buttons/back_button.png").convert_alpha()
         self.back_button = Button(325, 50, back_image, self.game.IMAGE_SCALE)
-        self.dealer = Dealer()
+        self.dealer = Dealer(self.game)
         self.deck_pile = DeckPile()
         self.deck_pile.load_cards_to_deck()
         self.discard_pile = DiscardPile()
@@ -31,7 +31,7 @@ class Gameboard(State):
         self.ring_row = Ring_Row(self.game, self)
         self.bet_menu = Bet_Menu(self.game, self) 
         self.cursor = Cursor(self.game) 
-        self.player = Player()
+        self.player = Player(self.game)
         self.turn_list = []
 
         self.current_time = 0

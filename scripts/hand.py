@@ -1,6 +1,8 @@
 from scripts.placement import Placement
+
 class Hand():
-    def __init__(self, order,x ,y, isDealer = False): #add bet size when creating a hand, minimum bet
+    def __init__(self, game, order,x ,y, isDealer = False): #add bet size when creating a hand, minimum bet
+        self.game = game #reference to the game
         self.order = order #the hand's order
         self.x, self.y = x, y
         self.placement = Placement(x,y)
@@ -23,6 +25,16 @@ class Hand():
                 display.blit(card.card_back_surface, card.rect)
             else:
                 display.blit(card.image_surface, card.rect)
+
+        #only show the player's hand sum
+        if not self.isDealer:
+            #display the hand sums 
+            if self.hasAce:
+                self.game.draw_text(f"{self.hand_sum} or {self.hand_upper_sum}",30,self.x, self.y+90)   
+            else:
+                self.game.draw_text(f"{self.hand_sum}",30,self.x, self.y+90)
+            
+        
 
     #print out on terminal the contains of the card_list
     def show(self):

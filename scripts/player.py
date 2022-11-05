@@ -5,7 +5,8 @@ from scripts.hand import Hand
 DEALER_STARTING_FUND = 99999999999999999999999999999999999999999
 PLAYER_STARTING_FUND = 1000
 class Player():
-    def __init__(self, fund = PLAYER_STARTING_FUND):
+    def __init__(self, game, fund = PLAYER_STARTING_FUND):
+        self.game = game
         self.hand_list = [5,4,3,2,1] 
         self.fund = fund
         self.current_bet = 0
@@ -19,9 +20,9 @@ class Player():
     def add_Hand(self, order, x , y, isDealer=None):#Player can add a new hand when SPLITING
         #edge case when it is the dealers hand
         if isDealer:
-            hand = Hand(order,x,y, isDealer)
+            hand = Hand(self.game, order, x, y, isDealer)
         else:
-            hand = Hand(order, x, y) #create hand with a specific order
+            hand = Hand(self.game, order, x, y) #create hand with a specific order
         
         new_index = self.hand_list.index(hand.order)
         self.hand_list.insert(new_index, hand) #add into list at the given index
@@ -31,8 +32,6 @@ class Player():
     def remove_Hand(self,order):
         pass
     
-
-
     def add_funds(self, added_amount):
         self.fund += added_amount
     def subtract_funds(self, subtracted_amount):
@@ -56,8 +55,8 @@ class Player():
         pass
 
 class Dealer(Player,pygame.sprite.Sprite):
-    def __init__(self):
-        super().__init__(fund = DEALER_STARTING_FUND)
+    def __init__(self, game):
+        super().__init__(game, fund = DEALER_STARTING_FUND)
         self.hand_list = [6]
         self.add_Hand(6, 650, 225, isDealer = True)
         self.dealer_image_path = os.path.abspath('images/dealer.png')
