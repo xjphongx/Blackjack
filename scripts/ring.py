@@ -14,6 +14,7 @@ class Ring():
         self.chip = None
         self.hasChip = False
         self.bet_amount = 0 #used to update with dealer
+        self.isValidBet = False
         
         
     #function display draws the ring image and adds functionality
@@ -41,6 +42,9 @@ class Ring():
                 #calculate and updates bet
                 self.bet_amount += self.gameboard.player.current_bet
                 self.gameboard.player.current_bet = 0
+            
+            #check if current ring bet is valid to game's minimum bet
+            self.isValidBet = self.check_bet()
                 
     #function clear resets the ring to default            
     def clear(self):
@@ -48,6 +52,7 @@ class Ring():
         self.hasChip = False
         self.button.isActive = False #Resets the button
         self.gameboard.ring_row.isEmpty = True #row is empty
+        self.isValidBet = False #not a valid bet anymore 
         #update bet amounts
         self.gameboard.player.fund += self.bet_amount
         self.bet_amount = 0
@@ -59,5 +64,10 @@ class Ring():
             self.game.draw_text(str(self.bet_amount),40, self.rect.x+115, self.rect.y+80)
             self.game.display.blit(self.chip, (self.rect.x, self.rect.y))
         
-
+        
+    def check_bet(self) -> bool:
+        if self.bet_amount < self.gameboard.min_bet:
+            return False
+        else:
+            return True
 

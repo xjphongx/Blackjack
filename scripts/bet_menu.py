@@ -13,6 +13,7 @@ class Bet_Menu():
         position_x_4 = self.x #center and fixed positions around the center
         position_x_5, position_x_6, position_x_7 = self.x+90, self.x+180, self.x+270
         IMAGE_SCALE = .25
+        self.min_bet = self.gameboard.min_bet #may change 
         
         #intialize chip button objects
         self.white_chip_image = pygame.image.load("images/chips/white_chip_5.png").convert_alpha()
@@ -37,6 +38,7 @@ class Bet_Menu():
     def display(self):
         #TODO click button will add an image to cursor object 
         #and it will be dragged on the board 
+        self.game.draw_text(f"Min Bet: {self.min_bet}", 40,self.bet_text_x-250, self.bet_text_y-63)
         self.game.draw_text(f"Current Bet: {self.gameboard.player.current_bet}", 40, self.bet_text_x, self.bet_text_y-63)
         self.game.draw_text(f"Fund: {self.gameboard.player.fund}", 40, self.fund_text_x, self.fund_text_y)
         if self.white_chip_button.draw(self.game.display):

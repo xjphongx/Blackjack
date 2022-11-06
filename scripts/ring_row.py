@@ -6,6 +6,7 @@ class Ring_Row():
         self.game = game
         self.gameboard = gameboard
         self.isEmpty = True
+        self.isValidBet = False
 
         #intialize ring objects
         self.ring_1 = Ring(self.game,self.gameboard,1150,645,order=1)
@@ -27,6 +28,9 @@ class Ring_Row():
         self.ring_4.update()
         self.ring_5.update()
 
+        self.check_valid_bet()
+
+
     #function clear sets all the ring's bools to false and clears player hand list
     def clear(self):
         print("clearing")
@@ -36,7 +40,37 @@ class Ring_Row():
         self.ring_4.clear()
         self.ring_5.clear()
         self.isEmpty=True #ring row is empty
+        self.isValidBet = False #ring row is not valid bet
         self.gameboard.player.clear_bets()
         
-
+    def check_valid_bet(self):
+        if self.ring_1.button.isActive:
+            if self.ring_1.isValidBet:
+                self.isValidBet = True
+            else:
+                self.isValidBet = False
         
+        if self.ring_2.button.isActive:
+            if self.ring_2.isValidBet:
+                self.isValidBet = True
+            else:
+                self.isValidBet = False
+        
+        if self.ring_3.button.isActive:
+            if self.ring_3.isValidBet:
+                self.isValidBet = True
+            else:
+                self.isValidBet = False
+        
+        if self.ring_4.button.isActive:
+            if self.ring_4.isValidBet:
+                self.isValidBet = True
+            else:
+                self.isValidBet = False
+
+        if self.ring_5.button.isActive:
+            if self.ring_5.isValidBet:
+                self.isValidBet = True
+            else:
+                self.isValidBet = False
+

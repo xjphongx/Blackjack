@@ -8,13 +8,13 @@ from scripts.ring_row import Ring_Row
 from scripts.stack import DeckPile, DiscardPile
 from scripts.state import State
 from scripts.button import Button
-from scripts.action_menu import Action_Menu
 
 class Gameboard(State):
     def __init__(self, game):
         super().__init__(game)
         #instantiating gameboard objects
         self.playing = False
+        self.min_bet = 50
         back_image = pygame.image.load("images/buttons/back_button.png").convert_alpha()
         self.back_button = Button(325, 50, back_image, self.game.IMAGE_SCALE)
         self.dealer = Dealer(self.game)
@@ -57,22 +57,14 @@ class Gameboard(State):
             #and display the menu to choose from
             for i, hand in enumerate(self.turn_list):
                 hand.display(self.game.display)
-
             #initiate turn system
-           
-            
         else:
             self.game.draw_text("How many hands are you playing?", 50, self.game.display_width/2,self.game.display_height/5)
 
         #checks if player is deciding, if clicked, pass out cards
         if self.confirm_button.isActive == False: 
-                
-                #if player clicks the confirm button and the row is empty, do nothing
-                if self.ring_row.isEmpty == True :
-                    self.confirm_button.draw(self.game.display) #still display the button
-                    
-                #if player places a bet, confirm and play the game
-                elif self.ring_row.isEmpty == False: 
+                #if the ring row is not empty and ring row has valid bets, do this
+                if not self.ring_row.isEmpty and self.ring_row.isValidBet: 
                     if self.confirm_button.draw(self.game.display): #figure out how to clear this button
                         #combine the player and dealer hands, player goes first
                         self.turn_list.extend(self.dealer.hand_list)
@@ -89,6 +81,9 @@ class Gameboard(State):
                         #set first hand's turn and start game
                         self.turn_list[0].isTurn = True
                         self.playing = True
+                else:
+                     #if player clicks the confirm button and the row is empty and not valid, do nothing
+                     self.confirm_button.draw(self.game.display) #continue to display
 
 
         #render the clickable button
