@@ -17,7 +17,7 @@ class Gameboard(State):
         self.min_bet = 50
         back_image = pygame.image.load("images/buttons/back_button.png").convert_alpha()
         self.back_button = Button(325, 50, back_image, self.game.IMAGE_SCALE)
-        self.dealer = Dealer(self.game)
+        self.dealer = Dealer(self.game, self)
         self.deck_pile = DeckPile()
         self.deck_pile.load_cards_to_deck()
         self.discard_pile = DiscardPile()
@@ -31,7 +31,7 @@ class Gameboard(State):
         self.ring_row = Ring_Row(self.game, self)
         self.bet_menu = Bet_Menu(self.game, self) 
         self.cursor = Cursor(self.game) 
-        self.player = Player(self.game)
+        self.player = Player(self.game, self)
         self.turn_list = []
 
         self.current_time = 0
@@ -53,11 +53,7 @@ class Gameboard(State):
 
         if self.playing:
             #Start the game
-            #display the cards from each hand
-            #and display the menu to choose from
-            for i, hand in enumerate(self.turn_list):
-                hand.display(self.game.display)
-            #initiate turn system
+            self.start_game()
         else:
             self.game.draw_text("How many hands are you playing?", 50, self.game.display_width/2,self.game.display_height/5)
 
@@ -112,7 +108,7 @@ class Gameboard(State):
         top_card = self.deck_pile.top()
         self.deck_pile.pop()
         #calculate distance from card to hand placement
-        distance = math.dist((top_card.x,top_card.y),(hand.placement.x,hand.placement.y))
+        #distance = math.dist((top_card.x,top_card.y),(hand.placement.x,hand.placement.y))
         #print(f"Distance: {distance}")
         top_card.delta_x = abs(top_card.x - hand.placement.x)/60
         top_card.delta_y = abs(top_card.y - hand.placement.y)/60
@@ -135,7 +131,7 @@ class Gameboard(State):
             hand.placement.x -= 20  #updates the player's hand ontop
             hand.placement.y -= 20 
         
-    #funcdtion pass cards will give out 2 cards to each active hand
+    #function pass cards will give out 2 cards to each active hand
     def pass_cards(self):
         print(self.turn_list)
         #intial passing of cards to each hand and dealer, only passes out 2 cards
@@ -154,9 +150,6 @@ class Gameboard(State):
    
         self.printTest()   
 
-
-
-
     def printTest(self):
             #loop through all the hands to test print
         for i, hand in enumerate(self.turn_list):
@@ -171,3 +164,10 @@ class Gameboard(State):
                 print(f"Upper Hand Sum: {hand.hand_upper_sum}")
             else:
                 print(f"Hand Sum: {hand.hand_sum}")
+
+    def start_game(self):
+        #display the cards from each hand
+        #and display the menu to choose from
+        for i, hand in enumerate(self.turn_list):
+            hand.display(self.game.display)
+        #initiate turn system

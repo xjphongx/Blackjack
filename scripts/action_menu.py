@@ -2,9 +2,10 @@ import pygame
 from scripts.button import Button
 
 class Action_Menu():
-    def __init__(self, game, hand, x, y):
-        self.game = game
+    def __init__(self, hand, game, gameboard, x, y):
         self.hand = hand
+        self.game = game
+        self.gameboard = gameboard
         self.x = x + 75 #offset away from the hand center
         self.y = y - 100
         SCALE = .07
@@ -20,7 +21,10 @@ class Action_Menu():
         self.stand_button = Button(self.x, self.y+(OFFSET*3), self.stand_button_image, scale=SCALE)
 
     def display(self):
-        self.hit_button.draw(self.game.display)
+        if self.hit_button.draw(self.game.display):
+            self.gameboard.hit(self.hand)
         self.double_button.draw(self.game.display)
         self.split_button.draw(self.game.display)
-        self.stand_button.draw(self.game.display)
+        if self.stand_button.draw(self.game.display):
+            #move to the next hand
+            pass

@@ -2,8 +2,9 @@ from scripts.placement import Placement
 from scripts.action_menu import Action_Menu
 
 class Hand():
-    def __init__(self, game, order,x ,y, isDealer = False): #add bet size when creating a hand, minimum bet
+    def __init__(self, game, gameboard, order,x ,y, isDealer = False): #add bet size when creating a hand, minimum bet
         self.game = game #reference to the game
+        self.gameboard = gameboard #reference to the gameboard
         self.order = order #the hand's order
         self.x, self.y = x, y
         self.placement = Placement(x,y)
@@ -15,7 +16,7 @@ class Hand():
         self.hand_upper_sum = 0 #calculated for ace edge case
         self.hand_size = 0
         self.isTurn = False
-        self.action_menu = Action_Menu(self.game, self, self.x, self.y)  #pass itself by reference
+        self.action_menu = Action_Menu(self, self.game,self.gameboard, self.x, self.y)  #pass itself by reference
 
     #function display updates the pygame game display with cards
     def display(self, display):
