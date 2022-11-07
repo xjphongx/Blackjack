@@ -34,8 +34,8 @@ class Gameboard(State):
         self.player = Player(self.game, self)
         self.turn_list = []
 
-        self.current_time = 0
-        self.static_time = 0
+        #self.current_time = 0
+        #self.static_time = 0
         
     def render(self,display):
         display.fill(self.game.background_color)
@@ -131,6 +131,19 @@ class Gameboard(State):
             hand.placement.x -= 20  #updates the player's hand ontop
             hand.placement.y -= 20 
         
+    #function bust will dispute the bets after the round is done
+    def bust(self,hand):
+        hand.bust = True
+        hand.isTurn = False
+        #player bust and went over 21, 
+        #dealer takes the bets but leaves the cards there for reference
+        #if player bust. take the bet at the ring
+        if hand.order in self.ring_row.ring_map.keys():
+             #this is the ring object based on key(hand's order)
+            self.ring_row.ring_map[hand.order].bet_amount = 0 #TODO add the bet to dealer's funds
+            self.ring_row.ring_map[hand.order].hasChip = False #TODO add notification that bet was lost
+        #if dealer bust
+
     #function pass cards will give out 2 cards to each active hand
     def pass_cards(self):
         print(self.turn_list)
@@ -165,34 +178,31 @@ class Gameboard(State):
             else:
                 print(f"Hand Sum: {hand.hand_sum}")
 
-    def stand(self,):
-        pass
-
     def start_game(self):
         #Check case where dealer has a blackjack to immediately end the game and collect bets
         if self.turn_list[-1].hasAce and (self.turn_list[-1].hand_upper_sum == 21):
-            print("has Blackjack")
+            print("has Blackjack and everyone bust")
         else: #continue with game when dealer DOES NOT have blackjack
             #display the cards from each hand
             #and display the menu to choose from
             for i, hand in enumerate(self.turn_list):
-                
                 #display the hand
                 hand.display(self.game.display)
-                
                 
                 #PLAYER LOGIC
                 if not hand.isDealer:
                     #display all hand's sum value on the board
-                    if hand.hasAce:
+                    if hand.hasAce and hand.hand_upper_sum < 21:
                         self.game.draw_text(f"{hand.hand_sum} or {hand.hand_upper_sum}",30,hand.x, hand.y+90)   
+                    elif hand.hasAce and hand.hand_upper_sum == 21:
+                        self.game.draw_text(f"{hand.hand_upper_sum}",30,hand.x, hand.y+90) 
+                    elif hand.hasAce and hand.hand_upper_sum >21:
+                        self.game.draw_text(f"{hand.hand_sum}",30,hand.x, hand.y+90)
                     else:
                         self.game.draw_text(f"{hand.hand_sum}",30,hand.x, hand.y+90)
-                    
                     #check if hand is busted
                     if hand.hand_sum > 21:
-                        hand.bust = True
-                        hand.isTurn = False
+                        self.bust(hand)
                         self.turn_list[i+1].isTurn = True #sets the next turn 
                     #check if player stands on hand
                     if hand.stand == True:
