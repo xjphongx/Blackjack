@@ -23,8 +23,9 @@ class Action_Menu():
     def display(self):
         if self.hit_button.draw(self.game.display):
             self.gameboard.hit(self.hand)
+        
         self.double_button.draw(self.game.display)
         self.split_button.draw(self.game.display)
         if self.stand_button.draw(self.game.display):
-            #move to the next hand
-            pass
+            self.hand.stand = True
+            

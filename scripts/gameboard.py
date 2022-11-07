@@ -165,9 +165,50 @@ class Gameboard(State):
             else:
                 print(f"Hand Sum: {hand.hand_sum}")
 
+    def stand(self,):
+        pass
+
     def start_game(self):
+        #Check case where dealer has a blackjack after passing out cards
+        
         #display the cards from each hand
         #and display the menu to choose from
         for i, hand in enumerate(self.turn_list):
+            
+            #display the hand
             hand.display(self.game.display)
-        #initiate turn system
+            
+            if not hand.isDealer:
+                #check if hand is busted
+                if hand.hand_sum > 21:
+                    hand.isTurn = False
+                    self.turn_list[i+1].isTurn = True #sets the next turn 
+                #check if player stands on hand
+                if hand.stand == True:
+                    hand.isTurn = False
+                    self.turn_list[i+1].isTurn = True
+
+                #display action menu if its the current hand's turn
+                if hand.isTurn:
+                    hand.action_menu.display() 
+                if hand.hasAce:
+                    self.game.draw_text(f"{hand.hand_sum} or {hand.hand_upper_sum}",30,hand.x, hand.y+90)   
+                else:
+                    self.game.draw_text(f"{hand.hand_sum}",30,hand.x, hand.y+90)
+                
+            #if hand is dealer, continue to hit until 17 -21 or bust
+            if hand.isDealer and hand.isTurn:
+                #reveal the face down card and sum
+                hand.card_list[-1].isFaceDown = False
+                if hand.hasAce:
+                    self.game.draw_text(f"{hand.hand_sum} or {hand.hand_upper_sum}",30,hand.x, hand.y+90)   
+                else:
+                    self.game.draw_text(f"{hand.hand_sum}",30,hand.x, hand.y+90)
+                #continuely hit hand until 17-21
+                if hand.hasAce and hand.hand_upper_sum == 21:
+                    print( " ", end='') 
+                elif hand.hasAce and hand.hand_upper_sum < 17:
+                    self.hit(hand)
+                elif hand.hand_sum < 17:
+                    self.hit(hand)
+                

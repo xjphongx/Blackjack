@@ -17,7 +17,8 @@ class Hand():
         self.hand_size = 0
         self.isTurn = False
         self.action_menu = Action_Menu(self, self.game,self.gameboard, self.x, self.y)  #pass itself by reference
-
+        self.bust = False
+        self.stand = False
     #function display updates the pygame game display with cards
     def display(self, display):
         for i, card in enumerate(self.card_list):
@@ -26,19 +27,6 @@ class Hand():
                 display.blit(card.card_back_surface, card.rect)
             else:
                 display.blit(card.image_surface, card.rect)
-
-        #display the player's hand sum
-        if not self.isDealer: 
-            
-            if self.isTurn:
-                self.action_menu.display()
-            
-            if self.hasAce:
-                self.game.draw_text(f"{self.hand_sum} or {self.hand_upper_sum}",30,self.x, self.y+90)   
-            else:
-                self.game.draw_text(f"{self.hand_sum}",30,self.x, self.y+90)
-            
-        
         
 
     #print out on terminal the contains of the card_list
