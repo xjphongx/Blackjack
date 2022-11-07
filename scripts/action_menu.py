@@ -28,4 +28,5 @@ class Action_Menu():
         self.split_button.draw(self.game.display)
         if self.stand_button.draw(self.game.display):
             self.hand.stand = True
+            self.hand.isTurn = False
             

@@ -45,21 +45,12 @@ class Player():
     def move_hand_to_discard(self):
         pass
 
-    ####Player Actions: Hit, Stand, Split, Double
-    def hit():
-        pass
-    def stand():
-        pass
-    def split():
-        pass
-    def double():
-        pass
 
 class Dealer(Player,pygame.sprite.Sprite):
     def __init__(self, game, gameboard):
         super().__init__(game, gameboard, fund = DEALER_STARTING_FUND)
         self.hand_list = [6]
-        self.add_Hand(6, 650, 225, isDealer = True)
+        self.add_Hand(6, 750, 225, isDealer = True)
         self.dealer_image_path = os.path.abspath('images/dealer.png')
         self.dealer_image_surface = pygame.image.load(self.dealer_image_path).convert_alpha()
         self.dealer_image_surface = pygame.transform.rotozoom(self.dealer_image_surface,0,.2)
