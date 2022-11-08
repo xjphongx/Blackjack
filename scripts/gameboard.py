@@ -43,9 +43,11 @@ class Gameboard(State):
         self.game.draw_text("Dealer", 30, self.game.display_width/2,125)
         self.game.display.blit(self.dealer.dealer_image_surface, self.dealer.rect)           
         #set up deck
-        self.game.display.blit(self.deck_pile.deck_back_image_surface, self.deck_pile.rect) 
+        self.game.display.blit(self.deck_pile.image_surface, self.deck_pile.rect) 
+        self.game.draw_text(f"{self.deck_pile.size}", 30, self.deck_pile.rect.centerx, self.deck_pile.rect.centery+100)
         #set up discard pile
-        self.game.display.blit(self.discard_pile.discard_pile_image_surface, self.discard_pile.rect)       
+        self.game.display.blit(self.discard_pile.image_surface, self.discard_pile.rect)
+        self.game.draw_text(f"{self.discard_pile.size}", 30, self.discard_pile.rect.centerx, self.discard_pile.rect.centery+100)       
         #betting bar and functionality
         self.bet_menu.display()
         #hand ring functionality
@@ -142,7 +144,16 @@ class Gameboard(State):
              #this is the ring object based on key(hand's order)
             self.ring_row.ring_map[hand.order].bet_amount = 0 #TODO add the bet to dealer's funds
             self.ring_row.ring_map[hand.order].hasChip = False #TODO add notification that bet was lost
-        #if dealer bust
+        #if dealer bust, give winnings to all winning hand
+        if hand.isDealer:
+            #print("dealer busted")
+            #print(self.dealer.hand_list)
+            pass
+
+
+    def compare_hands(self, dealer_hand, player_hand):
+        #if dealer has Ace, 
+        pass
 
     #function pass cards will give out 2 cards to each active hand
     def pass_cards(self):
@@ -193,9 +204,14 @@ class Gameboard(State):
                 if not hand.isDealer:
                     #display all hand's sum value on the board
                     if hand.hasAce and hand.hand_upper_sum < 21:
-                        self.game.draw_text(f"{hand.hand_sum} or {hand.hand_upper_sum}",30,hand.x, hand.y+90)   
+                        if hand.stand:
+                            hand.hand_sum = hand.hand_upper_sum
+                            self.game.draw_text(f"{hand.hand_sum}",30,hand.x, hand.y+90)   
+                        else:
+                            self.game.draw_text(f"{hand.hand_sum} or {hand.hand_upper_sum}",30,hand.x, hand.y+90)   
                     elif hand.hasAce and hand.hand_upper_sum == 21:
-                        self.game.draw_text(f"{hand.hand_upper_sum}",30,hand.x, hand.y+90) 
+                        hand.hand_sum = 21
+                        self.game.draw_text(f"{hand.hand_sum}",30,hand.x, hand.y+90) 
                     elif hand.hasAce and hand.hand_upper_sum >21:
                         self.game.draw_text(f"{hand.hand_sum}",30,hand.x, hand.y+90)
                     else:
@@ -220,18 +236,31 @@ class Gameboard(State):
                     hand.card_list[-1].isFaceDown = False
                     #dealer has a an ACE and resulted in a blackjack
                     if hand.hasAce and hand.hand_upper_sum == 21:
-                        self.game.draw_text(f"{hand.hand_upper_sum}",30,hand.x, hand.y+90)    
+                        hand.hand_sum = 21
+                        self.game.draw_text(f"{hand.hand_sum}",30,hand.x, hand.y+90)    
                     #dealer has an ace card hits until 17 or more
                     elif hand.hasAce and hand.hand_upper_sum < 17:
                         self.hit(hand)
                         self.game.draw_text(f"{hand.hand_sum} or {hand.hand_upper_sum}",30,hand.x, hand.y+90)     
                     #dealer has an ace and hits until the range 17 - 21
                     elif hand.hasAce and (hand.hand_upper_sum >=17 and hand.hand_upper_sum <21):
-                        self.game.draw_text(f"{hand.hand_upper_sum}",30,hand.x, hand.y+90)     
-                    #dealer hits until 17 or more
+                        hand.hand_sum = hand.hand_upper_sum
+                        self.game.draw_text(f"{hand.hand_sum}",30,hand.x, hand.y+90)     
+                    #dealer has less than 17 and hits hand
                     elif hand.hand_sum < 17:
                         self.hit(hand)
-                        self.game.draw_text(f"{hand.hand_sum}",30,hand.x, hand.y+90) 
-                    #draws the dealer's hand sum at the end
+                        self.game.draw_text(f"{hand.hand_sum}",30,hand.x, hand.y+90)
+                    #dealer has hand between 17 and 21 WITHOUT ace card 
+                    elif hand.hand_sum >= 17 and hand.hand_sum < 21:
+                        self.game.draw_text(f"{hand.hand_sum}",30,hand.x, hand.y+90)
+                        #compare dealer's hand with all current active hands 
+                        for i, player_hand in enumerate(self.turn_list[:-1]):
+                            #only compare hands when the player hand is NOT busted
+                            if player_hand.bust == False:
+                                self.compare_hands(hand, player_hand)
+                                player_hand.bust = True #prevent constant looping 
+                    #dealer BUSTs
                     else:
+                        self.game.draw_text("Busted",60, hand.x, hand.y+110)
+                        self.bust(hand)
                         self.game.draw_text(f"{hand.hand_sum}",30,hand.x, hand.y+90)
