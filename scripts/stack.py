@@ -16,7 +16,7 @@ class Stack():
         self.size +=1
     def pop(self):                  #removes the object at the end of the list
         self.stack.pop()
-        #self.size = len(self.stack)
+        self.size = len(self.stack)
     def top(self):                  #returns the end of the list 
         return self.stack[-1]
     def show(self):                 #print the list of card type
@@ -37,10 +37,10 @@ class Stack():
 class DeckPile(Stack,pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
-        self.deck_back_image_path = os.path.abspath('images/PNG_cards/card_back.png')
-        self.deck_back_image_surface = pygame.image.load(self.deck_back_image_path).convert_alpha()
-        self.deck_back_image_surface = pygame.transform.rotozoom(self.deck_back_image_surface,0,.2)
-        self.rect = self.deck_back_image_surface.get_rect(center = (1225,80))
+        self.image_path = os.path.abspath('images/PNG_cards/card_back.png')
+        self.image_surface = pygame.image.load(self.image_path).convert_alpha()
+        self.image_surface = pygame.transform.rotozoom(self.image_surface,0,.2)
+        self.rect = self.image_surface.get_rect(center = (1225,80))
         
     #load json png cards into the deck
     def load_cards_to_deck(self):
@@ -104,10 +104,10 @@ class DeckPile(Stack,pygame.sprite.Sprite):
 class DiscardPile(Stack,pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
-        self.discard_pile_image_path = os.path.abspath('images/discard_pile.png')
-        self.discard_pile_image_surface = pygame.image.load(self.discard_pile_image_path).convert_alpha()
-        self.discard_pile_image_surface = pygame.transform.rotozoom(self.discard_pile_image_surface,0,.4)
-        self.rect = self.discard_pile_image_surface.get_rect(center = (80,100))
+        self.image_path = os.path.abspath('images/discard_pile.png')
+        self.image_surface = pygame.image.load(self.image_path).convert_alpha()
+        self.image_surface = pygame.transform.rotozoom(self.image_surface,0,.4)
+        self.rect = self.image_surface.get_rect(center = (80,100))
 
 
    
