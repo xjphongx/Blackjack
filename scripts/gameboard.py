@@ -255,6 +255,11 @@ class Gameboard(State):
                     elif hand.hand_sum < 17:
                         self.hit(hand)
                         self.game.draw_text(f"{hand.hand_sum}",30,hand.x, hand.y+90)
+                    #dealer has blackjack
+                    elif hand.hand_sum == 21:
+                        self.game.draw_text(f"{hand.hand_sum}",30,hand.x, hand.y+90)
+                        #TODO compare hand function
+                        
                     #dealer has hand between 17 and 21 WITHOUT ace card 
                     elif hand.hand_sum >= 17 and hand.hand_sum < 21:
                         self.game.draw_text(f"{hand.hand_sum}",30,hand.x, hand.y+90)
