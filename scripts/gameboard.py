@@ -189,10 +189,15 @@ class Gameboard(State):
             else:
                 print(f"Hand Sum: {hand.hand_sum}")
 
-    def start_game(self):
+    def start_game(self):       
         #Check case where dealer has a blackjack to immediately end the game and collect bets
         if self.turn_list[-1].hasAce and (self.turn_list[-1].hand_upper_sum == 21):
             print("has Blackjack and everyone bust")
+            self.turn_list[-1].card_list[-1].isFaceDown = False
+            #cycle through the turn list until the dealer's index to bust every hand
+            for i, hand in enumerate(self.turn_list[:-1]):
+                self.bust(hand) #bust every hand
+                
         else: #continue with game when dealer DOES NOT have blackjack
             #display the cards from each hand
             #and display the menu to choose from
