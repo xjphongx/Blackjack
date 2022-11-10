@@ -75,11 +75,10 @@ class Gameboard(State):
                         #print(f"Turn list {self.turn_list}")
                         self.filter_List()
                         #pass out cards and set ring bets to hand bets
-                        for i , hand in enumerate(self.turn_list[:1]):
-                            if hand.order in self.ring_row.ring_map.keys():
-                                #sets the hand bet amount = ring bet amount
-                                hand.bet_amount = self.ring_row.ring_map[hand.order].bet_amount
-                                self.ring_row.ring_map[hand.order].bet_amount = 0 #sets the ring bet amount = 0 to reset the ring
+                        for i , hand in enumerate(self.turn_list[:-1]):
+                            #sets the hand bet amount = ring bet amount
+                            hand.bet_amount = self.ring_row.ring_map[hand.order].bet_amount
+                            self.ring_row.ring_map[hand.order].bet_amount = 0 #sets the ring bet amount = 0 to reset the ring
 
 
 
@@ -142,7 +141,7 @@ class Gameboard(State):
             hand.placement.y -= 20 
         
     #function bust will dispute the bets after the round is done
-    def bust(self,hand):
+    def bust(self, hand):
         hand.bust = True
         hand.isTurn = False
         #player bust and went over 21, 
@@ -150,7 +149,7 @@ class Gameboard(State):
         #if player bust. take the bet at the ring
         if hand.order in self.ring_row.ring_map.keys():
              #this is the ring object based on key(hand's order)
-            self.ring_row.ring_map[hand.order].bet_amount = 0 #TODO add the bet to dealer's funds
+            hand.bet_amount = 0 
             self.ring_row.ring_map[hand.order].hasChip = False #TODO add notification that bet was lost
         #if dealer bust, give winnings to all winning hand
         if hand.isDealer:
