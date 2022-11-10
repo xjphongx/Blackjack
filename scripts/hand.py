@@ -2,7 +2,7 @@ from scripts.placement import Placement
 from scripts.action_menu import Action_Menu
 
 class Hand():
-    def __init__(self, game, gameboard, order,x ,y, isDealer = False): #add bet size when creating a hand, minimum bet
+    def __init__(self, game, gameboard, order, x, y, bet_amount = 0 , isDealer = False): #add bet size when creating a hand, minimum bet
         self.game = game #reference to the game
         self.gameboard = gameboard #reference to the gameboard
         self.order = order #the hand's order
@@ -11,6 +11,7 @@ class Hand():
         self.isDealer = isDealer
         self.card_list = []
         self.min_bet = 50
+        self.bet_amount = bet_amount
         self.hasAce = False
         self.hand_sum = 0
         self.hand_upper_sum = 0 #calculated for ace edge case
@@ -21,6 +22,9 @@ class Hand():
         self.stand = False
     #function display updates the pygame game display with cards
     def display(self, display):
+        if not self.isDealer:
+            #display the bet amount for THAT hand
+            self.game.draw_text(f"Bet: {self.bet_amount}", 30, self.x, self.y + 120)
         for i, card in enumerate(self.card_list):
             #if card is faced down
             if card.isFaceDown:

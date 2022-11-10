@@ -74,7 +74,15 @@ class Gameboard(State):
                         #print(f"Dealer's Hand {self.dealer.hand_list}")
                         #print(f"Turn list {self.turn_list}")
                         self.filter_List()
-                        #pass out cards and start the blackjack game
+                        #pass out cards and set ring bets to hand bets
+                        for i , hand in enumerate(self.turn_list[:1]):
+                            if hand.order in self.ring_row.ring_map.keys():
+                                #sets the hand bet amount = ring bet amount
+                                hand.bet_amount = self.ring_row.ring_map[hand.order].bet_amount
+                                self.ring_row.ring_map[hand.order].bet_amount = 0 #sets the ring bet amount = 0 to reset the ring
+
+
+
                         self.pass_cards()
                         #set first hand's turn and start game
                         self.turn_list[0].isTurn = True
@@ -149,11 +157,18 @@ class Gameboard(State):
             #print("dealer busted")
             #print(self.dealer.hand_list)
             pass
-
+    
+    def win(self,hand):
+        #increase hand bet amount with its current amount
+        hand.bet_amount += hand.bet_amount
 
     def compare_hands(self, dealer_hand, player_hand):
-        #if dealer has Ace, 
-        pass
+        #dealer has smaller hand than player's current hand, player wins
+        if dealer_hand.hand_sum < player_hand.hand_sum:
+            #TODO add winning notification
+            #add matching bet to ring slot
+            self.win(player_hand)
+        
 
     #function pass cards will give out 2 cards to each active hand
     def pass_cards(self):

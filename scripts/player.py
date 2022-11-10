@@ -18,12 +18,12 @@ class Player():
             'double':False
             }
     #function add_Hand takes a specified order and adds it to player hand list
-    def add_Hand(self, order, x , y, isDealer=None):#Player can add a new hand when SPLITING
+    def add_Hand(self, order,bet_amount, x , y, isDealer=None):#Player can add a new hand when SPLITING
         #edge case when it is the dealers hand
         if isDealer:
-            hand = Hand(self.game, self.gameboard, order, x, y, isDealer)
+            hand = Hand(self.game, self.gameboard, order, x, y, bet_amount, isDealer)
         else:
-            hand = Hand(self.game,self.gameboard, order, x, y) #create hand with a specific order
+            hand = Hand(self.game,self.gameboard, order, x, y,bet_amount) #create hand with a specific order
         
         new_index = self.hand_list.index(hand.order)
         self.hand_list.insert(new_index, hand) #add into list at the given index
@@ -50,7 +50,7 @@ class Dealer(Player,pygame.sprite.Sprite):
     def __init__(self, game, gameboard):
         super().__init__(game, gameboard, fund = DEALER_STARTING_FUND)
         self.hand_list = [6]
-        self.add_Hand(6, 750, 225, isDealer = True)
+        self.add_Hand(order= 6,x= 750,y= 225, bet_amount=0,isDealer = True)
         self.dealer_image_path = os.path.abspath('images/dealer.png')
         self.dealer_image_surface = pygame.image.load(self.dealer_image_path).convert_alpha()
         self.dealer_image_surface = pygame.transform.rotozoom(self.dealer_image_surface,0,.2)

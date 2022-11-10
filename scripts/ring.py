@@ -2,10 +2,10 @@ import pygame
 from scripts.button import Button
 
 class Ring():
-    def __init__(self,game,gameboard, x,y,order):
+    def __init__(self,game, gameboard, x,y,order):
         self.game = game
         self.gameboard = gameboard
-        self.OFFSET = 175 #the distance from center of ring to the card placement
+        self.OFFSET = 190 #the distance from center of ring to the card placement
         self.x, self.y = x, y
         self.order = order #ring's given order from right to left
         self.hand_ring_image = pygame.image.load("images/hand_ring.png").convert_alpha() 
@@ -22,7 +22,7 @@ class Ring():
         if self.button.draw(self.game.display):
             #add hand if the ring is empty
             if self.button.isActive == False and self.gameboard.player.current_bet > 0 and self.gameboard.confirm_button.isActive == False:
-                self.gameboard.player.add_Hand(self.order,self.x,self.y - self.OFFSET) #add hand at position 1
+                self.gameboard.player.add_Hand(self.order,self.bet_amount,self.x,self.y - self.OFFSET) #add hand at position 1
                 self.button.isActive = True #makes the button active once
                 self.chip = self.gameboard.cursor.chip
                 self.rect = self.chip.get_rect() #used to center the chip in ring
