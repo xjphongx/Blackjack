@@ -157,17 +157,27 @@ class Gameboard(State):
             #print(self.dealer.hand_list)
             pass
     
-    def win(self,hand):
-        #increase hand bet amount with its current amount
-        hand.bet_amount += hand.bet_amount
-
-    def compare_hands(self, dealer_hand, player_hand):
-        #dealer has smaller hand than player's current hand, player wins
-        if dealer_hand.hand_sum < player_hand.hand_sum:
-            #TODO add winning notification
-            #add matching bet to ring slot
-            self.win(player_hand)
-        
+    
+    #function compare_hand will compare the dealer's hand to all the player's hand and resolve winning condition
+    def compare_hand(self, dealer_hand: Hand):
+        for i, player_hand in enumerate(self.turn_list[:-1]):
+            #only compare hands when the player hand is NOT busted
+            if player_hand.bust == False:
+                #dealer has smaller hand than player's current hand, player wins
+                if dealer_hand.hand_sum < player_hand.hand_sum:
+                    player_hand.bet_amount += player_hand.bet_amount
+                    player_hand.bust = True #prevent constant looping 
+                #dealer has bigger hand than player's current hand, dealer wins
+                else: 
+                    player_hand.bet_amount = 0
+                    player_hand.bust = True #prevent constant looping
+                     
+    #function player_win gives the all NON-busted hand the winning bets 
+    def player_win(self):
+        for i, hand in enumerate(self.turn_list[:-1]):
+            if hand.bust == False:
+                hand.bet_amount += hand.bet_amount
+                hand.bust = True
 
     #function pass cards will give out 2 cards to each active hand
     def pass_cards(self):
@@ -272,19 +282,21 @@ class Gameboard(State):
                     #dealer has blackjack
                     elif hand.hand_sum == 21:
                         self.game.draw_text(f"{hand.hand_sum}",30,hand.x, hand.y+90)
-                        #TODO compare hand function
+                        self.compare_hand(hand)
+                       
                         
                     #dealer has hand between 17 and 21 WITHOUT ace card 
                     elif hand.hand_sum >= 17 and hand.hand_sum < 21:
                         self.game.draw_text(f"{hand.hand_sum}",30,hand.x, hand.y+90)
-                        #compare dealer's hand with all current active hands 
-                        for i, player_hand in enumerate(self.turn_list[:-1]):
-                            #only compare hands when the player hand is NOT busted
-                            if player_hand.bust == False:
-                                self.compare_hands(hand, player_hand)
-                                player_hand.bust = True #prevent constant looping 
-                    #dealer BUSTs
+                        #compare dealer's hand with all current active hands
+                        self.compare_hand(hand) 
+                        
+                    #dealer BUSTs, so give all non busted hands 2x their current hand
                     else:
                         self.game.draw_text("Busted",60, hand.x, hand.y+110)
                         self.bust(hand)
                         self.game.draw_text(f"{hand.hand_sum}",30,hand.x, hand.y+90)
+                        self.player_win()
+                        
+                        
+                        
