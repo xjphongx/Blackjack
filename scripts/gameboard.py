@@ -32,11 +32,9 @@ class Gameboard(State):
         self.bet_menu = Bet_Menu(self.game, self) 
         self.cursor = Cursor(self.game) 
         self.player = Player(self.game, self)
-        self.turn_list = []
-
-        #self.current_time = 0
-        #self.static_time = 0
-        
+        self.turn_list = [] #empty turn list
+    
+    #This function adds functionality to the gameboard state
     def render(self,display):
         display.fill(self.game.background_color)
         #set up dealer
@@ -52,45 +50,11 @@ class Gameboard(State):
         self.bet_menu.display()
         #hand ring functionality
         self.ring_row.display()
-
-        if self.playing:
-            #Start the game
-            self.start_game()
-        else:
-            self.game.draw_text("How many hands are you playing?", 50, self.game.display_width/2,self.game.display_height/5)
-
-        #checks if player is deciding, if clicked, pass out cards
-        if self.confirm_button.isActive == False: 
-                #if the ring row is not empty and ring row has valid bets, do this
-                if not self.ring_row.isEmpty and self.ring_row.isValidBet: 
-                    if self.confirm_button.draw(self.game.display): #figure out how to clear this button
-                        #combine the player and dealer hands, player goes first
-                        self.turn_list.extend(self.dealer.hand_list)
-                        self.turn_list.extend(self.player.hand_list)
-                        self.turn_list.reverse() #makes sure the player is dealt cards first
-                        self.confirm_button.isActive = True #removes the confirm button from screen
-                        #self.game.display.blit(self.hand_1_button.image,(self.confirm_button.rect.x,self.confirm_button.rect.y))
-                        #print(f"Player's Hand {self.player.hand_list}")
-                        #print(f"Dealer's Hand {self.dealer.hand_list}")
-                        #print(f"Turn list {self.turn_list}")
-                        self.filter_List()
-                        #pass out cards and set ring bets to hand bets
-                        for i , hand in enumerate(self.turn_list[:-1]):
-                            #sets the hand bet amount = ring bet amount
-                            hand.bet_amount = self.ring_row.ring_map[hand.order].bet_amount
-                            self.ring_row.ring_map[hand.order].bet_amount = 0 #sets the ring bet amount = 0 to reset the ring
-
-
-
-                        self.pass_cards()
-                        #set first hand's turn and start game
-                        self.turn_list[0].isTurn = True
-                        self.playing = True
-                else:
-                     #if player clicks the confirm button and the row is empty and not valid, do nothing
-                     self.confirm_button.draw(self.game.display) #continue to display
-
-
+        #start game
+        self.check_playing()
+        self.display_confirm_button()
+        #self.display_playagain_button()
+        
         #render the clickable button
         if self.back_button.draw(self.game.display):
             self.ring_row.clear() #clears the row 
@@ -102,6 +66,46 @@ class Gameboard(State):
             self.exit_state()
         self.game.reset_actions()
 
+#Gameboard helper function below
+
+    #This function checks if the game is playing
+    def check_playing(self):
+        if self.playing:
+            #Start the game
+            self.start_game()
+        else:
+            self.game.draw_text("How many hands are you playing?", 
+                        50, 
+                        self.game.display_width/2,
+                        self.game.display_height/5)
+
+    #This function displays and adds functionality to the confirm button
+    def display_confirm_button(self):
+        #checks if player is deciding, if clicked, pass out cards
+        if self.confirm_button.isActive == False: 
+                #if the ring row is not empty and ring row has valid bets, do this
+                if not self.ring_row.isEmpty and self.ring_row.isValidBet: 
+                    if self.confirm_button.draw(self.game.display): #figure out how to clear this button
+                        #combine the player and dealer hands, player goes first
+                        self.turn_list.extend(self.dealer.hand_list)
+                        self.turn_list.extend(self.player.hand_list)
+                        self.turn_list.reverse() #makes sure the player is dealt cards first
+                        self.confirm_button.isActive = True #removes the confirm button from screen
+                        self.filter_List()
+                        #set ring bets to hand bets
+                        for i , hand in enumerate(self.turn_list[:-1]):
+                            #sets the hand bet amount = ring bet amount
+                            hand.bet_amount = self.ring_row.ring_map[hand.order].bet_amount
+                            self.ring_row.ring_map[hand.order].bet_amount = 0 #sets the ring bet amount = 0 to reset the ring
+                        #pass out cards
+                        self.pass_cards()
+                        #set first hand's turn and start game
+                        self.turn_list[0].isTurn = True
+                        self.playing = True
+                else:
+                     #if player clicks the confirm button and the row is empty and not valid, do nothing
+                     self.confirm_button.draw(self.game.display) #continue to display
+    
     #function filter list uses a simple algorithm to search and replace the list
     def filter_List(self):
         temp_list = []   #temperary list to contain hand objects     
@@ -169,9 +173,10 @@ class Gameboard(State):
                     player_hand.bust = True #prevent constant looping 
                 #dealer has bigger hand than player's current hand, dealer wins
                 else: 
-                    player_hand.bet_amount = 0
-                    player_hand.bust = True #prevent constant looping
-                     
+                    
+                    #player_hand.bet_amount = 0
+                    self.bust(player_hand)
+
     #function player_win gives the all NON-busted hand the winning bets 
     def player_win(self):
         for i, hand in enumerate(self.turn_list[:-1]):
