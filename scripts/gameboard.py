@@ -27,7 +27,9 @@ class Gameboard(State):
         #temporary button
         confirm_button_image = pygame.image.load("images/buttons/confirm_button.png").convert_alpha()
         self.confirm_button = Button(self.game.display_width/2, self.game.display_height/2, confirm_button_image,scale=.1)
-        
+        play_again_image = pygame.image.load("images/buttons/play_again_button.png").convert_alpha()
+        self.play_again_button = Button(1000,100 , play_again_image, scale=.1)
+
         self.ring_row = Ring_Row(self.game, self)
         self.bet_menu = Bet_Menu(self.game, self) 
         self.cursor = Cursor(self.game) 
@@ -53,7 +55,7 @@ class Gameboard(State):
         #start game
         self.check_playing()
         self.display_confirm_button()
-        #self.display_playagain_button()
+        self.display_play_again_button()
         
         #render the clickable button
         if self.back_button.draw(self.game.display):
@@ -106,6 +108,10 @@ class Gameboard(State):
                      #if player clicks the confirm button and the row is empty and not valid, do nothing
                      self.confirm_button.draw(self.game.display) #continue to display
     
+    def display_play_again_button(self):
+        if self.play_again_button.draw(self.game.display):
+            print("hi")
+
     #function filter list uses a simple algorithm to search and replace the list
     def filter_List(self):
         temp_list = []   #temperary list to contain hand objects     
@@ -155,11 +161,7 @@ class Gameboard(State):
              #this is the ring object based on key(hand's order)
             hand.bet_amount = 0 
             self.ring_row.ring_map[hand.order].hasChip = False #TODO add notification that bet was lost
-        #if dealer bust, give winnings to all winning hand
-        if hand.isDealer:
-            #print("dealer busted")
-            #print(self.dealer.hand_list)
-            pass
+        
     
     
     #function compare_hand will compare the dealer's hand to all the player's hand and resolve winning condition
@@ -181,6 +183,7 @@ class Gameboard(State):
     def player_win(self):
         for i, hand in enumerate(self.turn_list[:-1]):
             if hand.bust == False:
+                #TODO add winning notification
                 hand.bet_amount += hand.bet_amount
                 hand.bust = True
 
@@ -198,9 +201,7 @@ class Gameboard(State):
                 #add the top card into the hand in turn list
                 self.hit(hand)
  
-                #TODO make the cards passing slower
-                
-   
+                #TODO make the cards passing slower            
         self.printTest()   
 
     def printTest(self):
@@ -243,11 +244,14 @@ class Gameboard(State):
                             self.game.draw_text(f"{hand.hand_sum}",30,hand.x, hand.y+90)   
                         else:
                             self.game.draw_text(f"{hand.hand_sum} or {hand.hand_upper_sum}",30,hand.x, hand.y+90)   
+                    #has ace and equals to 21
                     elif hand.hasAce and hand.hand_upper_sum == 21:
                         hand.hand_sum = 21
                         self.game.draw_text(f"{hand.hand_sum}",30,hand.x, hand.y+90) 
+                    #has ace and is above 21, display the lower sum
                     elif hand.hasAce and hand.hand_upper_sum >21:
                         self.game.draw_text(f"{hand.hand_sum}",30,hand.x, hand.y+90)
+                    #display hand sum no matter what
                     else:
                         self.game.draw_text(f"{hand.hand_sum}",30,hand.x, hand.y+90)
                     #check if hand is busted
@@ -258,11 +262,9 @@ class Gameboard(State):
                     if hand.stand == True:
                         hand.isTurn = False
                         self.turn_list[i+1].isTurn = True
-
                     #display action menu if its the current hand's turn
                     if hand.isTurn: #this has to be placed at the end to prevent a display bug
                         hand.action_menu.display() #this is where player clicks action buttons
-                    
                     
                 #DEALER LOGIC, continue to hit until 17 -21 or bust
                 if hand.isDealer and hand.isTurn:
@@ -287,21 +289,17 @@ class Gameboard(State):
                     #dealer has blackjack
                     elif hand.hand_sum == 21:
                         self.game.draw_text(f"{hand.hand_sum}",30,hand.x, hand.y+90)
-                        self.compare_hand(hand)
-                       
-                        
+                        self.compare_hand(hand)          
                     #dealer has hand between 17 and 21 WITHOUT ace card 
                     elif hand.hand_sum >= 17 and hand.hand_sum < 21:
                         self.game.draw_text(f"{hand.hand_sum}",30,hand.x, hand.y+90)
-                        #compare dealer's hand with all current active hands
                         self.compare_hand(hand) 
-                        
                     #dealer BUSTs, so give all non busted hands 2x their current hand
                     else:
                         self.game.draw_text("Busted",60, hand.x, hand.y+110)
                         self.bust(hand)
                         self.game.draw_text(f"{hand.hand_sum}",30,hand.x, hand.y+90)
-                        self.player_win()
+                        self.player_win() #pass out winnings 
                         
                         
                         
