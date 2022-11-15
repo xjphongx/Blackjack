@@ -171,7 +171,7 @@ class Gameboard(State):
             if player_hand.bust == False:
                 #dealer has smaller hand than player's current hand, player wins
                 if dealer_hand.hand_sum < player_hand.hand_sum:
-                    player_hand.bet_amount += player_hand.bet_amount
+                    player_hand.win_amount = player_hand.bet_amount
                     player_hand.bust = True #prevent constant looping 
                 #dealer has bigger hand than player's current hand, dealer wins
                 else: 
@@ -184,7 +184,7 @@ class Gameboard(State):
         for i, hand in enumerate(self.turn_list[:-1]):
             if hand.bust == False:
                 #TODO add winning notification
-                hand.bet_amount += hand.bet_amount
+                hand.win_amount = hand.bet_amount
                 hand.bust = True
 
     #function pass cards will give out 2 cards to each active hand
