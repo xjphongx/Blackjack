@@ -228,13 +228,18 @@ class Gameboard(State):
                 print(f"Upper Hand Sum: {hand.hand_upper_sum}")
             else:
                 print(f"Hand Sum: {hand.hand_sum}")
-                
+
     #This function checks if any of the player's hands busted
     def check_player_hand_list(self)-> bool:
+        bust_count = 0
         for i , hand in enumerate(self.turn_list[:-1]):
             if hand.bust:
-                return True
+                bust_count+=1
+        
+        if bust_count == len(self.turn_list[:-1]):
+            return True
         return False
+
 
     def start_game(self):       
         #Check case where dealer has a blackjack to immediately end the game and collect bets
