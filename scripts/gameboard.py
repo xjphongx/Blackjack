@@ -109,8 +109,16 @@ class Gameboard(State):
                      self.confirm_button.draw(self.game.display) #continue to display
     
     def display_play_again_button(self):
+        #display button
         if self.play_again_button.draw(self.game.display):
             print("hi")
+            #TODO move all the cards on the board to the discard pile
+
+            #TODO Collect winnings and add to player funds
+
+            #TODO Clear rings 
+            
+            #TODO Reset all buttons: confirm and play again button
 
     #function filter list uses a simple algorithm to search and replace the list
     def filter_List(self):
@@ -169,14 +177,16 @@ class Gameboard(State):
         for i, player_hand in enumerate(self.turn_list[:-1]):
             #only compare hands when the player hand is NOT busted
             if player_hand.bust == False:
-                #dealer has smaller hand than player's current hand, player wins
+                #Dealer has smaller hand than player's current hand, player wins
                 if dealer_hand.hand_sum < player_hand.hand_sum:
                     player_hand.win_amount = player_hand.bet_amount
                     player_hand.bust = True #prevent constant looping 
-                #dealer has bigger hand than player's current hand, dealer wins
+                #Dealer and Player both push
+                elif dealer_hand.hand_sum == player_hand.hand_sum:
+                    #do nothing to the bet and move to the next hand
+                    player_hand.bust = True #prevent constant looping 
+                #Dealer has bigger hand than player's current hand, dealer wins            
                 else: 
-                    
-                    #player_hand.bet_amount = 0
                     self.bust(player_hand)
 
     #function player_win gives the all NON-busted hand the winning bets 
@@ -266,7 +276,8 @@ class Gameboard(State):
                     if hand.isTurn: #this has to be placed at the end to prevent a display bug
                         hand.action_menu.display() #this is where player clicks action buttons
                     
-                #DEALER LOGIC, continue to hit until 17 -21 or bust
+                #DEALER LOGIC and Winning condition logic,
+                #continue to hit until 17 -21 or bust
                 if hand.isDealer and hand.isTurn:
                     #reveal the face down card and sum
                     hand.card_list[-1].isFaceDown = False
