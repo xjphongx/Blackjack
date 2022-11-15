@@ -59,10 +59,12 @@ class Ring():
 
     #function update blits the chip onto and within the ring
     def update(self):
-        #print(self.chip)
+        #the ring will display the chi
         if self.hasChip == True:
-            self.game.draw_text(str(self.bet_amount),40, self.rect.x+115, self.rect.y+80)
             self.game.display.blit(self.chip, (self.rect.x, self.rect.y))
+            #this is fix the UI problem where the ring bet amount shows after being confirmed
+            if not self.gameboard.confirm_button.isActive:
+                self.game.draw_text(str(self.bet_amount),40, self.rect.x+115, self.rect.y+80)
         
         
     def check_bet(self) -> bool:

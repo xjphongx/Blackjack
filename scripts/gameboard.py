@@ -1,5 +1,5 @@
 
-import pygame, math
+import pygame
 from scripts.bet_menu import Bet_Menu
 from scripts.cursor import Cursor
 from scripts.hand import Hand
