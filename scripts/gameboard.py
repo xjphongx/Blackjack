@@ -228,7 +228,8 @@ class Gameboard(State):
                 print(f"Upper Hand Sum: {hand.hand_upper_sum}")
             else:
                 print(f"Hand Sum: {hand.hand_sum}")
-
+                
+    #This function checks if any of the player's hands busted
     def check_player_hand_list(self)-> bool:
         for i , hand in enumerate(self.turn_list[:-1]):
             if hand.bust:
@@ -287,13 +288,14 @@ class Gameboard(State):
                 if hand.isDealer and hand.isTurn:
                     #reveal the face down card and sum
                     hand.card_list[-1].isFaceDown = False
-                    #Case where all hands bust, dealer wins and does not hit hand
-                    if self.check_player_hand_list(): #True if atlease 1 hand bust 
-                        self.game.draw_text(f"{hand.hand_sum}",30,hand.x, hand.y+90)
-                    #dealer has a an ACE and resulted in a blackjack
-                    elif hand.hasAce and hand.hand_upper_sum == 21:
+                    
+                    #Case where dealer has a an ACE and resulted in a blackjack
+                    if hand.hasAce and hand.hand_upper_sum == 21:
                         hand.hand_sum = 21
-                        self.game.draw_text(f"{hand.hand_sum}",30,hand.x, hand.y+90)    
+                        self.game.draw_text(f"{hand.hand_sum}",30,hand.x, hand.y+90)  
+                    #Case where all hands bust, dealer wins and does not hit hand
+                    elif self.check_player_hand_list(): #True if atlease 1 hand bust 
+                        self.game.draw_text(f"{hand.hand_sum}",30,hand.x, hand.y+90)  
                     #dealer has an ace card hits until 17 or more
                     elif hand.hasAce and hand.hand_upper_sum < 17:
                         self.hit(hand)
