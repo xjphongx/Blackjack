@@ -160,16 +160,18 @@ class Gameboard(State):
         
     #function bust will dispute the bets after the round is done
     def bust(self, hand):
-        hand.bust = True
-        hand.isTurn = False
+        
         #player bust and went over 21, 
         #dealer takes the bets but leaves the cards there for reference
         #if player bust. take the bet at the ring
         if hand.order in self.ring_row.ring_map.keys():
-             #this is the ring object based on key(hand's order)
+            #this is the ring object based on key(hand's order)
+            hand.lost_amount += hand.bet_amount
             hand.bet_amount = 0 
             self.ring_row.ring_map[hand.order].hasChip = False #TODO add notification that bet was lost
         
+        hand.bust = True
+        hand.isTurn = False
     
     
     #function compare_hand will compare the dealer's hand to all the player's hand and resolve winning condition
@@ -297,35 +299,34 @@ class Gameboard(State):
                     #Case where dealer has a an ACE and resulted in a blackjack
                     if hand.hasAce and hand.hand_upper_sum == 21:
                         hand.hand_sum = 21
-                        self.game.draw_text(f"{hand.hand_sum}",30,hand.x, hand.y+90)  
+                        self.game.draw_text(f"{hand.hand_sum}",30,hand.x, hand.y-100)  
                     #Case where all hands bust, dealer wins and does not hit hand
                     elif self.check_player_hand_list(): #True if atlease 1 hand bust 
-                        self.game.draw_text(f"{hand.hand_sum}",30,hand.x, hand.y+90)  
+                        self.game.draw_text(f"{hand.hand_sum}",30,hand.x, hand.y-100)  
                     #dealer has an ace card hits until 17 or more
                     elif hand.hasAce and hand.hand_upper_sum < 17:
                         self.hit(hand)
-                        self.game.draw_text(f"{hand.hand_sum} or {hand.hand_upper_sum}",30,hand.x, hand.y+90)     
+                        self.game.draw_text(f"{hand.hand_sum} or {hand.hand_upper_sum}",30,hand.x, hand.y-100)     
                     #dealer has an ace and hits until the range 17 - 21
                     elif hand.hasAce and (hand.hand_upper_sum >=17 and hand.hand_upper_sum <21):
                         hand.hand_sum = hand.hand_upper_sum
-                        self.game.draw_text(f"{hand.hand_sum}",30,hand.x, hand.y+90)     
+                        self.game.draw_text(f"{hand.hand_sum}",30,hand.x, hand.y-100)     
                     #dealer has less than 17 and hits hand
                     elif hand.hand_sum < 17:
                         self.hit(hand)
-                        self.game.draw_text(f"{hand.hand_sum}",30,hand.x, hand.y+90)
+                        self.game.draw_text(f"{hand.hand_sum}",30,hand.x, hand.y-100)
                     #dealer has blackjack
                     elif hand.hand_sum == 21:
-                        self.game.draw_text(f"{hand.hand_sum}",30,hand.x, hand.y+90)
+                        self.game.draw_text(f"{hand.hand_sum}",30,hand.x, hand.y-100)
                         self.compare_hand(hand)          
                     #dealer has hand between 17 and 21 WITHOUT ace card 
                     elif hand.hand_sum >= 17 and hand.hand_sum < 21:
-                        self.game.draw_text(f"{hand.hand_sum}",30,hand.x, hand.y+90)
+                        self.game.draw_text(f"{hand.hand_sum}",30,hand.x, hand.y-100)
                         self.compare_hand(hand) 
                     #dealer BUSTs, so give all non busted hands 2x their current hand
                     else:
-                        self.game.draw_text("Busted",60, hand.x, hand.y+110)
                         self.bust(hand)
-                        self.game.draw_text(f"{hand.hand_sum}",30,hand.x, hand.y+90)
+                        self.game.draw_text(f"{hand.hand_sum}",30,hand.x, hand.y-100)
                         self.player_win() #pass out winnings 
                         
                         

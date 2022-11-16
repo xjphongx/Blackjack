@@ -13,6 +13,7 @@ class Hand():
         self.min_bet = 50
         self.bet_amount = bet_amount
         self.win_amount = 0
+        self.lost_amount = 0
         self.hasAce = False
         self.hand_sum = 0
         self.hand_upper_sum = 0 #calculated for ace edge case
@@ -26,7 +27,7 @@ class Hand():
         if not self.isDealer:
             #display the bet amount for THAT hand
             self.game.draw_text(f"Bet: {self.bet_amount}", 30, self.x, self.y + 120)
-            self.display_winning()
+            self.display_result()
            
         for i, card in enumerate(self.card_list):
             #if card is faced down
@@ -35,9 +36,11 @@ class Hand():
             else:
                 display.blit(card.image_surface, card.rect)
         
-    def display_winning(self):
-         if self.win_amount > 0:
-                self.game.draw_text(f" + {self.win_amount}",20,self.x + 40, self.y + 100)
+    def display_result(self):
+        if self.win_amount > 0:
+            self.game.draw_text(f" + {self.win_amount}",20,self.x + 40, self.y + 100)
+        if self.lost_amount > 0:
+            self.game.draw_text(f" - {self.lost_amount}",20,self.x + 40, self.y + 100)
 
     #print out on terminal the contains of the card_list
     def show(self):
