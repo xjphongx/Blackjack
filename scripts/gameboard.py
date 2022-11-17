@@ -111,9 +111,20 @@ class Gameboard(State):
     def display_play_again_button(self):
         #display button
         if self.play_again_button.draw(self.game.display):
-            print("hi")
+            
             #TODO move all the cards on the board to the discard pile
-
+            self.playing = False
+            for i, hand in enumerate(self.turn_list):
+                for j , card in enumerate(hand.card_list):
+                    self.discard_pile.push(card)
+                hand.delete_hand()  
+            print("display button")
+            self.printTest()    
+            self.turn_list.clear()
+            print("after clearing")
+            self.printTest()
+            print("turn list after clearing")
+            print(self.turn_list) 
             #TODO Collect winnings and add to player funds
 
             #TODO Clear rings 
@@ -160,7 +171,8 @@ class Gameboard(State):
         
     #function bust will dispute the bets after the round is done
     def bust(self, hand):
-        
+        hand.bust = True
+        hand.isTurn = False
         #player bust and went over 21, 
         #dealer takes the bets but leaves the cards there for reference
         #if player bust. take the bet at the ring
@@ -170,8 +182,7 @@ class Gameboard(State):
             hand.bet_amount = 0 
             self.ring_row.ring_map[hand.order].hasChip = False #TODO add notification that bet was lost
         
-        hand.bust = True
-        hand.isTurn = False
+        
     
     
     #function compare_hand will compare the dealer's hand to all the player's hand and resolve winning condition
