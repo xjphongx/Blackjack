@@ -36,6 +36,19 @@ class Hand():
             else:
                 display.blit(card.image_surface, card.rect)
         
+    def reset_hand(self):
+        self.card_list = []
+        self.win_amount = 0
+        self.lost_amount = 0
+        self.hand_sum = 0
+        self.hand_upper_sum = 0
+        self.hand_size = 0
+        self.hasAce = False
+        self.isTurn = False
+        self.bust = False
+        self.stand = False
+    
+    
     def display_result(self):
         if self.win_amount > 0:
             self.game.draw_text(f" + {self.win_amount}",20,self.x + 40, self.y + 100)

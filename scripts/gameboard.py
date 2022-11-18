@@ -35,6 +35,7 @@ class Gameboard(State):
         self.cursor = Cursor(self.game) 
         self.player = Player(self.game, self)
         self.turn_list = [] #empty turn list
+        self.gameplay_counter = 0
     
     #This function adds functionality to the gameboard state
     def render(self,display):
@@ -74,6 +75,7 @@ class Gameboard(State):
     def check_playing(self):
         if self.playing:
             #Start the game
+            
             self.start_game()
         else:
             self.game.draw_text("How many hands are you playing?", 
@@ -88,6 +90,7 @@ class Gameboard(State):
                 #if the ring row is not empty and ring row has valid bets, do this
                 if not self.ring_row.isEmpty and self.ring_row.isValidBet: 
                     if self.confirm_button.draw(self.game.display): #figure out how to clear this button
+                        self.gameplay_counter += 1
                         #combine the player and dealer hands, player goes first
                         self.turn_list.extend(self.dealer.hand_list)
                         self.turn_list.extend(self.player.hand_list)
@@ -110,26 +113,31 @@ class Gameboard(State):
     
     def display_play_again_button(self):
         #display button
-        if self.play_again_button.draw(self.game.display):
+        if self.play_again_button.draw(self.game.display) == True:
             
             #TODO move all the cards on the board to the discard pile
             self.playing = False
             for i, hand in enumerate(self.turn_list):
                 for j , card in enumerate(hand.card_list):
                     self.discard_pile.push(card)
-                hand.delete_hand()  
-            print("display button")
-            self.printTest()    
+                #reset all hands objects in memory 
+                hand.reset_hand()
+
+            #display whats inside the discard_pile
+            print("content of the discard pile")
+            self.discard_pile.show()
+
+            self.turn_list[-1].card_list.clear()
+                      
             self.turn_list.clear()
-            print("after clearing")
-            self.printTest()
-            print("turn list after clearing")
-            print(self.turn_list) 
+            
             #TODO Collect winnings and add to player funds
 
-            #TODO Clear rings 
-            
+            #TODO Clear rings    
+            self.ring_row.clear()
+
             #TODO Reset all buttons: confirm and play again button
+            self.confirm_button.isActive = False
 
     #function filter list uses a simple algorithm to search and replace the list
     def filter_List(self):
@@ -212,15 +220,18 @@ class Gameboard(State):
 
     #function pass cards will give out 2 cards to each active hand
     def pass_cards(self):
-        print(self.turn_list)
+        print(f"Turn list before passing out cards: {self.turn_list}")
         #intial passing of cards to each hand and dealer, only passes out 2 cards
         #this algorithm passes out cards in circle order from hand 1 - 5 and dealer's hand
+        print(f"Gameplay {self.gameplay_counter}")
         for rotation in range(2):
             for i, hand in enumerate(self.turn_list):
                 #edge case where dealer's last card will be faced down
                 if rotation == 1 and hand.isDealer:
-                    top_card = self.deck_pile.top()
-                    top_card.isFaceDown = True
+                    #top_card = self.deck_pile.top()
+                    #top_card.isFaceDown = True
+                    self.deck_pile.top().isFaceDown = True
+
                 #add the top card into the hand in turn list
                 self.hit(hand)
  
