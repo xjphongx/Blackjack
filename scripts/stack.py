@@ -2,6 +2,7 @@ import random,math,pygame,os,json
 from scripts.card import Card
 
 
+
 #Stack Data Structure Class
 #@Parameters: (None)
 #Class variables contain a stack as a list and stack size as an Int    
@@ -31,9 +32,6 @@ class Stack():
         #i might not need this if i update after every pop
     #add a get top 10 
     
-    
-
-
 class DeckPile(Stack,pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
@@ -45,19 +43,21 @@ class DeckPile(Stack,pygame.sprite.Sprite):
     #load json png cards into the deck
     def load_cards_to_deck(self):
         CARD_PATH_TO_JSON = 'scripts/cards.json'
-        with open(CARD_PATH_TO_JSON) as jsonfile: #opens the cards json file
+        with open(CARD_PATH_TO_JSON, 'r') as jsonfile: #opens the cards json file
             cards = json.load(jsonfile)
-        for data_item in cards['card_decks']:
-            #create a new card for every iteration
-            card_object = Card(
-                data_item['type'],
-                data_item['pip_value'],
-                data_item['suit'],
-                data_item['card_image'],
-                cards['card_back_image']
-            )#end of card_object
-            self.stack.append(card_object)#push the card object into gameboard's deck_pile
-            self.size += 1 #update size after adding card
+        #creates 6 decks of cards in one pile
+        for i in range(6): #TODO is there anyway to make loading faster?
+            for data_item in cards['card_decks']:
+                #create a new card for every iteration
+                card_object = Card(
+                    data_item['type'],
+                    data_item['pip_value'],
+                    data_item['suit'],
+                    data_item['card_image'],
+                    cards['card_back_image']
+                )#end of card_object
+                self.stack.append(card_object)#push the card object into gameboard's deck_pile
+                self.size += 1 #update size after adding card
 
         jsonfile.close() #close the json file
     

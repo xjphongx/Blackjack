@@ -53,7 +53,7 @@
         {"type":"Ace","pip_value":null,"suit":"Spades","card_image": "images/PNG_cards/ace_of_spades.png"},
         {"type":"Ace","pip_value":null,"suit":"Clubs","card_image": "images/PNG_cards/ace_of_clubs.png"},
         {"type":"Ace","pip_value":null,"suit":"Diamonds","card_image": "images/PNG_cards/ace_of_diamonds.png"},
-        {"type":"Ace","pip_value":null,"suit":"Hearts","card_image": "images/PNG_cards/ace_of_hearts.png"
-        }
+        {"type":"Ace","pip_value":null,"suit":"Hearts","card_image": "images/PNG_cards/ace_of_hearts.png"}
+        
     ]
 }
