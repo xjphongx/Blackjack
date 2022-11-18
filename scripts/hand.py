@@ -7,7 +7,7 @@ class Hand():
         self.gameboard = gameboard #reference to the gameboard
         self.order = order #the hand's order
         self.x, self.y = x, y
-        self.placement = Placement(x,y)
+        self.placement = Placement(self.x,self.y)
         self.isDealer = isDealer
         self.card_list = []
         self.min_bet = 50
@@ -47,6 +47,8 @@ class Hand():
         self.isTurn = False
         self.bust = False
         self.stand = False
+        self.placement.x = self.x
+        self.placement.y = self.y
     
     
     def display_result(self):
