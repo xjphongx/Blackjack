@@ -332,7 +332,8 @@ class Gameboard(State):
                     #dealer has an ace and hits until the range 17 - 21
                     elif hand.hasAce and (hand.hand_upper_sum >=17 and hand.hand_upper_sum <21):
                         hand.hand_sum = hand.hand_upper_sum
-                        self.game.draw_text(f"{hand.hand_sum}",30,hand.x, hand.y-100)     
+                        self.game.draw_text(f"{hand.hand_sum}",30,hand.x, hand.y-100)  
+                        self.compare_hand(hand)    
                     #dealer has less than 17 and hits hand
                     elif hand.hand_sum < 17:
                         self.hit(hand)
