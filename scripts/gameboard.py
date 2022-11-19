@@ -115,9 +115,14 @@ class Gameboard(State):
         #display button
         if self.play_again_button.draw(self.game.display) == True:
             
+            #TODO Collect winnings and add to player funds
             #TODO move all the cards on the board to the discard pile
             self.playing = False
             for i, hand in enumerate(self.turn_list):
+                
+                self.player.add_funds((hand.win_amount*2))
+                
+                
                 for j , card in enumerate(hand.card_list):
                     self.discard_pile.push(card)
                 #reset all hands objects in memory 
@@ -126,17 +131,16 @@ class Gameboard(State):
             #display whats inside the discard_pile
             print("content of the discard pile")
             self.discard_pile.show()
-
-            self.turn_list[-1].card_list.clear()
                       
             self.turn_list.clear()
             
-            #TODO Collect winnings and add to player funds
+            
 
             #TODO Clear rings    
             self.ring_row.clear()
 
-            #TODO Reset all buttons: confirm and play again button
+            #TODO Reset all buttons:  play again button
+            #TODO play again button will only appear when round is done
             self.confirm_button.isActive = False
 
     #function filter list uses a simple algorithm to search and replace the list
@@ -231,11 +235,10 @@ class Gameboard(State):
                     #top_card = self.deck_pile.top()
                     #top_card.isFaceDown = True
                     self.deck_pile.top().isFaceDown = True
-
                 #add the top card into the hand in turn list
                 self.hit(hand)
- 
-                #TODO make the cards passing slower            
+                #TODO make the cards passing slower  
+                          
         self.printTest()   
 
     def printTest(self):
@@ -266,6 +269,10 @@ class Gameboard(State):
 
 
     def start_game(self):       
+        #TODO case where 20% of the remain cards are left in the deck pile,
+        #reshuffle the discard pile into the deck pile and start game
+        
+        
         #Check case where dealer has a blackjack to immediately end the game and collect bets
         if self.turn_list[-1].hasAce and (self.turn_list[-1].hand_upper_sum == 21):
             print("has Blackjack and everyone bust")
