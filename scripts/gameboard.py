@@ -125,6 +125,7 @@ class Gameboard(State):
                 #reset all hands objects in memory 
                 hand.reset_hand()
             #reset all the objects so the next round can start
+            self.player.win_amount = 0
             self.turn_list.clear()     
             self.ring_row.clear()
 
@@ -193,11 +194,13 @@ class Gameboard(State):
             if player_hand.bust == False:
                 #Dealer has smaller hand than player's current hand, player wins
                 if dealer_hand.hand_sum < player_hand.hand_sum:
-                    player_hand.win_amount = player_hand.bet_amount
+                    player_hand.win_amount = player_hand.bet_amount #updates the hand's win notification
+                    self.player.win_amount += player_hand.bet_amount*2 #updates the player's Fund notification
                     player_hand.bust = True #prevent constant looping 
                 #Dealer and Player both push
                 elif dealer_hand.hand_sum == player_hand.hand_sum:
                     #do nothing to the bet and move to the next hand
+                    self.player.win_amount += player_hand.bet_amount #updates the player's fund notification
                     player_hand.bust = True #prevent constant looping 
                 #Dealer has bigger hand than player's current hand, dealer wins            
                 else: 
@@ -208,6 +211,7 @@ class Gameboard(State):
         for i, hand in enumerate(self.turn_list[:-1]):
             if hand.bust == False:
                 #TODO add winning notification
+                self.player.win_amount += hand.bet_amount*2
                 hand.win_amount = hand.bet_amount
                 hand.bust = True
 
@@ -347,6 +351,9 @@ class Gameboard(State):
                         self.bust(hand)
                         self.game.draw_text(f"{hand.hand_sum}",30,hand.x, hand.y-100)
                         self.player_win() #pass out winnings 
+                #update the player's winning notification
+                
+                
                         
                         
                         

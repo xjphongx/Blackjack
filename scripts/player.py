@@ -10,6 +10,7 @@ class Player():
         self.gameboard = gameboard
         self.hand_list = [5,4,3,2,1] 
         self.fund = fund
+        self.win_amount = 0
         self.current_bet = 0
         self.action_list = {
             'hit':False, 
