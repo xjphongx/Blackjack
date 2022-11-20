@@ -114,32 +114,21 @@ class Gameboard(State):
     def display_play_again_button(self):
         #display button
         if self.play_again_button.draw(self.game.display) == True:
-            
-            #TODO Collect winnings and add to player funds
-            #TODO move all the cards on the board to the discard pile
+
+            #move all the cards on the board to the discard pile
             self.playing = False
-            for i, hand in enumerate(self.turn_list):
-                
-                self.player.add_funds((hand.win_amount*2))
-                
-                
+            for i, hand in enumerate(self.turn_list):  
+                #update funds after round is over 
+                self.player.add_funds((hand.bet_amount+hand.win_amount))              
                 for j , card in enumerate(hand.card_list):
                     self.discard_pile.push(card)
                 #reset all hands objects in memory 
                 hand.reset_hand()
-
-            #display whats inside the discard_pile
-            print("content of the discard pile")
-            self.discard_pile.show()
-                      
-            self.turn_list.clear()
-            
-            
-
-            #TODO Clear rings    
+            #reset all the objects so the next round can start
+            self.turn_list.clear()     
             self.ring_row.clear()
 
-            #TODO Reset all buttons:  play again button
+
             #TODO play again button will only appear when round is done
             self.confirm_button.isActive = False
 
@@ -190,7 +179,7 @@ class Gameboard(State):
         #if player bust. take the bet at the ring
         if hand.order in self.ring_row.ring_map.keys():
             #this is the ring object based on key(hand's order)
-            hand.lost_amount += hand.bet_amount
+            hand.lost_amount -= hand.bet_amount
             hand.bet_amount = 0 
             self.ring_row.ring_map[hand.order].hasChip = False #TODO add notification that bet was lost
         
