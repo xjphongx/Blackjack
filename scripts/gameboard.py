@@ -16,7 +16,7 @@ class Gameboard(State):
         self.playing = False
         self.min_bet = 50
         back_image = pygame.image.load("images/buttons/back_button.png").convert_alpha()
-        self.back_button = Button(325, 50, back_image, self.game.IMAGE_SCALE)
+        self.back_button = Button(x=325,y=50,image=back_image,scale=.07)
         self.dealer = Dealer(self.game, self)
         self.deck_pile = DeckPile()
         self.deck_pile.load_cards_to_deck()
@@ -26,9 +26,9 @@ class Gameboard(State):
             self.deck_pile.casino_shuffle()          
         #temporary button
         confirm_button_image = pygame.image.load("images/buttons/confirm_button.png").convert_alpha()
-        self.confirm_button = Button(self.game.display_width/2, self.game.display_height/2, confirm_button_image,scale=.1)
+        self.confirm_button = Button(x=self.game.display_width/2,y= self.game.display_height/2-120,image=confirm_button_image,scale=.07)
         play_again_image = pygame.image.load("images/buttons/play_again_button.png").convert_alpha()
-        self.play_again_button = Button(1000,100 , play_again_image, scale=.1)
+        self.play_again_button = Button(x=self.game.display_width/2,y= self.game.display_height/2-120,image= play_again_image, scale=.07)
 
         self.ring_row = Ring_Row(self.game, self)
         self.bet_menu = Bet_Menu(self.game, self) 
@@ -36,6 +36,7 @@ class Gameboard(State):
         self.player = Player(self.game, self)
         self.turn_list = [] #empty turn list
         self.gameplay_counter = 0
+        self.round_over = False #used to display play again button
     
     #This function adds functionality to the gameboard state
     def render(self,display):
@@ -54,9 +55,18 @@ class Gameboard(State):
         #hand ring functionality
         self.ring_row.display()
         #start game
-        self.check_playing()
-        self.display_confirm_button()
-        self.display_play_again_button()
+        if self.playing:
+            self.start_round()
+        else:
+            self.game.draw_text("How many hands are you playing?", 
+                        50, 
+                        self.game.display_width/2,
+                        self.game.display_height/5)
+        
+        if self.round_over == False:
+            self.display_confirm_button()
+        if self.round_over:
+            self.display_play_again_button()
         
         #render the clickable button
         if self.back_button.draw(self.game.display):
@@ -70,18 +80,6 @@ class Gameboard(State):
         self.game.reset_actions()
 
 #Gameboard helper function below
-
-    #This function checks if the game is playing
-    def check_playing(self):
-        if self.playing:
-            #Start the game
-            
-            self.start_game()
-        else:
-            self.game.draw_text("How many hands are you playing?", 
-                        50, 
-                        self.game.display_width/2,
-                        self.game.display_height/5)
 
     #This function displays and adds functionality to the confirm button
     def display_confirm_button(self):
@@ -114,7 +112,6 @@ class Gameboard(State):
     def display_play_again_button(self):
         #display button
         if self.play_again_button.draw(self.game.display) == True:
-
             #move all the cards on the board to the discard pile
             self.playing = False
             for i, hand in enumerate(self.turn_list):  
@@ -129,9 +126,9 @@ class Gameboard(State):
             self.turn_list.clear()     
             self.ring_row.clear()
 
-
             #TODO play again button will only appear when round is done
             self.confirm_button.isActive = False
+            self.round_over = False #next round is active
 
     #function filter list uses a simple algorithm to search and replace the list
     def filter_List(self):
@@ -198,6 +195,7 @@ class Gameboard(State):
                 #Dealer has bigger hand than player's current hand, dealer wins            
                 else: 
                     self.bust(player_hand)
+        self.round_over = True
 
     #function player_win gives the all NON-busted hand the winning bets 
     def player_win(self):
@@ -207,6 +205,7 @@ class Gameboard(State):
                 self.player.win_amount += hand.bet_amount*2
                 hand.win_amount = hand.bet_amount
                 hand.bust = True
+        self.round_over = True
 
     #function pass cards will give out 2 cards to each active hand
     def pass_cards(self):
@@ -253,7 +252,7 @@ class Gameboard(State):
             return True
         return False
 
-    def start_game(self):       
+    def start_round(self):       
         #TODO case where 20% of the remain cards are left in the deck pile,
         #reshuffle the discard pile into the deck pile and start game
         if self.deck_pile.size <= 50 and self.play:
@@ -266,8 +265,7 @@ class Gameboard(State):
             self.turn_list[-1].card_list[-1].isFaceDown = False
             #cycle through the turn list until the dealer's index to bust every hand
             for i, hand in enumerate(self.turn_list[:-1]):
-                self.bust(hand) #bust every hand
-                
+                self.bust(hand) #bust every hand       
         else: #continue with game when dealer DOES NOT have blackjack
             #display the cards from each hand
             #and display the menu to choose from
@@ -318,7 +316,8 @@ class Gameboard(State):
                         self.game.draw_text(f"{hand.hand_sum}",30,hand.x, hand.y-100)  
                     #Case where all hands bust, dealer wins and does not hit hand
                     elif self.check_player_hand_list(): #True if atlease 1 hand bust 
-                        self.game.draw_text(f"{hand.hand_sum}",30,hand.x, hand.y-100)  
+                        self.game.draw_text(f"{hand.hand_sum}",30,hand.x, hand.y-100)
+                        self.round_over = True  #end the round 
                     #dealer has an ace card hits until 17 or more
                     elif hand.hasAce and hand.hand_upper_sum < 17:
                         self.hit(hand)
