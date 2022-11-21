@@ -105,9 +105,15 @@ class DeckPile(Stack,pygame.sprite.Sprite):
     #Function combine():
     #   Purpose is to join together the two stack object's stack list data structure
     #   and clear the discard pile's stack
+    #   After, shuffle and split the cards
     def combine(self, discard_pile: Stack):
         self.stack.extend(discard_pile.stack)
         discard_pile.clear()
+        self.casino_shuffle()
+        self.cut_deck()
+        self.casino_shuffle()
+        self.cut_deck()
+        self.casino_shuffle()
 
 class DiscardPile(Stack,pygame.sprite.Sprite):
     def __init__(self):

@@ -70,8 +70,10 @@ class Gameboard(State):
         
         #render the clickable button
         if self.back_button.draw(self.game.display):
+            #TODO save player funds, and card piles
             self.ring_row.clear() #clears the row 
             self.game.actions["back"] = True
+
 
     #state change to the title
     def update(self,actions):
@@ -255,7 +257,7 @@ class Gameboard(State):
     def start_round(self):       
         #TODO case where 20% of the remain cards are left in the deck pile,
         #reshuffle the discard pile into the deck pile and start game
-        if self.deck_pile.size <= 50 and self.play:
+        if self.deck_pile.size <= 50 and self.playing:
             #comebine discard pile into deck pile and reshuffle
             self.deck_pile.combine(self.discard_pile) #takes the stack object as an argument
         
@@ -263,11 +265,14 @@ class Gameboard(State):
         if self.turn_list[-1].hasAce and (self.turn_list[-1].hand_upper_sum == 21):
             print("has Blackjack and everyone bust")
             self.turn_list[-1].card_list[-1].isFaceDown = False
-            #cycle through the turn list until the dealer's index to bust every hand
-            for i, hand in enumerate(self.turn_list[:-1]):
-                self.bust(hand) #bust every hand       
-        else: #continue with game when dealer DOES NOT have blackjack
-            #display the cards from each hand
+            #cycle through the turn list and bust evryhand except dealers
+            for i, hand in enumerate(self.turn_list):
+                hand.display(self.game.display)
+                if not hand.isDealer:
+                    self.bust(hand) #bust every hand       
+            self.round_over = True #ends the round
+        #continue with game when dealer DOES NOT have blackjack
+        else: #display the cards from each hand
             #and display the menu to choose from
             for i, hand in enumerate(self.turn_list):
                 #display the hand
