@@ -24,7 +24,9 @@ class Stack():
         for i, card in enumerate(self.stack) :
             print(card.type, end= " ")  
         print() #skips a line
-                     
+    def clear(self):
+        self.stack = []
+        self.size = 0
     def get_size(self):             #return length of the list
         return len(self.stack)
     def update_size(self):          #update class size with its current list size
@@ -60,7 +62,6 @@ class DeckPile(Stack,pygame.sprite.Sprite):
                 self.size += 1 #update size after adding card
 
         jsonfile.close() #close the json file
-    
     
     #Function cut_deck() contains 3 steps:
     #   Step 1: Identify the 40% to 60% mark and split accordingly
@@ -100,6 +101,13 @@ class DeckPile(Stack,pygame.sprite.Sprite):
                 print("Index error when casino shuffling")
                 break   
         self.stack = shuffledList[:]    #updates the class stack
+
+    #Function combine():
+    #   Purpose is to join together the two stack object's stack list data structure
+    #   and clear the discard pile's stack
+    def combine(self, discard_pile: Stack):
+        self.stack.extend(discard_pile.stack)
+        discard_pile.clear()
 
 class DiscardPile(Stack,pygame.sprite.Sprite):
     def __init__(self):

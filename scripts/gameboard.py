@@ -148,12 +148,8 @@ class Gameboard(State):
         top_card = self.deck_pile.top()
         self.deck_pile.pop()
         #calculate distance from card to hand placement
-        #distance = math.dist((top_card.x,top_card.y),(hand.placement.x,hand.placement.y))
-        #print(f"Distance: {distance}")
         top_card.delta_x = abs(top_card.x - hand.placement.x)/60
         top_card.delta_y = abs(top_card.y - hand.placement.y)/60
-        #print(f"Change X: {top_card.delta_x}")
-        #print(f"Change Y: {top_card.delta_y}")
         #Loop card blit animation from deck pile to targeted placement
         while True:
             top_card.rect = top_card.card_back_surface.get_rect(center= (top_card.x,top_card.y))
@@ -166,26 +162,23 @@ class Gameboard(State):
         hand.add_card(top_card)
         #check if the hand is dealer or player for specified placement
         if hand.isDealer:
-            hand.placement.x -= 125 #updates to the left
+            hand.placement.x -= 110 #updates to the left
         else:
             hand.placement.x -= 20  #updates the player's hand ontop
             hand.placement.y -= 20 
         
     #function bust will dispute the bets after the round is done
+    #player bust and went over 21, 
+    #dealer takes the bets but leaves the cards there for reference
     def bust(self, hand):
         hand.bust = True
         hand.isTurn = False
-        #player bust and went over 21, 
-        #dealer takes the bets but leaves the cards there for reference
         #if player bust. take the bet at the ring
         if hand.order in self.ring_row.ring_map.keys():
             #this is the ring object based on key(hand's order)
             hand.lost_amount -= hand.bet_amount
             hand.bet_amount = 0 
-            self.ring_row.ring_map[hand.order].hasChip = False #TODO add notification that bet was lost
-        
-        
-    
+            self.ring_row.ring_map[hand.order].hasChip = False 
     
     #function compare_hand will compare the dealer's hand to all the player's hand and resolve winning condition
     def compare_hand(self, dealer_hand: Hand):
@@ -251,7 +244,7 @@ class Gameboard(State):
 
     #This function checks if any of the player's hands busted
     def check_player_hand_list(self)-> bool:
-        bust_count = 0
+        bust_count = 0 #keeps track of how many hands busted
         for i , hand in enumerate(self.turn_list[:-1]):
             if hand.bust:
                 bust_count+=1
@@ -260,11 +253,12 @@ class Gameboard(State):
             return True
         return False
 
-
     def start_game(self):       
         #TODO case where 20% of the remain cards are left in the deck pile,
         #reshuffle the discard pile into the deck pile and start game
-        
+        if self.deck_pile.size <= 50 and self.play:
+            #comebine discard pile into deck pile and reshuffle
+            self.deck_pile.combine(self.discard_pile) #takes the stack object as an argument
         
         #Check case where dealer has a blackjack to immediately end the game and collect bets
         if self.turn_list[-1].hasAce and (self.turn_list[-1].hand_upper_sum == 21):
