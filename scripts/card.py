@@ -1,8 +1,5 @@
 import pygame
 
-
-
-
 #Card Class
 #@Parameters:
 #@  type - Str value that represents the type of card

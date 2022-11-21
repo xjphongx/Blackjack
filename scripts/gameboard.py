@@ -263,7 +263,6 @@ class Gameboard(State):
         
         #Check case where dealer has a blackjack to immediately end the game and collect bets
         if self.turn_list[-1].hasAce and (self.turn_list[-1].hand_upper_sum == 21):
-            print("has Blackjack and everyone bust")
             self.turn_list[-1].card_list[-1].isFaceDown = False
             #cycle through the turn list and bust evryhand except dealers
             for i, hand in enumerate(self.turn_list):
@@ -335,13 +334,9 @@ class Gameboard(State):
                     #dealer has less than 17 and hits hand
                     elif hand.hand_sum < 17:
                         self.hit(hand)
-                        self.game.draw_text(f"{hand.hand_sum}",30,hand.x, hand.y-100)
-                    #dealer has blackjack
-                    elif hand.hand_sum == 21:
-                        self.game.draw_text(f"{hand.hand_sum}",30,hand.x, hand.y-100)
-                        self.compare_hand(hand)          
-                    #dealer has hand between 17 and 21 WITHOUT ace card 
-                    elif hand.hand_sum >= 17 and hand.hand_sum < 21:
+                        self.game.draw_text(f"{hand.hand_sum}",30,hand.x, hand.y-100) 
+                    #dealer has hand between 17 and 21 
+                    elif hand.hand_sum >= 17 and hand.hand_sum <= 21:
                         self.game.draw_text(f"{hand.hand_sum}",30,hand.x, hand.y-100)
                         self.compare_hand(hand) 
                     #dealer BUSTs, so give all non busted hands 2x their current hand

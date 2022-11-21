@@ -29,9 +29,13 @@ class Action_Menu():
         if self.double_button.draw(self.game.display):
             #TODO check if hand is doubleable,
             # if the first 2 cards are less than 11
-            if len(self.hand.card_list) <= 2 and self.hand.hand_sum <=11:
+            if len(self.hand.card_list) <= 2 and self.hand.hand_sum <=11 and self.gameboard.player.fund > self.hand.bet_amount:
+                self.gameboard.deck_pile.top().image_surface= pygame.transform.rotate(surface=self.gameboard.deck_pile.top().image_surface, angle = 90)
                 self.gameboard.hit(self.hand)
-                #TODO add more funds equal to current bet from player funds
+                
+                
+                #TODO add more funds equal to current bet from player funds and subtract from player's fund
+                self.gameboard.player.fund -= self.hand.bet_amount
                 self.hand.bet_amount = self.hand.bet_amount*2
                 #TODO player hits 1 cards side ways (pygame image rotation)
                 self.hand.stand = True
