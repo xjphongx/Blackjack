@@ -93,6 +93,7 @@ class Gameboard(State):
                         self.gameplay_counter += 1
                         #combine the player and dealer hands, player goes first
                         self.turn_list.extend(self.dealer.hand_list)
+                        self.player.hand_list.reverse() #makes sure that the player hand is in correct order from right to left
                         self.turn_list.extend(self.player.hand_list)
                         self.turn_list.reverse() #makes sure the player is dealt cards first
                         self.confirm_button.isActive = True #removes the confirm button from screen
@@ -263,8 +264,11 @@ class Gameboard(State):
         
         #Check case where dealer has a blackjack to immediately end the game and collect bets
         if self.turn_list[-1].hasAce and (self.turn_list[-1].hand_upper_sum == 21):
+            #revealed facedown card and dealer's hand sum
             self.turn_list[-1].card_list[-1].isFaceDown = False
-            #cycle through the turn list and bust evryhand except dealers
+            self.turn_list[-1].hand_sum = 21
+            self.game.draw_text(f"{self.turn_list[-1].hand_sum}",30,self.turn_list[-1].x, self.turn_list[-1].y-100)
+            #cycle through the turn list and bust every hand except dealers
             for i, hand in enumerate(self.turn_list):
                 hand.display(self.game.display)
                 if not hand.isDealer:
