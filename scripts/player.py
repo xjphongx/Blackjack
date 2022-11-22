@@ -45,12 +45,9 @@ class Player():
 
         #Places the new hand into the correct index in the turn list
         new_hand.add_card(self.gameboard.deck_pile.top())
-        new_index = self.gameboard.turn_list.index(hand)
-        print(f"new index: {new_index}")
-        print(f"index +1: {new_index+1}")
-        #self.hand_list.insert(new_index,new_hand)
-        self.gameboard.turn_list.insert(new_index+1,new_hand)
-        print(f"new hand: {new_hand}")
+        new_index = self.gameboard.turn_list.index(hand)+1  #the NEXT index
+        self.gameboard.turn_list.insert(new_index,new_hand) #inserts into the correct index
+
 
     def remove_Hand(self,order):
         pass

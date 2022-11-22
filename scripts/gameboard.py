@@ -92,12 +92,10 @@ class Gameboard(State):
                     if self.confirm_button.draw(self.game.display): #figure out how to clear this button
                         self.gameplay_counter += 1
                         #combine the player and dealer hands, player goes first
-                        print(f"player hand list: {self.player.hand_list}")
                         self.turn_list.extend(self.dealer.hand_list)
                         self.player.hand_list.reverse() #reserves the player list 
                         self.turn_list.extend(self.player.hand_list)
                         self.turn_list.reverse() #makes sure the player is dealt cards first
-                        print(f"Turn list after extend and reverse: {self.turn_list}")
                         self.confirm_button.isActive = True #removes the confirm button from screen
                         self.filter_List() #removes the integer values in the turnlist
                         #set ring bets to hand bets
@@ -214,7 +212,6 @@ class Gameboard(State):
 
     #function pass cards will give out 2 cards to each active hand
     def pass_cards(self):
-        print(f"Turn list before passing out cards: {self.turn_list}")
         #intial passing of cards to each hand and dealer, only passes out 2 cards
         #this algorithm passes out cards in circle order from hand 1 - 5 and dealer's hand
         print(f"Gameplay {self.gameplay_counter}")
