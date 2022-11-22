@@ -2,7 +2,7 @@ from scripts.placement import Placement
 from scripts.action_menu import Action_Menu
 
 class Hand():
-    def __init__(self, game, gameboard, order, x, y, bet_amount = 0 , isDealer = False): #add bet size when creating a hand, minimum bet
+    def __init__(self, game, gameboard, order, x, y, bet_amount = 0 , isDealer = False, isExtra=False): #add bet size when creating a hand, minimum bet
         self.game = game #reference to the game
         self.gameboard = gameboard #reference to the gameboard
         self.order = order #the hand's order
@@ -20,6 +20,7 @@ class Hand():
         self.hand_size = 0
         self.isTurn = False
         self.action_menu = Action_Menu(self, self.game,self.gameboard, self.x, self.y)  #pass itself by reference
+        self.isExtra = isExtra #used to identify extra hands for deleting memory
         self.bust = False
         self.stand = False
     #function display updates the pygame game display with cards
@@ -32,9 +33,9 @@ class Hand():
         for i, card in enumerate(self.card_list):
             #if card is faced down
             if card.isFaceDown:
-                display.blit(card.card_back_surface, card.rect)
+                display.blit(card.card_back_surface, (card.rect.x,card.rect.y))
             else:
-                display.blit(card.image_surface, card.rect)
+                display.blit(card.image_surface, (card.rect.x,card.rect.y))
         
     def reset_hand(self):
         self.card_list = []

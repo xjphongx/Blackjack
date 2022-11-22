@@ -22,6 +22,7 @@ class Ring():
         if self.button.draw(self.game.display):
             #add hand if the ring is empty
             if self.button.isActive == False and self.gameboard.player.current_bet > 0 and self.gameboard.confirm_button.isActive == False:
+                #print(f"order: {self.order}")
                 self.gameboard.player.add_Hand(self.order,self.bet_amount,self.x,self.y - self.OFFSET) #add hand at position 1
                 self.button.isActive = True #makes the button active once
                 self.chip = self.gameboard.cursor.chip

@@ -92,12 +92,14 @@ class Gameboard(State):
                     if self.confirm_button.draw(self.game.display): #figure out how to clear this button
                         self.gameplay_counter += 1
                         #combine the player and dealer hands, player goes first
+                        print(f"player hand list: {self.player.hand_list}")
                         self.turn_list.extend(self.dealer.hand_list)
-                        self.player.hand_list.reverse() #makes sure that the player hand is in correct order from right to left
+                        self.player.hand_list.reverse() #reserves the player list 
                         self.turn_list.extend(self.player.hand_list)
                         self.turn_list.reverse() #makes sure the player is dealt cards first
+                        print(f"Turn list after extend and reverse: {self.turn_list}")
                         self.confirm_button.isActive = True #removes the confirm button from screen
-                        self.filter_List()
+                        self.filter_List() #removes the integer values in the turnlist
                         #set ring bets to hand bets
                         for i , hand in enumerate(self.turn_list[:-1]):
                             #sets the hand bet amount = ring bet amount
@@ -139,7 +141,7 @@ class Gameboard(State):
         for i, hand in enumerate(self.turn_list): #cycles and gets the hand 
             if isinstance(hand, Hand): #test if hand is a hand object
                 temp_list.append(hand)
-        self.turn_list = temp_list.copy() #turn list is replaced with the filtered lsit
+        self.turn_list = temp_list.copy() #turn list is replaced with the filtered list
         temp_list.clear()
         
     #function hit allows the player to add one card to the current hand object"
@@ -233,7 +235,7 @@ class Gameboard(State):
             #loop through all the hands to test print
         for i, hand in enumerate(self.turn_list):
             #loop through the cards in THAT specific hand
-            print(f"hand {hand.order}", end = " ")
+            print(f"hand {hand.order}{hand}", end = " ")
             for j, card in enumerate(hand.card_list):
                 print(hand.card_list[j].type,end = " ")
 
@@ -269,7 +271,7 @@ class Gameboard(State):
             self.turn_list[-1].hand_sum = 21
             self.game.draw_text(f"{self.turn_list[-1].hand_sum}",30,self.turn_list[-1].x, self.turn_list[-1].y-100)
             #cycle through the turn list and bust every hand except dealers
-            for i, hand in enumerate(self.turn_list):
+            for i, hand in enumerate(self.turn_list[:-1]):
                 hand.display(self.game.display)
                 if not hand.isDealer:
                     self.bust(hand) #bust every hand       
@@ -277,6 +279,8 @@ class Gameboard(State):
         #continue with game when dealer DOES NOT have blackjack
         else: #display the cards from each hand
             #and display the menu to choose from
+          
+            
             for i, hand in enumerate(self.turn_list):
                 #display the hand
                 hand.display(self.game.display)

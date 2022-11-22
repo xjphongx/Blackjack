@@ -1,6 +1,7 @@
 import pygame
 from scripts.button import Button
 
+
 class Action_Menu():
     def __init__(self, hand, game, gameboard, x, y):
         self.hand = hand
@@ -27,20 +28,43 @@ class Action_Menu():
             self.gameboard.hit(self.hand)
         
         if self.double_button.draw(self.game.display):
-            #TODO check if hand is doubleable,
-            # if the first 2 cards are less than 11
+            #check if hand is doubleable, if the first 2 cards are less than 11
             if len(self.hand.card_list) <= 2 and self.hand.hand_sum <=11 and self.gameboard.player.fund > self.hand.bet_amount:
+                #player hits 1 cards side ways (pygame image rotation)
                 self.gameboard.deck_pile.top().image_surface= pygame.transform.rotate(surface=self.gameboard.deck_pile.top().image_surface, angle = 90)
                 self.gameboard.hit(self.hand)
-                
-                
-                #TODO add more funds equal to current bet from player funds and subtract from player's fund
+                #add more funds equal to current bet from player funds and subtract from player's fund
                 self.gameboard.player.fund -= self.hand.bet_amount
                 self.hand.bet_amount = self.hand.bet_amount*2
-                #TODO player hits 1 cards side ways (pygame image rotation)
-                self.hand.stand = True
+                self.hand.stand = True#ends the hand's turn
             
-        self.split_button.draw(self.game.display)
+        if self.split_button.draw(self.game.display):
+            self.hand.x = self.hand.x+50
+            for i , card in enumerate(self.hand.card_list):
+                card.rect.x += 50
+
+            #create a new test hand next
+            self.gameboard.player.split_hand(hand=self.hand,
+                                            isExtra=True,
+                                            bet_amount=self.hand.bet_amount,
+                                            x=self.hand.x-100,
+                                            y=self.hand.y,
+                                            isDealer=False)
+            
+            print("testing split hand")
+            for i in range(len(self.gameboard.turn_list)):
+                print(f"{i}: {self.gameboard.turn_list[i]}")
+            #TODO Check if hands has matching pairs 
+            if self.hand.card_list[0].type == self.hand.card_list[-1].type:
+                #test by moving the original hand
+                
+                
+                #TODO Create a new hand to the left of the original hand
+
+                #TODO Move the 2nd card to the new hand
+
+                #TODO Delete new hand before playing again
+                pass
         if self.stand_button.draw(self.game.display):
             self.hand.stand = True
             

@@ -45,11 +45,11 @@ class Player():
 
         #Places the new hand into the correct index in the turn list
         new_hand.add_card(self.gameboard.deck_pile.top())
-        new_index = self.hand_list.index(hand)
+        new_index = self.gameboard.turn_list.index(hand)
         print(f"new index: {new_index}")
-        print(f"index -1: {new_index-1}")
+        print(f"index +1: {new_index+1}")
         #self.hand_list.insert(new_index,new_hand)
-        self.gameboard.turn_list.insert(new_index-1,new_hand)
+        self.gameboard.turn_list.insert(new_index+1,new_hand)
         print(f"new hand: {new_hand}")
 
     def remove_Hand(self,order):
@@ -62,7 +62,7 @@ class Player():
 
     def clear_bets(self):
         self.hand_list.clear() #list function to clear list
-        self.hand_list = [5,4,3,2,1] #sets the hand list to default order
+        self.hand_list = [1,2,3,4,5] #sets the hand list to default order
 
     def move_hand_to_discard(self):
         pass
