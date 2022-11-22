@@ -8,7 +8,7 @@ class Player():
     def __init__(self, game, gameboard, fund = PLAYER_STARTING_FUND):
         self.game = game
         self.gameboard = gameboard
-        self.hand_list = [5,4,3,2,1] 
+        self.hand_list = [1,2,3,4,5] 
         self.fund = fund
         self.win_amount = 0
         self.current_bet = 0
@@ -19,7 +19,7 @@ class Player():
             'double':False
             }
     #function add_Hand takes a specified order and adds it to player hand list
-    def add_Hand(self, order,bet_amount, x , y, isDealer=None):#Player can add a new hand when SPLITING
+    def add_Hand(self, order:int ,bet_amount:int, x:float , y:float, isDealer=None):#Player can add a new hand when SPLITING
         #edge case when it is the dealers hand
         if isDealer:
             hand = Hand(self.game, self.gameboard, order, x, y, bet_amount, isDealer)
@@ -30,6 +30,27 @@ class Player():
         self.hand_list.insert(new_index, hand) #add into list at the given index
         self.hand_list.remove(hand.order)      #remove the value from list
         print(f"{hand.order} : {hand}")
+
+    #function split_hand will create a new hand and give it a card from the orignal hand
+    def split_hand(self, hand:Hand, isExtra:bool ,bet_amount:int, x:float, y:float, isDealer:bool = False):
+        #Create new Hand object 
+        new_hand = Hand(game= self.game,
+                    gameboard= self.gameboard,
+                    order= hand.order,
+                    x= x,
+                    y = y,
+                    bet_amount=bet_amount,
+                    isDealer= isDealer,
+                    isExtra= isExtra)
+
+        #Places the new hand into the correct index in the turn list
+        new_hand.add_card(self.gameboard.deck_pile.top())
+        new_index = self.hand_list.index(hand)
+        print(f"new index: {new_index}")
+        print(f"index -1: {new_index-1}")
+        #self.hand_list.insert(new_index,new_hand)
+        self.gameboard.turn_list.insert(new_index-1,new_hand)
+        print(f"new hand: {new_hand}")
 
     def remove_Hand(self,order):
         pass
