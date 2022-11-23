@@ -29,6 +29,8 @@ class Button():
         surface.blit(self.image, (self.rect.x, self.rect.y))
         return action #return the action if it is pressed or not
 
-    
+    def update_coordinates(self, x,y):
+        self.rect.center= (x,y)
+
     def delete(self):
         Delete
