@@ -12,12 +12,7 @@ class Player():
         self.fund = fund
         self.win_amount = 0
         self.current_bet = 0
-        self.action_list = {
-            'hit':False, 
-            'stand':False, 
-            'split':False, 
-            'double':False
-            }
+
     #function add_Hand takes a specified order and adds it to player hand list
     def add_Hand(self, order:int ,bet_amount:int, x:float , y:float, isDealer=None):#Player can add a new hand when SPLITING
         #edge case when it is the dealers hand
@@ -37,14 +32,21 @@ class Player():
         new_hand = Hand(game= self.game,
                     gameboard= self.gameboard,
                     order= hand.order,
-                    x= x,
+                    x= x-60,
                     y = y,
                     bet_amount=bet_amount,
                     isDealer= isDealer,
                     isExtra= isExtra)
 
         #Places the new hand into the correct index in the turn list
-        new_hand.add_card(self.gameboard.deck_pile.top())
+        new_hand.add_card(hand.remove_card())
+        new_hand.placement.y = hand.card_list[-1].rect.y
+        new_hand.card_list[-1].rect.x = new_hand.placement.x - 45
+        new_hand.card_list[-1].rect.y = new_hand.placement.y
+        #Hard code to readjust the new hand's next cards's placement
+        new_hand.placement.x = hand.x-90
+        new_hand.placement.y = hand.y-20
+        #insert into turn list
         new_index = self.gameboard.turn_list.index(hand)+1  #the NEXT index
         self.gameboard.turn_list.insert(new_index,new_hand) #inserts into the correct index
 
