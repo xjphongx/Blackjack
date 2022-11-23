@@ -10,7 +10,10 @@ class Ring():
         self.order = order #ring's given order from right to left
         self.hand_ring_image = pygame.image.load("images/hand_ring.png").convert_alpha() 
         self.rect = self.hand_ring_image.get_rect(center = (self.x,self.y))
+        self.empty_chip_image = pygame.image.load("images/chips/empty_chip.png").convert_alpha()
+        self.rect = self.empty_chip_image.get_rect(center= (self.x,self.y))
         self.button = Button(self.x, self.y, self.hand_ring_image,scale=.25)
+        self.empty_button = Button(self.x, self.y, self.empty_chip_image, scale = .25 )
         self.chip = None
         self.hasChip = False
         self.bet_amount = 0 #used to update with dealer

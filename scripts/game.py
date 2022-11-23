@@ -29,10 +29,7 @@ class Game():
             "double":False,
             "split":False
         }
-        #self.player = Player()
     
-
-
     def render(self):
         self.state_stack[-1].render(self.display)
         self.screen.blit(pygame.transform.scale(self.display,(self.display_width, self.display_height)),(0,0))
@@ -46,15 +43,11 @@ class Game():
         print("gameloop") 
         #game loop
         while self.running:
-            #print("while looop in gameloop")
             self.check_events()
-            #TODO - add update function for players and dealer   
-            #TODO - add a play again or return to menu option
             self.render()
             self.update()
             
             self.clock.tick(self.FPS)
-            #self.reset_escape_key()
             
     #Function  check_events() checks for user input on pygame events     
     def check_events(self):

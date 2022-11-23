@@ -38,13 +38,10 @@ class Action_Menu():
                 self.hand.bet_amount = self.hand.bet_amount*2
                 self.hand.stand = True#ends the hand's turn
             
-        if self.split_button.draw(self.game.display):      
-            
+        if self.split_button.draw(self.game.display):       
             #Edge case where orignal hand has an ACE card
             #if self.hand.hasAce:
-            
                 #self.hand.upper_sum -= self.hand.card_list[-1].pip_value
-            
             #create a new test hand next
             self.gameboard.player.split_hand(hand=self.hand,
                                             isExtra=True,

@@ -22,6 +22,10 @@ class Hand():
         self.isTurn = False
         self.action_menu = Action_Menu(self, self.game,self.gameboard, self.x, self.y)  #pass itself by reference
         self.isExtra = isExtra #used to identify extra hands for deleting memory
+        self.hasChip = False
+        self.chip = None
+        self.chip_x = None
+        self.chip_y = None
         self.bust = False
         self.stand = False
     #function display updates the pygame game display with cards
@@ -38,6 +42,10 @@ class Hand():
             else:
                 display.blit(card.image_surface, (card.rect.x,card.rect.y))
         
+        #display the new hand's chip next
+        if self.hasChip:
+            display.blit(self.chip,(self.chip_x,self.chip_y))
+
     def reset_hand(self):
         self.card_list = []
         self.win_amount = 0

@@ -179,6 +179,10 @@ class Gameboard(State):
             hand.lost_amount -= hand.bet_amount
             hand.bet_amount = 0 
             self.ring_row.ring_map[hand.order].hasChip = False 
+        
+        #This section is for extra hands when spliting 
+        if hand.isExtra:
+            hand.hasChip = False
     
     #function compare_hand will compare the dealer's hand to all the player's hand and resolve winning condition
     def compare_hand(self, dealer_hand: Hand):
