@@ -1,5 +1,6 @@
 from scripts.placement import Placement
 from scripts.action_menu import Action_Menu
+from scripts.card import Card
 
 class Hand():
     def __init__(self, game, gameboard, order, x, y, bet_amount = 0 , isDealer = False, isExtra=False): #add bet size when creating a hand, minimum bet
@@ -7,7 +8,7 @@ class Hand():
         self.gameboard = gameboard #reference to the gameboard
         self.order = order #the hand's order
         self.x, self.y = x, y
-        self.placement = Placement(self.x,self.y)
+        self.placement = Placement(x,y)
         self.isDealer = isDealer
         self.card_list = []
         self.min_bet = 50
@@ -73,16 +74,25 @@ class Hand():
         #set hand_sum to be the lower sum and hand uppper is uppper sum
         if card.type == 'Ace':
             self.hasAce = True
-            self.hand_sum += card.low_pip_value
+            self.hand_sum += card.pip_value
             self.hand_upper_sum += card.high_pip_value
         else:
             self.hand_sum += card.pip_value
             self.hand_upper_sum += card.pip_value
         self.card_list.append(card) 
         self.hand_size+=1       #increase hand size when adding a card
+    
+    #Function remove_card pops the top of hand's card list 
+    def remove_card(self)-> Card:
+        top_card = self.card_list[-1]
+        if top_card.type == 'Ace':
+            self.hasAce = False
+            self.hand_sum -= top_card.pip_value
+            self.hand_upper_sum -= top_card.high_pip_value
+        else:
+            self.hand_sum -= top_card.pip_value
+            self.hand_upper_sum -=top_card.pip_value
         
-    def remove_card(self):
-        self.hand_sum -= self.card_list[-1].pip_value
         temp_card = self.card_list.pop()
         self.hand_size = len(self.card_list) #update hand size after pop, to prevent error
         return temp_card

@@ -41,8 +41,9 @@ class Action_Menu():
         if self.split_button.draw(self.game.display):      
             
             #Edge case where orignal hand has an ACE card
-            if self.hand.hasAce:
-                self.hand.upper_sum -= self.hand.card_list[-1].pip_value
+            #if self.hand.hasAce:
+            
+                #self.hand.upper_sum -= self.hand.card_list[-1].pip_value
             
             #create a new test hand next
             self.gameboard.player.split_hand(hand=self.hand,

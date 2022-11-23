@@ -261,6 +261,7 @@ class Gameboard(State):
             #comebine discard pile into deck pile and reshuffle
             self.deck_pile.combine(self.discard_pile) #takes the stack object as an argument
         
+#TODO THERE IS A BUG WHERE DEALER GETS A BLACKJACK AND THE BOARD IS GONE
         #Check case where dealer has a blackjack to immediately end the game and collect bets
         if self.turn_list[-1].hasAce and (self.turn_list[-1].hand_upper_sum == 21):
             #revealed facedown card, dealer's hand sum, and blit the all cards on screen
@@ -268,7 +269,7 @@ class Gameboard(State):
             self.turn_list[-1].hand_sum = 21
             self.game.draw_text(f"{self.turn_list[-1].hand_sum}",30,self.turn_list[-1].x, self.turn_list[-1].y-100)
             #cycle through the turn list and bust every hand except dealers
-            for i, hand in enumerate(self.turn_list):
+            for j, hand in enumerate(self.turn_list):
                 hand.display(self.game.display)
                 if not hand.isDealer:
                     self.bust(hand) #bust every hand       
@@ -291,14 +292,17 @@ class Gameboard(State):
                             self.game.draw_text(f"{hand.hand_sum} or {hand.hand_upper_sum}",30,hand.x, hand.y+90)   
                     #has ace and equals to 21
                     elif hand.hasAce and hand.hand_upper_sum == 21:
-                        hand.hand_sum = 21
-                        self.game.draw_text(f"{hand.hand_sum}",30,hand.x, hand.y+90) 
+                        if hand.stand:
+                            hand.hand_sum = 21
+                            self.game.draw_text(f"{hand.hand_sum}",30,hand.x, hand.y+90) 
+                        else:
+                            self.game.draw_text(f"{hand.hand_sum} or {hand.hand_upper_sum}",30,hand.x, hand.y+90)
                     #has ace and is above 21, display the lower sum
                     elif hand.hasAce and hand.hand_upper_sum >21:
-                        self.game.draw_text(f"hsum:{hand.hand_sum}",30,hand.x, hand.y+90)
+                        self.game.draw_text(f"{hand.hand_sum}",30,hand.x, hand.y+90)
                     #display hand sum no matter what
                     else:
-                        self.game.draw_text(f"hsum:{hand.hand_sum}",30,hand.x, hand.y+90)
+                        self.game.draw_text(f"{hand.hand_sum}",30,hand.x, hand.y+90)
                     #check if hand is busted
                     if hand.hand_sum > 21:
                         self.bust(hand)
