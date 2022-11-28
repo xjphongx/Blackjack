@@ -37,7 +37,8 @@ class Bet_Menu():
     def display(self):
         self.game.draw_text(f"Min Bet: {self.min_bet}", 40,self.bet_text_x-250, self.bet_text_y-63)
         self.game.draw_text(f"Current Bet: {self.gameboard.player.current_bet}", 40, self.bet_text_x, self.bet_text_y-63)
-        self.game.draw_text(f"Round Won: {self.gameboard.player.win_amount}",30, self.fund_text_x, self.fund_text_y-35)
+        self.game.draw_text(f"Round Won: {self.gameboard.player.win_amount}",30, self.fund_text_x, self.fund_text_y-70)
+        self.game.draw_text(f"Round Difference: {self.gameboard.player.round_difference_amount}", 30, self.fund_text_x,self.fund_text_y-35)
         self.game.draw_text(f"Fund: {self.gameboard.player.fund}", 40, self.fund_text_x, self.fund_text_y)
         #if statements will work if button is clicked and the game is not active
         if self.white_chip_button.draw(self.game.display) and not self.gameboard.confirm_button.isActive:
@@ -90,7 +91,7 @@ class Bet_Menu():
             self.gameboard.ring_row.clear()
         #clears the chip in cursor and current bet, if the game is active
         elif self.gameboard.confirm_button.isActive:
-            self.gameboard.player.current_bet = 0
+            #self.gameboard.player.round_difference_amount = 0
             self.gameboard.cursor.chip = None
 
         #TODO add more functionality

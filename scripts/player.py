@@ -11,6 +11,7 @@ class Player():
         self.hand_list = [1,2,3,4,5] 
         self.fund = fund
         self.win_amount = 0
+        self.round_difference_amount=0
         self.current_bet = 0
 
     #function add_Hand takes a specified order and adds it to player hand list
@@ -50,7 +51,7 @@ class Player():
             hand.chip = self.gameboard.ring_row.ring_map[hand.order].chip 
             hand.chip_x = hand.x
             hand.chip_y = hand.y
-            #remove the ring's chip for visual affectsa
+            #remove the ring's chip for visual affects
             self.gameboard.ring_row.ring_map[hand.order].chip = self.gameboard.ring_row.ring_map[hand.order].empty_button.image
 
         #Places the new hand into the correct index in the turn list
@@ -78,6 +79,11 @@ class Player():
         self.hand_list.clear() #list function to clear list
         self.hand_list = [1,2,3,4,5] #sets the hand list to default order
 
+    def reset_UI(self):
+        self.current_bet = 0
+        self.win_amount = 0
+        self.round_difference_amount = 0    
+    
     def move_hand_to_discard(self):
         pass
 

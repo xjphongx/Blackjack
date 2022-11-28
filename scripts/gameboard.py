@@ -98,11 +98,15 @@ class Gameboard(State):
                         self.turn_list.reverse() #makes sure the player is dealt cards first
                         self.confirm_button.isActive = True #removes the confirm button from screen
                         self.filter_List() #removes the integer values in the turnlist
-                        #set ring bets to hand bets
+                        
+                        #set ring bets to hand bets and update current bet to be the round's current bet
                         for i , hand in enumerate(self.turn_list[:-1]):
                             #sets the hand bet amount = ring bet amount
                             hand.bet_amount = self.ring_row.ring_map[hand.order].bet_amount
+                            self.player.current_bet += hand.bet_amount #updates the round's current bet
                             self.ring_row.ring_map[hand.order].bet_amount = 0 #sets the ring bet amount = 0 to reset the ring
+                        
+                            
                         #pass out cards
                         self.pass_cards()
                         #set first hand's turn and start game
@@ -125,7 +129,7 @@ class Gameboard(State):
                 #reset all hands objects in memory 
                 hand.reset_hand()
             #reset all the objects so the next round can start
-            self.player.win_amount = 0
+            self.player.reset_UI()
             self.turn_list.clear()     
             self.ring_row.clear()
 
@@ -356,6 +360,9 @@ class Gameboard(State):
                         self.game.draw_text(f"{hand.hand_sum}",30,hand.x, hand.y-100)
                         self.player_win() #pass out winnings 
                 #update the player's winning notification
+                if self.round_over:
+                    #update the player's difference
+                    self.player.round_difference_amount = self.player.win_amount - self.player.current_bet
                 
                 
                         
