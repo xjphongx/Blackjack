@@ -34,50 +34,53 @@ class Action_Menu():
                 self.gameboard.deck_pile.top().image_surface= pygame.transform.rotate(surface=self.gameboard.deck_pile.top().image_surface, angle = 90)
                 self.gameboard.hit(self.hand)
                 #add more funds equal to current bet from player funds and subtract from player's fund
-                self.gameboard.player.fund -= self.hand.bet_amount
-                self.hand.bet_amount = self.hand.bet_amount*2
+                self.gameboard.player.fund -= self.hand.bet_amount #subtract funds
+                self.gameboard.player.current_bet += self.hand.bet_amount #update current round bet
+                self.hand.bet_amount = self.hand.bet_amount*2 #update hand bet amount
                 self.hand.stand = True#ends the hand's turn
             
         if self.split_button.draw(self.game.display):       
             #Edge case where orignal hand has an ACE card
             #if self.hand.hasAce:
                 #self.hand.upper_sum -= self.hand.card_list[-1].pip_value
-            #create a new test hand next
-            self.gameboard.player.split_hand(hand=self.hand,
-                                            isExtra=True,
-                                            bet_amount=self.hand.bet_amount,
-                                            x=self.hand.x,
-                                            y=self.hand.y,
-                                            isDealer=False)
-            #Moves the hand to the right
-            self.hand.x = self.hand.x+60
-            #reverts to the last known placement
-            self.hand.placement.x = self.hand.x-20
-            self.hand.placement.y = self.hand.y-20
-            #shifts the card to the right
-            for i , card in enumerate(self.hand.card_list):
-                card.rect.x += 60
             
-            #Pass out new cards to both hands and continue to play
-            current_index = self.gameboard.turn_list.index(self.hand)
-            self.gameboard.hit(self.hand)
-            self.gameboard.hit(self.gameboard.turn_list[current_index+1])    
-
-            #shifts the action menu buttons 
-            self.hit_button.update_coordinates(x=self.hit_button.rect.x+100,y=self.hit_button.rect.y)
-            self.double_button.update_coordinates(x=self.double_button.rect.x+100,y=self.double_button.rect.y)
-            self.split_button.update_coordinates(x=self.split_button.rect.x+100,y=self.split_button.rect.y)
-            self.stand_button.update_coordinates(x=self.stand_button.rect.x+100,y=self.stand_button.rect.y)
-            
-            #TODO Check if hands has matching pairs 
+        
+            #Check if hands has matching pairs 
             if self.hand.card_list[0].type == self.hand.card_list[-1].type:
+                #subtract funds and update UI
+                self.gameboard.player.fund -= self.hand.bet_amount
+                self.gameboard.player.current_bet += self.hand.bet_amount
+                
                 #test by moving the original hand
+                #create a new test hand next
+                self.gameboard.player.split_hand(hand=self.hand,
+                                                isExtra=True,
+                                                bet_amount=self.hand.bet_amount,
+                                                x=self.hand.x,
+                                                y=self.hand.y,
+                                                isDealer=False)
+                #Moves the hand to the right
+                self.hand.x = self.hand.x+60
+                #reverts to the last known placement
+                self.hand.placement.x = self.hand.x-20
+                self.hand.placement.y = self.hand.y-20
+                #shifts the card to the right
+                for i , card in enumerate(self.hand.card_list):
+                    card.rect.x += 60
                 
+                #Pass out new cards to both hands and continue to play
+                current_index = self.gameboard.turn_list.index(self.hand)
+                self.gameboard.hit(self.hand)
+                self.gameboard.hit(self.gameboard.turn_list[current_index+1])    
+
+                #shifts the action menu buttons 
+                self.hit_button.update_coordinates(x=self.hit_button.rect.x+100,y=self.hit_button.rect.y)
+                self.double_button.update_coordinates(x=self.double_button.rect.x+100,y=self.double_button.rect.y)
+                self.split_button.update_coordinates(x=self.split_button.rect.x+100,y=self.split_button.rect.y)
+                self.stand_button.update_coordinates(x=self.stand_button.rect.x+100,y=self.stand_button.rect.y)
                 
-
-
                 #TODO Delete new hand before playing again
-                pass
+                
         if self.stand_button.draw(self.game.display):
             self.hand.stand = True
             
