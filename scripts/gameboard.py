@@ -130,6 +130,7 @@ class Gameboard(State):
                 hand.reset_hand()
             #reset all the objects so the next round can start
             self.player.reset_UI()
+            self.delete_extra_hands()
             self.turn_list.clear()     
             self.ring_row.clear()
 
@@ -363,7 +364,12 @@ class Gameboard(State):
                 if self.round_over:
                     #update the player's difference
                     self.player.round_difference_amount = self.player.win_amount - self.player.current_bet
-                
+    
+    #This function will go through the turn list and delete the memory address of any extra hand
+    def delete_extra_hands(self):
+        for i, hand in enumerate(self.turn_list):
+            if hand.isExtra:
+                del hand
                 
                         
                         
