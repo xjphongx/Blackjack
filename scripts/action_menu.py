@@ -1,6 +1,10 @@
 import pygame
 from scripts.button import Button
 
+class ButtonNode():
+    def __init__(self,x) -> None:
+        self.val = x
+        self.next = None
 
 class Action_Menu():
     def __init__(self, hand, game, gameboard, x, y):
@@ -24,9 +28,10 @@ class Action_Menu():
 #TODO make the menu dynamicly relocate base on avaiable player options
 
     def display(self):
+        #HIT HAND BUTTON
         if self.hit_button.draw(self.game.display):
             self.gameboard.hit(self.hand)
-        
+        #DOUBLE DOWN BUTTON
         if self.double_button.draw(self.game.display):
             #check if hand is doubleable, if the first 2 cards are less than 11
             if len(self.hand.card_list) <= 2 and self.hand.hand_sum <=11 and self.gameboard.player.fund > self.hand.bet_amount:
@@ -38,20 +43,16 @@ class Action_Menu():
                 self.gameboard.player.current_bet += self.hand.bet_amount #update current round bet
                 self.hand.bet_amount = self.hand.bet_amount*2 #update hand bet amount
                 self.hand.stand = True#ends the hand's turn
-            
+        #SPLIT BUTTON 
         if self.split_button.draw(self.game.display):       
             #Edge case where orignal hand has an ACE card
             #if self.hand.hasAce:
                 #self.hand.upper_sum -= self.hand.card_list[-1].pip_value
-            
-        
             #Check if hands has matching pairs 
             if self.hand.card_list[0].type == self.hand.card_list[-1].type:
                 #subtract funds and update UI
                 self.gameboard.player.fund -= self.hand.bet_amount
                 self.gameboard.player.current_bet += self.hand.bet_amount
-                
-                #test by moving the original hand
                 #create a new test hand next
                 self.gameboard.player.split_hand(hand=self.hand,
                                                 isExtra=True,
@@ -67,21 +68,16 @@ class Action_Menu():
                 #shifts the card to the right
                 for i , card in enumerate(self.hand.card_list):
                     card.rect.x += 60
-                
                 #Pass out new cards to both hands and continue to play
                 current_index = self.gameboard.turn_list.index(self.hand)
                 self.gameboard.hit(self.hand)
                 self.gameboard.hit(self.gameboard.turn_list[current_index+1])    
-
                 #shifts the action menu buttons 
                 self.hit_button.update_coordinates(x=self.hit_button.rect.x+100,y=self.hit_button.rect.y)
                 self.double_button.update_coordinates(x=self.double_button.rect.x+100,y=self.double_button.rect.y)
                 self.split_button.update_coordinates(x=self.split_button.rect.x+100,y=self.split_button.rect.y)
                 self.stand_button.update_coordinates(x=self.stand_button.rect.x+100,y=self.stand_button.rect.y)
-                
-                #TODO Delete new hand before playing again
-                
+        #STAND BUTTON        
         if self.stand_button.draw(self.game.display):
             self.hand.stand = True
-            
             
