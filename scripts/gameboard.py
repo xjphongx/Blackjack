@@ -21,14 +21,15 @@ class Gameboard(State):
         self.deck_pile = DeckPile()
         self.deck_pile.load_cards_to_deck()
         self.discard_pile = DiscardPile()
-        for i in range(8):     #shuffle the deck when starting the gameboard
-            self.deck_pile.cut_deck()
-            self.deck_pile.casino_shuffle()          
+        #for i in range(8):     #shuffle the deck when starting the gameboard
+            #self.deck_pile.cut_deck()
+            #self.deck_pile.casino_shuffle()
+
         #temporary button
         confirm_button_image = pygame.image.load("images/buttons/confirm_button.png").convert_alpha()
-        self.confirm_button = Button(x=self.game.display_width/2,y= self.game.display_height/2-120,image=confirm_button_image,scale=.07)
+        self.confirm_button = Button(x=self.game.display_width/2,y= self.game.display_height/2-140,image=confirm_button_image,scale=.07)
         play_again_image = pygame.image.load("images/buttons/play_again_button.png").convert_alpha()
-        self.play_again_button = Button(x=self.game.display_width/2,y= self.game.display_height/2-120,image= play_again_image, scale=.07)
+        self.play_again_button = Button(x=self.game.display_width/2,y= self.game.display_height/2-70,image= play_again_image, scale=.07)
 
         self.ring_row = Ring_Row(self.game, self)
         self.bet_menu = Bet_Menu(self.game, self) 
@@ -65,7 +66,7 @@ class Gameboard(State):
         
         if self.round_over == False:
             self.display_confirm_button()
-        if self.round_over:
+        else:
             self.display_play_again_button()
         
         #render the clickable button
@@ -97,16 +98,13 @@ class Gameboard(State):
                         self.turn_list.extend(self.player.hand_list)
                         self.turn_list.reverse() #makes sure the player is dealt cards first
                         self.confirm_button.isActive = True #removes the confirm button from screen
-                        self.filter_List() #removes the integer values in the turnlist
-                        
+                        self.filter_List() #removes the integer values in the turnlist        
                         #set ring bets to hand bets and update current bet to be the round's current bet
                         for i , hand in enumerate(self.turn_list[:-1]):
                             #sets the hand bet amount = ring bet amount
                             hand.bet_amount = self.ring_row.ring_map[hand.order].bet_amount
                             self.player.current_bet += hand.bet_amount #updates the round's current bet
                             self.ring_row.ring_map[hand.order].bet_amount = 0 #sets the ring bet amount = 0 to reset the ring
-                        
-                            
                         #pass out cards
                         self.pass_cards()
                         #set first hand's turn and start game
@@ -133,8 +131,6 @@ class Gameboard(State):
             self.delete_extra_hands()
             self.turn_list.clear()     
             self.ring_row.clear()
-
-            #TODO play again button will only appear when round is done
             self.confirm_button.isActive = False
             self.round_over = False #next round is active
 
@@ -184,7 +180,6 @@ class Gameboard(State):
             hand.lost_amount -= hand.bet_amount
             hand.bet_amount = 0 
             self.ring_row.ring_map[hand.order].hasChip = False 
-        
         #This section is for extra hands when spliting 
         if hand.isExtra:
             hand.hasChip = False
@@ -213,7 +208,6 @@ class Gameboard(State):
     def player_win(self):
         for i, hand in enumerate(self.turn_list[:-1]):
             if hand.bust == False:
-                #TODO add winning notification
                 self.player.win_amount += hand.bet_amount*2
                 hand.win_amount = hand.bet_amount
                 hand.bust = True
@@ -233,8 +227,7 @@ class Gameboard(State):
                     self.deck_pile.top().isFaceDown = True
                 #add the top card into the hand in turn list
                 self.hit(hand)
-                #TODO make the cards passing slower  
-                          
+                #TODO make the cards passing slower           
         self.printTest()   
 
     def printTest(self):
@@ -244,7 +237,6 @@ class Gameboard(State):
             print(f"hand {hand.order}{hand}", end = " ")
             for j, card in enumerate(hand.card_list):
                 print(hand.card_list[j].type,end = " ")
-
             #if hand has an Ace card, show two different sum values
             if hand.hasAce:
                 print(f"Hand Sum: {hand.hand_sum}")
@@ -258,7 +250,6 @@ class Gameboard(State):
         for i , hand in enumerate(self.turn_list[:-1]):
             if hand.bust:
                 bust_count+=1
-        
         if bust_count == len(self.turn_list[:-1]):
             return True
         return False
@@ -267,10 +258,12 @@ class Gameboard(State):
         #TODO case where 20% of the remain cards are left in the deck pile,
         #reshuffle the discard pile into the deck pile and start game
         if self.deck_pile.size <= 50 and self.playing:
-            #comebine discard pile into deck pile and reshuffle
+            #combine discard pile into deck pile and reshuffle
             self.deck_pile.combine(self.discard_pile) #takes the stack object as an argument
         
 #TODO THERE IS A BUG WHERE DEALER GETS A BLACKJACK AND THE BOARD IS GONE
+# it goes into the next round, NOT play again button is found 
+
         #Check case where dealer has a blackjack to immediately end the game and collect bets
         if self.turn_list[-1].hasAce and (self.turn_list[-1].hand_upper_sum == 21):
             #revealed facedown card, dealer's hand sum, and blit the all cards on screen
@@ -280,8 +273,8 @@ class Gameboard(State):
             #cycle through the turn list and bust every hand except dealers
             for j, hand in enumerate(self.turn_list):
                 hand.display(self.game.display)
-                if not hand.isDealer:
-                    self.bust(hand) #bust every hand       
+                if not hand.isDealer and not (hand.hand_sum == 21 or hand.hand_upper_sum == 21):
+                    self.bust(hand) #bust every hand except for hand with 21      
             self.round_over = True #ends the round
         #continue with game when dealer DOES NOT have an immediate blackjack
         else: #display the cards from each hand
@@ -299,6 +292,11 @@ class Gameboard(State):
                             self.game.draw_text(f"{hand.hand_sum}",30,hand.x, hand.y+90)   
                         else:
                             self.game.draw_text(f"{hand.hand_sum} or {hand.hand_upper_sum}",30,hand.x, hand.y+90)   
+                    #Case where player is dealt a Blackjack with the first two cards, hand MUST stand
+                    elif hand.hasAce and hand.hand_upper_sum == 21 and len(hand.card_list) == 2 and hand.isTurn:
+                        hand.stand = True
+                        hand.hand_sum = hand.hand_upper_sum
+                        self.game.draw_text(f"{hand.hand_sum}",30,hand.x, hand.y+90)               
                     #has ace and equals to 21
                     elif hand.hasAce and hand.hand_upper_sum == 21:
                         if hand.stand:
@@ -329,7 +327,6 @@ class Gameboard(State):
                 if hand.isDealer and hand.isTurn:
                     #reveal the face down card and sum
                     hand.card_list[-1].isFaceDown = False
-                    
                     #Case where dealer has a an ACE and resulted in a blackjack
                     if hand.hasAce and hand.hand_upper_sum == 21:
                         hand.hand_sum = 21
