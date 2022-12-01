@@ -105,10 +105,7 @@ class Action_Menu():
                 #self.stand_button.update_coordinates(x=self.stand_button.rect.x+100,y=self.stand_button.rect.y)
                 self.original_x += 60
                 self.reset_placement() #resets for next available options
-                print(f"handsum: {self.hand.hand_sum}")
-                print(f"handuppersum: {self.hand.hand_upper_sum}")
-                
-        
+
         #STAND BUTTON        
         if self.stand_button.draw(self.game.display):
             self.hand.stand = True

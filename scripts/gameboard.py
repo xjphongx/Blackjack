@@ -179,7 +179,8 @@ class Gameboard(State):
             #this is the ring object based on key(hand's order)
             hand.lost_amount -= hand.bet_amount
             hand.bet_amount = 0 
-            self.ring_row.ring_map[hand.order].hasChip = False 
+            self.ring_row.ring_map[hand.order].hasChip = False  #for single hand in ring
+            hand.hasChip = False #for hands in split
         #This section is for extra hands when spliting 
         if hand.isExtra:
             hand.hasChip = False
@@ -365,9 +366,11 @@ class Gameboard(State):
     
     #This function will go through the turn list and delete the memory address of any extra hand
     def delete_extra_hands(self):
+        print(f"before delete hands {self.turn_list}")
         for i, hand in enumerate(self.turn_list):
             if hand.isExtra:
-                del hand
+                del self.turn_list[i]
+        print(f"after delete hands {self.turn_list}")
                 
                         
                         
