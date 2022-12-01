@@ -66,7 +66,6 @@ class Player():
         new_index = self.gameboard.turn_list.index(hand)+1  #the NEXT index
         self.gameboard.turn_list.insert(new_index,new_hand) #inserts into the correct index
 
-
     def remove_Hand(self,order):
         pass
     
@@ -91,7 +90,7 @@ class Player():
 class Dealer(Player,pygame.sprite.Sprite):
     def __init__(self, game, gameboard):
         super().__init__(game, gameboard, fund = DEALER_STARTING_FUND)
-        self.hand_list = [6]
+        self.hand_list = [6] #puts the dealer last in the turn list
         self.add_Hand(order= 6,x= 750,y= 225, bet_amount=0,isDealer = True)
         self.dealer_image_path = os.path.abspath('images/dealer.png')
         self.dealer_image_surface = pygame.image.load(self.dealer_image_path).convert_alpha()

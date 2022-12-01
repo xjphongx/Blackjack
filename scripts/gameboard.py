@@ -309,6 +309,7 @@ class Gameboard(State):
                         self.game.draw_text(f"{hand.hand_sum}",30,hand.x, hand.y+90)
                     #display hand sum no matter what
                     else:
+                        
                         self.game.draw_text(f"{hand.hand_sum}",30,hand.x, hand.y+90)
                     #check if hand is busted
                     if hand.hand_sum > 21:

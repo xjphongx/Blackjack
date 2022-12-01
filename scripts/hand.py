@@ -59,7 +59,7 @@ class Hand():
         self.stand = False
         self.placement.x = self.x
         self.placement.y = self.y
-    
+        self.action_menu.reset_placement()
     
     def display_result(self):
         if self.win_amount > 0:
@@ -92,14 +92,17 @@ class Hand():
     
     #Function remove_card pops the top of hand's card list 
     def remove_card(self)-> Card:
-        top_card = self.card_list[-1]
-        if top_card.type == 'Ace':
-            self.hasAce = False
-            self.hand_sum -= top_card.pip_value
-            self.hand_upper_sum -= top_card.high_pip_value
+        
+        if self.card_list[-1].type == 'Ace':
+            if self.card_list[0].type == 'Ace':
+                self.hasAce = True 
+            else:
+                self.hasAce = False #set to false if botton card is not an ace
+            self.hand_sum -= self.card_list[-1].pip_value
+            self.hand_upper_sum -= self.card_list[-1].high_pip_value
         else:
-            self.hand_sum -= top_card.pip_value
-            self.hand_upper_sum -=top_card.pip_value
+            self.hand_sum -= self.card_list[-1].pip_value
+            self.hand_upper_sum -= self.card_list[-1].pip_value
         
         temp_card = self.card_list.pop()
         self.hand_size = len(self.card_list) #update hand size after pop, to prevent error

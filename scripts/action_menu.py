@@ -32,9 +32,7 @@ class Action_Menu():
         if self.isInit == False:
             
             if self.hand.hand_sum == 21:
-                self.hit_button.rect.center = (self.x, self.y)
-                self.y -=35
-
+                self.y -=35 #move the original placement down
             self.hit_button.rect.center = (self.x, self.y)
 
             self.y += 35 #places the next y coordinate
@@ -106,8 +104,10 @@ class Action_Menu():
                 #self.split_button.update_coordinates(x=self.split_button.rect.x+100,y=self.split_button.rect.y)
                 #self.stand_button.update_coordinates(x=self.stand_button.rect.x+100,y=self.stand_button.rect.y)
                 self.original_x += 60
-                #self.original_y -= 20
                 self.reset_placement() #resets for next available options
+                print(f"handsum: {self.hand.hand_sum}")
+                print(f"handuppersum: {self.hand.hand_upper_sum}")
+                
         
         #STAND BUTTON        
         if self.stand_button.draw(self.game.display):
