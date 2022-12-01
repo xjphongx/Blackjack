@@ -115,6 +115,13 @@ class DeckPile(Stack,pygame.sprite.Sprite):
         self.cut_deck()
         self.casino_shuffle()
 
+    #Function set top card will search the deck from bottom to top and place the desired card on top
+    def set_top_card(self, card_type:str):
+        for i, card in enumerate(self.stack):
+            if card.type == card_type:
+                self.stack.insert(-1,card)
+
+
 class DiscardPile(Stack,pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
