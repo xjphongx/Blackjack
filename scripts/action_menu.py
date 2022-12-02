@@ -89,11 +89,11 @@ class Action_Menu():
                 #Moves the hand to the right
                 self.hand.x += 60
                 #reverts to the last known placement
-                self.hand.placement.x = self.hand.x-20
+                self.hand.placement.x = self.hand.x-10
                 self.hand.placement.y = self.hand.y-20
                 #shifts the card to the right
                 for i , card in enumerate(self.hand.card_list):
-                    card.rect.x += 60
+                    card.rect.x += 70
                 #Pass out new cards to both hands and continue to play
                 current_index = self.gameboard.turn_list.index(self.hand)
                 self.gameboard.hit(self.hand)
@@ -103,7 +103,7 @@ class Action_Menu():
                 #self.double_button.update_coordinates(x=self.double_button.rect.x+100,y=self.double_button.rect.y)
                 #self.split_button.update_coordinates(x=self.split_button.rect.x+100,y=self.split_button.rect.y)
                 #self.stand_button.update_coordinates(x=self.stand_button.rect.x+100,y=self.stand_button.rect.y)
-                self.original_x += 60
+                self.original_x += 70
                 self.reset_placement() #resets for next available options
 
         #STAND BUTTON        
