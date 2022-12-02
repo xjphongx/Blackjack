@@ -45,11 +45,11 @@ class Player():
             #get the ring's chip
             new_hand.chip = self.gameboard.ring_row.ring_map[hand.order].chip 
             #get the ring's x and y coordinates
-            new_hand.chip_x = new_hand.x - 50
+            new_hand.chip_x = new_hand.x - 30
             new_hand.chip_y = new_hand.y + 150
             #same thing but for the original chip
             hand.chip = self.gameboard.ring_row.ring_map[hand.order].chip 
-            hand.chip_x = hand.x + 50
+            hand.chip_x = hand.x + 30
             hand.chip_y = hand.y + 150
             #remove the ring's chip for visual affects
             self.gameboard.ring_row.ring_map[hand.order].chip = self.gameboard.ring_row.ring_map[hand.order].empty_button.image

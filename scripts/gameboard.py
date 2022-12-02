@@ -21,9 +21,9 @@ class Gameboard(State):
         self.deck_pile = DeckPile()
         self.deck_pile.load_cards_to_deck()
         self.discard_pile = DiscardPile()
-        #for i in range(8):     #shuffle the deck when starting the gameboard
-            #self.deck_pile.cut_deck()
-            #self.deck_pile.casino_shuffle()
+        for i in range(8):     #shuffle the deck when starting the gameboard
+            self.deck_pile.cut_deck()
+            self.deck_pile.casino_shuffle()
 
         #temporary button
         confirm_button_image = pygame.image.load("images/buttons/confirm_button.png").convert_alpha()
@@ -149,8 +149,8 @@ class Gameboard(State):
         top_card = self.deck_pile.top()
         self.deck_pile.pop()
         #calculate distance from card to hand placement
-        top_card.delta_x = abs(top_card.x - hand.placement.x)/60
-        top_card.delta_y = abs(top_card.y - hand.placement.y)/60
+        top_card.delta_x = abs(top_card.x - hand.placement.x)/100
+        top_card.delta_y = abs(top_card.y - hand.placement.y)/100
         #Loop card blit animation from deck pile to targeted placement
         while True:
             top_card.rect = top_card.card_back_surface.get_rect(center= (top_card.x,top_card.y))
