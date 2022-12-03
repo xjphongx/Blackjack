@@ -17,6 +17,7 @@ class Gameboard(State):
         self.min_bet = 50
         back_image = pygame.image.load("images/buttons/back_button.png").convert_alpha()
         self.back_button = Button(x=325,y=50,image=back_image,scale=.07)
+        
         self.dealer = Dealer(self.game, self)
         self.deck_pile = DeckPile()
         self.deck_pile.load_cards_to_deck()
@@ -29,7 +30,15 @@ class Gameboard(State):
         confirm_button_image = pygame.image.load("images/buttons/confirm_button.png").convert_alpha()
         self.confirm_button = Button(x=self.game.display_width/2,y= self.game.display_height/2-140,image=confirm_button_image,scale=.07)
         play_again_image = pygame.image.load("images/buttons/play_again_button.png").convert_alpha()
-        self.play_again_button = Button(x=self.game.display_width/2,y= self.game.display_height/2-70,image= play_again_image, scale=.07)
+        self.play_again_button = Button(x=self.game.display_width/2,y= self.game.display_height/2-100,image= play_again_image, scale=.07)
+        strategy_card_button_image = pygame.image.load("images/buttons/strategy_card.png").convert_alpha()
+        self.strategy_card_button = Button(x=150,y=825,image=strategy_card_button_image,scale = .07)
+        self.strategy_card_image = pygame.image.load("images/Simple_Blackjack_Strategy.png").convert_alpha()
+        self.card_rect = self.strategy_card_image.get_rect(center=(self.game.display_width/2,self.game.display_height/2))
+      
+
+        transparent_image = pygame.image.load("images/transparent_image.png").convert_alpha()
+        self.transparent_image_button = Button(x=0,y=0,image=transparent_image,scale= 2)
 
         self.ring_row = Ring_Row(self.game, self)
         self.bet_menu = Bet_Menu(self.game, self) 
@@ -69,12 +78,28 @@ class Gameboard(State):
         else:
             self.display_play_again_button()
         
-        #render the clickable button
+        #temp button
         if self.back_button.draw(self.game.display):
             #TODO save player funds, and card piles
             self.ring_row.clear() #clears the row 
             self.game.actions["back"] = True
 
+
+        #render the clickable button
+        #Display the transparent image button over the WHOLE gameboard if the button is NOT ACTIVE
+        if self.transparent_image_button.isActive == True:
+            if self.transparent_image_button.draw(self.game.display):
+                    self.strategy_card_button.isActive = False
+                    self.transparent_image_button.isActive = False  
+            #blit the card image on top of the transparent background
+            self.game.display.blit(self.strategy_card_image,self.card_rect)       
+        #Display the strategy card button for player access if the button is NOT ACTIVE
+        elif self.strategy_card_button.isActive == False: 
+            if self.strategy_card_button.draw(self.game.display):
+                self.strategy_card_button.isActive = True
+                self.transparent_image_button.isActive = True
+        
+ 
 
     #state change to the title
     def update(self,actions):
