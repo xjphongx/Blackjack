@@ -17,14 +17,11 @@ class Gameboard(State):
         self.min_bet = 50
         back_image = pygame.image.load("images/buttons/back_button.png").convert_alpha()
         self.back_button = Button(x=325,y=50,image=back_image,scale=.07)
-        
         self.dealer = Dealer(self.game, self)
         self.deck_pile = DeckPile()
         self.deck_pile.load_cards_to_deck()
+        self.deck_pile.shuffle()
         self.discard_pile = DiscardPile()
-        for i in range(8):     #shuffle the deck when starting the gameboard
-            self.deck_pile.cut_deck()
-            self.deck_pile.casino_shuffle()
 
         #temporary button
         confirm_button_image = pygame.image.load("images/buttons/confirm_button.png").convert_alpha()
@@ -36,7 +33,6 @@ class Gameboard(State):
         self.strategy_card_image = pygame.image.load("images/Simple_Blackjack_Strategy.png").convert_alpha()
         self.card_rect = self.strategy_card_image.get_rect(center=(self.game.display_width/2,self.game.display_height/2))
       
-
         transparent_image = pygame.image.load("images/transparent_image.png").convert_alpha()
         self.transparent_image_button = Button(x=0,y=0,image=transparent_image,scale= 2)
 
@@ -72,7 +68,7 @@ class Gameboard(State):
                         50, 
                         self.game.display_width/2,
                         self.game.display_height/5)
-        
+        #controls the confirm and play again buttons to switch between the two
         if self.round_over == False:
             self.display_confirm_button()
         else:
@@ -83,7 +79,6 @@ class Gameboard(State):
             #TODO save player funds, and card piles
             self.ring_row.clear() #clears the row 
             self.game.actions["back"] = True
-
 
         #render the clickable button
         #Display the transparent image button over the WHOLE gameboard if the button is NOT ACTIVE
@@ -99,8 +94,6 @@ class Gameboard(State):
                 self.strategy_card_button.isActive = True
                 self.transparent_image_button.isActive = True
         
- 
-
     #state change to the title
     def update(self,actions):
         if actions["back"]:
@@ -108,7 +101,6 @@ class Gameboard(State):
         self.game.reset_actions()
 
 #Gameboard helper function below
-
     #This function displays and adds functionality to the confirm button
     def display_confirm_button(self):
         #checks if player is deciding, if clicked, pass out cards
@@ -142,8 +134,13 @@ class Gameboard(State):
     def display_play_again_button(self):
         #display button
         if self.play_again_button.draw(self.game.display) == True:
-            #move all the cards on the board to the discard pile
-            self.playing = False
+            #Before starting the next round, check then shuffle the discard pile into the deck pile
+            if self.deck_pile.size <= 50:
+                #combine discard pile into deck pile and reshuffle
+                self.deck_pile.combine(self.discard_pile) #takes the stack object as an argument
+                self.discard_pile.clear()
+                self.deck_pile.shuffle()
+            #Move all the cards on the board to the discard pile
             for i, hand in enumerate(self.turn_list):  
                 #update funds after round is over 
                 self.player.add_funds((hand.bet_amount+hand.win_amount))              
@@ -158,6 +155,7 @@ class Gameboard(State):
             self.ring_row.clear()
             self.confirm_button.isActive = False
             self.round_over = False #next round is active
+            self.playing = False
 
     #function filter list uses a simple algorithm to search and replace the list
     def filter_List(self):
@@ -281,14 +279,8 @@ class Gameboard(State):
         return False
 
     def start_round(self):       
-        #TODO case where 20% of the remain cards are left in the deck pile,
-        #reshuffle the discard pile into the deck pile and start game
-        if self.deck_pile.size <= 50 and self.playing:
-            #combine discard pile into deck pile and reshuffle
-            self.deck_pile.combine(self.discard_pile) #takes the stack object as an argument
-        
-#TODO THERE IS A BUG WHERE DEALER GETS A BLACKJACK AND THE BOARD IS GONE
-# it goes into the next round, NOT play again button is found 
+    #TODO THERE IS A BUG WHERE DEALER GETS A BLACKJACK AND THE BOARD IS GONE
+    # it goes into the next round, NOT play again button is found 
 
         #Check case where dealer has a blackjack to immediately end the game and collect bets
         if self.turn_list[-1].hasAce and (self.turn_list[-1].hand_upper_sum == 21):

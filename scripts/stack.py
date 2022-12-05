@@ -121,6 +121,11 @@ class DeckPile(Stack,pygame.sprite.Sprite):
             if card.type == card_type:
                 self.stack.insert(-1,card)
 
+    #Function shuffle will shuffle and cut the deck stack
+    def shuffle(self):
+        for i in range(8): #shuffle 8 times
+            self.cut_deck()
+            self.casino_shuffle()
 
 class DiscardPile(Stack,pygame.sprite.Sprite):
     def __init__(self):
