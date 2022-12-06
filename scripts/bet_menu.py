@@ -7,7 +7,7 @@ class Bet_Menu():
         self.gameboard = gameboard #to get a reference to the gameboard
         self.x, self.y = self.game.display_width/2 , self.game.display_height - 50
         self.bet_text_x, self.bet_text_y = self.x , self.y
-        self.fund_text_x, self.fund_text_y = 1100,850
+        self.fund_text_x, self.fund_text_y = 1150,850
         position_x_1, position_x_2, position_x_3 = self.x-270, self.x-180, self.x-90
         position_x_4 = self.x #center and fixed positions around the center
         position_x_5, position_x_6, position_x_7 = self.x+90, self.x+180, self.x+270
