@@ -41,12 +41,11 @@ class Action_Menu():
                 self.double_button.rect.center = (self.x, self.y) #the next coor
                 self.y += 35 #updates next y coordinate
             #if hand can split, update the button's next y coordinate
-            if self.hand.card_list[0].type == self.hand.card_list[1].type and len(self.hand.card_list) == 2:
+            if self.hand.card_list[0].type == self.hand.card_list[1].type and self.hand.hand_size == 2:
                 self.split_button.rect.center = (self.x,self.y)
                 self.y += 35 #updates next y coordinate
             #Update Stand's coordinates
             self.stand_button.rect.center = (self.x, self.y)
-            self.y += 35
             self.isInit = True #run once
 
 #TODO make the menu dynamicly relocate base on avaiable player options
@@ -74,7 +73,7 @@ class Action_Menu():
                 self.hand.stand = True#ends the hand's turn
         #SPLIT BUTTON 
         #Check if hands has matching pairs 
-        if self.hand.card_list[0].type == self.hand.card_list[-1].type:
+        if self.hand.card_list[0].type == self.hand.card_list[1].type and self.hand.hand_size == 2:
             if self.split_button.draw(self.game.display):       
                 #subtract funds and update UI
                 self.gameboard.player.fund -= self.hand.bet_amount
@@ -98,11 +97,7 @@ class Action_Menu():
                 current_index = self.gameboard.turn_list.index(self.hand)
                 self.gameboard.hit(self.hand)
                 self.gameboard.hit(self.gameboard.turn_list[current_index+1])    
-                #shifts the action menu buttons 
-                #self.hit_button.update_coordinates(x=self.hit_button.rect.x+100,y=self.hit_button.rect.y)
-                #self.double_button.update_coordinates(x=self.double_button.rect.x+100,y=self.double_button.rect.y)
-                #self.split_button.update_coordinates(x=self.split_button.rect.x+100,y=self.split_button.rect.y)
-                #self.stand_button.update_coordinates(x=self.stand_button.rect.x+100,y=self.stand_button.rect.y)
+
                 self.original_x += 70
                 self.reset_placement() #resets for next available options
 
