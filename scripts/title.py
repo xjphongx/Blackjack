@@ -1,8 +1,7 @@
 import pygame
 from scripts.state import State
-from scripts.gameboard import Gameboard
 from scripts.loading import Loading
-from scripts.howtoplay import HowToPlay #allow state transition interation
+from scripts.howtoplay import Tutorial #allow state transition interation
 from scripts.button import Button
 
 class Title(State):
@@ -47,15 +46,11 @@ class Title(State):
 
     def update(self, actions):
         #checks actions and creates state for state transition
-        if actions["play"]:
+        if actions["play"]: 
             next_state = Loading(self.game)
             next_state.enter_state()
-            #next_state = Gameboard(self.game)
-            #next_state.enter_state()
         elif actions["howtoplay"]:
-            self.prev_state = self.game.state_stack[-1]
-            print(self.prev_state)
-            next_state = HowToPlay(self.game)
+            next_state = Tutorial(self.game)
             next_state.enter_state()
         
         self.game.reset_actions()

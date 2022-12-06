@@ -1,8 +1,6 @@
 import pygame,os, sys
-from scripts.player import Player
-from scripts.cursor import Cursor
 from scripts.title import Title
-
+from scripts.statistic import Statistic
 
 class Game():
     def __init__(self):
@@ -24,10 +22,7 @@ class Game():
             "play":False,
             "howtoplay":False,
             "back":False,
-            "hit":False, #might not need player actions here
-            "stand":False,
-            "double":False,
-            "split":False
+            "next":False
         }
     
     def render(self):

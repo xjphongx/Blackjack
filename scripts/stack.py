@@ -46,7 +46,7 @@ class DeckPile(Stack,pygame.sprite.Sprite):
         with open(CARD_PATH_TO_JSON, 'r') as jsonfile: #opens the cards json file
             cards = json.load(jsonfile)
         #creates 6 decks of cards in one pile
-        for i in range(1): #TODO is there anyway to make loading faster?
+        for i in range(6): #TODO is there anyway to make loading faster?
             for data_item in cards['card_decks']:
                 #create a new card for every iteration
                 card_object = Card(
@@ -106,11 +106,6 @@ class DeckPile(Stack,pygame.sprite.Sprite):
         self.stack.extend(discard_stack)
         discard_stack.clear()
         self.size = len(self.stack)
-        self.casino_shuffle()
-        self.cut_deck()
-        self.casino_shuffle()
-        self.cut_deck()
-        self.casino_shuffle()
 
     #Function set top card will search the deck from bottom to top and place the desired card on top
     def set_top_card(self, card_type:str):
