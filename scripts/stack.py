@@ -11,7 +11,6 @@ class Stack():
     def __init__(self):
         self.stack = []
         self.size = 0
-
     def push(self,value):           #adds to the end of the list
         self.stack.append(value)
         self.size +=1
@@ -25,14 +24,13 @@ class Stack():
             print(card.type, end= " ")  
         print() #skips a line
     def clear(self):
+        self.stack.clear()
         self.stack = []
         self.size = 0
     def get_size(self):             #return length of the list
         return len(self.stack)
     def update_size(self):          #update class size with its current list size
         self.size = len(self.stack)
-        #i might not need this if i update after every pop
-    #add a get top 10 
     
 class DeckPile(Stack,pygame.sprite.Sprite):
     def __init__(self):
@@ -48,7 +46,7 @@ class DeckPile(Stack,pygame.sprite.Sprite):
         with open(CARD_PATH_TO_JSON, 'r') as jsonfile: #opens the cards json file
             cards = json.load(jsonfile)
         #creates 6 decks of cards in one pile
-        for i in range(6): #TODO is there anyway to make loading faster?
+        for i in range(1): #TODO is there anyway to make loading faster?
             for data_item in cards['card_decks']:
                 #create a new card for every iteration
                 card_object = Card(
@@ -60,7 +58,6 @@ class DeckPile(Stack,pygame.sprite.Sprite):
                 )#end of card_object
                 self.stack.append(card_object)#push the card object into gameboard's deck_pile
                 self.size += 1 #update size after adding card
-
         jsonfile.close() #close the json file
     
     #Function cut_deck() contains 3 steps:
@@ -79,7 +76,6 @@ class DeckPile(Stack,pygame.sprite.Sprite):
         for j in range(0,cut_limit):
             tempList.append(self.stack[j])   #moves the bottom portion into temp
         self.stack = tempList.copy()         #updates the class stack to the resulting temp list
-        #print(self.stack)
 
     #Function casino_shuffle() contains three steps:
     #   Step 1: Split the stack into two equal halves
@@ -106,9 +102,10 @@ class DeckPile(Stack,pygame.sprite.Sprite):
     #   Purpose is to join together the two stack object's stack list data structure
     #   and clear the discard pile's stack
     #   After, shuffle and split the cards
-    def combine(self, discard_pile: Stack):
-        self.stack.extend(discard_pile.stack)
-        discard_pile.clear()
+    def combine(self, discard_stack: Stack):
+        self.stack.extend(discard_stack)
+        discard_stack.clear()
+        self.size = len(self.stack)
         self.casino_shuffle()
         self.cut_deck()
         self.casino_shuffle()

@@ -134,20 +134,24 @@ class Gameboard(State):
     def display_play_again_button(self):
         #display button
         if self.play_again_button.draw(self.game.display) == True:
-            #Before starting the next round, check then shuffle the discard pile into the deck pile
-            if self.deck_pile.size <= 50:
-                #combine discard pile into deck pile and reshuffle
-                self.deck_pile.combine(self.discard_pile) #takes the stack object as an argument
-                self.discard_pile.clear()
-                self.deck_pile.shuffle()
+            
             #Move all the cards on the board to the discard pile
             for i, hand in enumerate(self.turn_list):  
                 #update funds after round is over 
                 self.player.add_funds((hand.bet_amount+hand.win_amount))              
                 for j , card in enumerate(hand.card_list):
+                    card.reset() #set all cards to default
                     self.discard_pile.push(card)
                 #reset all hands objects in memory 
                 hand.reset_hand()
+            
+            #Before starting the next round, check then shuffle the discard pile into the deck pile
+            if self.deck_pile.size <= 40:
+                #combine discard pile into deck pile and reshuffle
+                self.deck_pile.combine(self.discard_pile.stack) #takes the stack object as an argument
+                self.discard_pile.clear()
+                self.deck_pile.shuffle()
+                    
             #reset all the objects so the next round can start
             self.player.reset_UI()
             self.delete_extra_hands()
