@@ -15,7 +15,7 @@ class Game():
         self.IMAGE_SCALE = 0.15
         self.screen_title = pygame.display.set_caption("Black Jack")
         self.background_color = pygame.color.Color(0,132,113)
-        self.font_path = os.path.abspath('font/BlackJack.ttf')
+        self.font_path = os.path.abspath('font/Milkalte.otf')
         self.state_stack = []
         self.load_states()
         self.actions = {

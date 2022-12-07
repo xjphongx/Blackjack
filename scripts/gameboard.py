@@ -55,7 +55,7 @@ class Gameboard(State):
         self.game.draw_text(f"{self.deck_pile.size}", 30, self.deck_pile.rect.centerx, self.deck_pile.rect.centery+100)
         #set up discard pile
         self.game.display.blit(self.discard_pile.image_surface, self.discard_pile.rect)
-        self.game.draw_text(f"{self.discard_pile.size}", 30, self.discard_pile.rect.centerx, self.discard_pile.rect.centery+100)       
+        self.game.draw_text(f"{self.discard_pile.size}", 30, self.discard_pile.rect.centerx, self.discard_pile.rect.centery+110)       
         #betting bar and functionality
         self.bet_menu.display()
         #hand ring functionality
@@ -134,7 +134,6 @@ class Gameboard(State):
     def display_play_again_button(self):
         #display button
         if self.play_again_button.draw(self.game.display) == True:
-            
             #Move all the cards on the board to the discard pile
             for i, hand in enumerate(self.turn_list):  
                 #update funds after round is over 
@@ -144,8 +143,7 @@ class Gameboard(State):
                     self.discard_pile.push(card)
                 #reset all hands objects in memory 
                 hand.reset_hand()
-            
-            #Before starting the next round, check then shuffle the discard pile into the deck pile
+            #Check then shuffle the discard pile into the deck pile
             if self.deck_pile.size <= 40:
                 #combine discard pile into deck pile and reshuffle
                 self.deck_pile.combine(self.discard_pile.stack) #takes the stack object as an argument

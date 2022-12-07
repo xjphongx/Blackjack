@@ -7,7 +7,7 @@ class Bet_Menu():
         self.gameboard = gameboard #to get a reference to the gameboard
         self.x, self.y = self.game.display_width/2 , self.game.display_height - 50
         self.bet_text_x, self.bet_text_y = self.x , self.y
-        self.fund_text_x, self.fund_text_y = 1150,850
+        self.fund_text_x, self.fund_text_y = 1120,860
         position_x_1, position_x_2, position_x_3 = self.x-270, self.x-180, self.x-90
         position_x_4 = self.x #center and fixed positions around the center
         position_x_5, position_x_6, position_x_7 = self.x+90, self.x+180, self.x+270
@@ -35,11 +35,11 @@ class Bet_Menu():
 
     #display all the buttons 
     def display(self):
-        self.game.draw_text(f"Min Bet: {self.min_bet}", 40,self.bet_text_x-250, self.bet_text_y-63)
-        self.game.draw_text(f"Current Bet: {self.gameboard.player.current_bet}", 40, self.bet_text_x, self.bet_text_y-63)
+        self.game.draw_text(f"Min Bet: {self.min_bet}", 35,self.bet_text_x-250, self.bet_text_y-63)
+        self.game.draw_text(f"Current Bet: {self.gameboard.player.current_bet}", 35, self.bet_text_x, self.bet_text_y-63)
         self.game.draw_text(f"Round Won: {self.gameboard.player.win_amount}",30, self.fund_text_x, self.fund_text_y-70)
-        self.game.draw_text(f"Round Difference: {self.gameboard.player.round_difference_amount}", 30, self.fund_text_x,self.fund_text_y-35)
-        self.game.draw_text(f"Fund: {self.gameboard.player.fund}", 40, self.fund_text_x, self.fund_text_y)
+        self.game.draw_text(f"Round Profit: {self.gameboard.player.round_difference_amount}", 30, self.fund_text_x,self.fund_text_y-35)
+        self.game.draw_text(f"Fund: {self.gameboard.player.fund}", 35, self.fund_text_x, self.fund_text_y)
         #if statements will work if button is clicked and the game is not active
         if self.white_chip_button.draw(self.game.display) and not self.gameboard.confirm_button.isActive:
             if 5 <= self.gameboard.player.fund:
