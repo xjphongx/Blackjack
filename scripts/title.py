@@ -27,8 +27,8 @@ class Title(State):
     def render(self, display):
         #render all title screen objects here
         display.fill(self.game.background_color)
-        self.game.draw_text('Black Jack', 150, self.game.display_width/2, self.game.display_height/5)
-        self.game.draw_text('Game by Jimmy Phong',20, 1200,885) #adding game credits to author    
+        self.game.draw_text('Blackjack', 150, self.game.display_width/2, self.game.display_height/5)
+        self.game.draw_text('Game by Jimmy Phong',20, 1150,885) #adding game credits to author    
 
         #render the clickable buttons 
         if self.play_game_button.draw(self.game.display):
