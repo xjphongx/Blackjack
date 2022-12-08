@@ -16,15 +16,15 @@ class Tutorial(State):
         self.back_button = Button(self.back_x, self.back_y, back_image, .10)
         next_image = pygame.image.load("images/buttons/next_button.png").convert_alpha()
         self.next_button = Button(game.display_width-self.back_x, self.back_y, next_image, .10)
-        self.image_1 = pygame.image.load("images/tutorial_image1.png").convert_alpha()
+        self.image_1 = pygame.image.load("images/tutorial/tutorial_image1.png").convert_alpha()
         self.image_1 = pygame.transform.rotozoom(self.image_1,0,.98)
         self.image_1_rect = self.image_1.get_rect(center=(self.column_x,self.image_row_y))
         
-        self.image_2 = pygame.image.load("images/tutorial_image2.png").convert_alpha()
+        self.image_2 = pygame.image.load("images/tutorial/tutorial_image2.png").convert_alpha()
         self.image_2 = pygame.transform.rotozoom(self.image_2,0,.98)
         self.image_2_rect = self.image_2.get_rect(center=(self.column_x_2,self.image_row_y))
 
-        self.image_3 = pygame.image.load("images/tutorial_image3.png").convert_alpha()
+        self.image_3 = pygame.image.load("images/tutorial/tutorial_image3.png").convert_alpha()
         self.image_3 = pygame.transform.rotozoom(self.image_3,0,.98)
         self.image_3_rect = self.image_3.get_rect(center=(self.column_x_3,self.image_row_y))
 
@@ -73,8 +73,8 @@ class Tutorial_2(State):
         self.back_button = Button(self.back_x, self.back_y, back_image, .10)
         next_image = pygame.image.load("images/buttons/next_button.png").convert_alpha()
         self.next_button = Button(game.display_width-self.back_x, self.back_y, next_image, .10)
-        self.tutorial_image = pygame.image.load("images/tutorial_image.png").convert_alpha()
-        self.tutorial_image = pygame.transform.rotozoom(self.tutorial_image,0,.76)
+        self.tutorial_image = pygame.image.load("images/tutorial/tutorial_image.png").convert_alpha()
+        self.tutorial_image = pygame.transform.rotozoom(self.tutorial_image,0,.83)
         self.tutorial_image_rect = self.tutorial_image.get_rect(center=(game.display_width/2, (game.display_height/2)+75))
 
     def render(self,display):
@@ -102,11 +102,31 @@ class Tutorial_3(State):
         self.back_y = 55
         back_image = pygame.image.load("images/buttons/back_button.png").convert_alpha()
         self.back_button = Button(self.back_x, self.back_y, back_image, .10)
+        self.image_double_1 = pygame.image.load("images/tutorial/hand_action_double_tutorial.png").convert_alpha()
+        self.image_double_1 = pygame.transform.rotozoom(self.image_double_1,0,.9)
+        self.image_double_1_rect = self.image_double_1.get_rect(center=(self.game.display_width/3-80,self.game.display_height/3+60))
+        self.image_double_2 = pygame.image.load("images/tutorial/hand_double_tutorial.png").convert_alpha()
+        self.image_double_2 = pygame.transform.rotozoom(self.image_double_2,0,.9)
+        self.image_double_2_rect = self.image_double_2.get_rect(center=(self.game.display_width/3-100,self.game.display_height/3+350))
+        self.image_split_1 = pygame.image.load("images/tutorial/hand_action_split_tutorial.png").convert_alpha()
+        self.image_split_1 = pygame.transform.rotozoom(self.image_split_1,0,.9)
+        self.image_split_1_rect = self.image_split_1.get_rect(center=(self.game.display_width*(2/3),self.game.display_height/3+80))
+
+        self.image_split_2 = pygame.image.load("images/tutorial/hand_split_tutorial.png").convert_alpha()
+        self.image_split_2 = pygame.transform.rotozoom(self.image_split_2,0,.9)
+        self.image_split_2_rect = self.image_split_2.get_rect(center=(self.game.display_width*(2/3),self.game.display_height/3+340))
+
 
     def render(self,display):
         self.prev_state.render(display)
         display.fill(self.game.background_color)
         self.game.draw_text('How to Play', 100, self.game.display_width/2, self.game.display_height/10)
+        self.game.draw_text('Player Actions Menu:', 60, self.game.display_width/3-50, self.back_y +125)
+        self.game.display.blit(self.image_double_1,self.image_double_1_rect)
+        self.game.display.blit(self.image_double_2,self.image_double_2_rect)
+        self.game.display.blit(self.image_split_1,self.image_split_1_rect)
+        self.game.display.blit(self.image_split_2,self.image_split_2_rect)
+
         if self.back_button.draw(self.game.display):
             self.game.actions["back"] = True
     
