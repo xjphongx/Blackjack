@@ -106,7 +106,7 @@ class Gameboard(State):
         #checks if player is deciding, if clicked, pass out cards
         if self.confirm_button.isActive == False: 
                 #if the ring row is not empty and ring row has valid bets, do this
-                if not self.ring_row.isEmpty and self.ring_row.isValidBet: 
+                if (not self.ring_row.isEmpty) and self.ring_row.isValidBet: 
                     if self.confirm_button.draw(self.game.display): #figure out how to clear this button
                         self.gameplay_counter += 1
                         #combine the player and dealer hands, player goes first
