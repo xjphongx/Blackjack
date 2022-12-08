@@ -1,6 +1,5 @@
 import pygame,os, sys
 from scripts.title import Title
-from scripts.statistic import Statistic
 
 class Game():
     def __init__(self):
