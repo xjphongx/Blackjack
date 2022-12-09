@@ -32,9 +32,11 @@ class Gameboard(State):
         self.strategy_card_button = Button(x=150,y=825,image=strategy_card_button_image,scale = .07)
         self.strategy_card_image = pygame.image.load("images/Simple_Blackjack_Strategy.png").convert_alpha()
         self.card_rect = self.strategy_card_image.get_rect(center=(self.game.display_width/2,self.game.display_height/2))
-      
         transparent_image = pygame.image.load("images/transparent_image.png").convert_alpha()
         self.transparent_image_button = Button(x=0,y=0,image=transparent_image,scale= 2)
+
+        add_1000_image = pygame.image.load("images/buttons/add_1000_button.png").convert_alpha()
+        self.add_1000_button = Button(x=1100,y=50, image= add_1000_image, scale = .05)
 
         self.ring_row = Ring_Row(self.game, self)
         self.bet_menu = Bet_Menu(self.game, self) 
@@ -68,13 +70,18 @@ class Gameboard(State):
                         50, 
                         self.game.display_width/2,
                         self.game.display_height/5)
-        #controls the confirm and play again buttons to switch between the two
+        #controls the confirm and play again buttons to switch between the two buttons
         if self.round_over == False:
             self.display_confirm_button()
         else:
             self.display_play_again_button()
         
         #temp button
+        if self.player.fund < 49 and self.player.win_amount <49 and not self.round_over and self.confirm_button.isActive == False and self.player.current_bet < 49 and self.ring_row.total_amount < 50:
+            if self.add_1000_button.draw(self.game.display):
+                self.player.add_funds(added_amount=1000)
+        
+        
         if self.back_button.draw(self.game.display):
             #TODO save player funds, and card piles
             self.ring_row.clear() #clears the row 
@@ -109,6 +116,8 @@ class Gameboard(State):
                 if (not self.ring_row.isEmpty) and self.ring_row.isValidBet: 
                     if self.confirm_button.draw(self.game.display): #figure out how to clear this button
                         self.gameplay_counter += 1
+                        self.ring_row.check_total_amount() #TODO TEMP FUNCTION
+                        print(self.ring_row.total_amount)
                         #combine the player and dealer hands, player goes first
                         self.turn_list.extend(self.dealer.hand_list)
                         self.player.hand_list.reverse() #reserves the player list 
@@ -217,9 +226,15 @@ class Gameboard(State):
             if player_hand.bust == False:
                 #Dealer has smaller hand than player's current hand, player wins
                 if dealer_hand.hand_sum < player_hand.hand_sum:
-                    player_hand.win_amount = player_hand.bet_amount #updates the hand's win notification
-                    self.player.win_amount += player_hand.bet_amount*2 #updates the player's Fund notification
-                    player_hand.bust = True #prevent constant looping 
+                    #Case where hand has blackjack
+                    if player_hand.hasBlackjack:
+                        player_hand.win_amount = player_hand.bet_amount*2.5 #updates the hand's win notification
+                        self.player.win_amount += player_hand.bet_amount*2.5 #updates the player's Fund notification
+                        player_hand.bust = True #prevent constant looping 
+                    else:
+                        player_hand.win_amount = player_hand.bet_amount #updates the hand's win notification
+                        self.player.win_amount += player_hand.bet_amount*2 #updates the player's Fund notification
+                        player_hand.bust = True #prevent constant looping 
                 #Dealer and Player both push
                 elif dealer_hand.hand_sum == player_hand.hand_sum:
                     #do nothing to the bet and move to the next hand
@@ -234,9 +249,15 @@ class Gameboard(State):
     def player_win(self):
         for i, hand in enumerate(self.turn_list[:-1]):
             if hand.bust == False:
-                self.player.win_amount += hand.bet_amount*2
-                hand.win_amount = hand.bet_amount
-                hand.bust = True
+                #Case where hand has blackjack
+                if hand.hasBlackjack:
+                    self.player.win_amount += hand.bet_amount*2.5
+                    hand.win_amount = hand.bet_amount
+                    hand.bust = True
+                else:
+                    self.player.win_amount += hand.bet_amount*2
+                    hand.win_amount = hand.bet_amount
+                    hand.bust = True
         self.round_over = True
 
     #function pass cards will give out 2 cards to each active hand
@@ -314,6 +335,7 @@ class Gameboard(State):
                             self.game.draw_text(f"{hand.hand_sum} or {hand.hand_upper_sum}",30,hand.x, hand.y+90)   
                     #Case where player is dealt a Blackjack with the first two cards, hand MUST stand
                     elif hand.hasAce and hand.hand_upper_sum == 21 and len(hand.card_list) == 2 and hand.isTurn:
+                        hand.hasBlackjack = True
                         hand.stand = True
                         hand.hand_sum = hand.hand_upper_sum
                         self.game.draw_text(f"{hand.hand_sum}",30,hand.x, hand.y+90)               
@@ -329,7 +351,6 @@ class Gameboard(State):
                         self.game.draw_text(f"{hand.hand_sum}",30,hand.x, hand.y+90)
                     #display hand sum no matter what
                     else:
-                        
                         self.game.draw_text(f"{hand.hand_sum}",30,hand.x, hand.y+90)
                     #check if hand is busted
                     if hand.hand_sum > 21:

@@ -36,6 +36,7 @@ class Ring():
                 self.gameboard.cursor.chip = None #resets the cursor to hold nothing
 
                 #calculate and updates bet
+                self.gameboard.ring_row.total_amount += self.gameboard.player.current_bet #used to update the ring row's grand total
                 self.bet_amount += self.gameboard.player.current_bet
                 self.gameboard.player.current_bet = 0 #reset current bet
                 
@@ -44,6 +45,7 @@ class Ring():
                 self.chip = self.gameboard.cursor.chip
                 self.gameboard.cursor.chip = None #resets the cursor to hold nothing
                 #calculate and updates bet
+                self.gameboard.ring_row.total_amount += self.gameboard.player.current_bet #used to update the ring row's grand total
                 self.bet_amount += self.gameboard.player.current_bet
                 self.gameboard.player.current_bet = 0
             

@@ -16,6 +16,7 @@ class Hand():
         self.win_amount = 0
         self.lost_amount = 0
         self.hasAce = False
+        self.hasBlackjack = False
         self.hand_sum = 0
         self.hand_upper_sum = 0 #calculated for ace edge case
         self.hand_size = 0
@@ -54,6 +55,7 @@ class Hand():
         self.hand_upper_sum = 0
         self.hand_size = 0
         self.hasAce = False
+        self.hasBlackjack = False
         self.isTurn = False
         self.bust = False
         self.stand = False

@@ -35,7 +35,7 @@ class Bet_Menu():
 
     #display all the buttons 
     def display(self):
-        self.game.draw_text(f"Min Bet: {self.min_bet}", 35,self.bet_text_x-250, self.bet_text_y-63)
+        self.game.draw_text(f"Min Bet: {self.min_bet}", 35,self.bet_text_x-270, self.bet_text_y-63)
         self.game.draw_text(f"Current Bet: {self.gameboard.player.current_bet}", 35, self.bet_text_x, self.bet_text_y-63)
         self.game.draw_text(f"Round Won: {self.gameboard.player.win_amount}",30, self.fund_text_x, self.fund_text_y-70)
         self.game.draw_text(f"Round Profit: {self.gameboard.player.round_difference_amount}", 30, self.fund_text_x,self.fund_text_y-35)

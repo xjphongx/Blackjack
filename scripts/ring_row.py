@@ -7,6 +7,7 @@ class Ring_Row():
         self.gameboard = gameboard
         self.isEmpty = True
         self.isValidBet = False
+        self.total_amount = 0
         
         #intialize ring objects
         self.ring_1 = Ring(self.game,self.gameboard,1150,645,order=1)
@@ -36,6 +37,7 @@ class Ring_Row():
         self.isEmpty=True #ring row is empty
         self.isValidBet = False #ring row is not valid bet
         self.gameboard.player.clear_bets()
+        self.total_amount = 0
         
     def check_valid_bet(self):
         if self.ring_1.button.isActive:
@@ -68,3 +70,23 @@ class Ring_Row():
             else:
                 self.isValidBet = False
 
+    def check_total_amount(self):
+        if self.ring_1.button.isActive:
+            if self.ring_1.isValidBet:
+                self.total_amount += self.ring_1.bet_amount
+            
+        if self.ring_2.button.isActive:
+            if self.ring_2.isValidBet:
+                self.total_amount += self.ring_2.bet_amount
+        
+        if self.ring_3.button.isActive:
+            if self.ring_3.isValidBet:
+                self.total_amount += self.ring_3.bet_amount
+        
+        if self.ring_4.button.isActive:
+            if self.ring_4.isValidBet:
+                self.total_amount += self.ring_4.bet_amount
+
+        if self.ring_5.button.isActive:
+            if self.ring_5.isValidBet:
+                self.total_amount += self.ring_5.bet_amount
