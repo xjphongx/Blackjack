@@ -1,5 +1,5 @@
 
-import pygame
+import pygame,json
 from scripts.bet_menu import Bet_Menu
 from scripts.cursor import Cursor
 from scripts.hand import Hand
@@ -15,15 +15,18 @@ class Gameboard(State):
         #instantiating gameboard objects
         self.playing = False
         self.min_bet = 50
-        back_image = pygame.image.load("images/buttons/back_button.png").convert_alpha()
-        self.back_button = Button(x=325,y=50,image=back_image,scale=.07)
-        self.dealer = Dealer(self.game, self)
+        file = open('scripts/stats.json')
+        data = json.load(file)
+        self.player = Player(game=self.game, gameboard=self,fund=data['fund'])
+        self.dealer = Dealer(game=self.game, gameboard=self, fund=data['dealer_fund'])
+        file.close()
         self.deck_pile = DeckPile()
         self.deck_pile.load_cards_to_deck()
         self.deck_pile.shuffle()
         self.discard_pile = DiscardPile()
-
         #temporary button
+        back_image = pygame.image.load("images/buttons/back_button.png").convert_alpha()
+        self.back_button = Button(x=325,y=50,image=back_image,scale=.07)
         confirm_button_image = pygame.image.load("images/buttons/confirm_button.png").convert_alpha()
         self.confirm_button = Button(x=self.game.display_width/2,y= self.game.display_height/2-140,image=confirm_button_image,scale=.07)
         play_again_image = pygame.image.load("images/buttons/play_again_button.png").convert_alpha()
@@ -37,14 +40,15 @@ class Gameboard(State):
 
         add_1000_image = pygame.image.load("images/buttons/add_1000_button.png").convert_alpha()
         self.add_1000_button = Button(x=1100,y=50, image= add_1000_image, scale = .05)
-
+        
         self.ring_row = Ring_Row(self.game, self)
         self.bet_menu = Bet_Menu(self.game, self) 
         self.cursor = Cursor(self.game) 
-        self.player = Player(self.game, self)
+        
         self.turn_list = [] #empty turn list
         self.gameplay_counter = 0
         self.round_over = False #used to display play again button
+       
     
     #This function adds functionality to the gameboard state
     def render(self,display):
@@ -77,10 +81,10 @@ class Gameboard(State):
             self.display_play_again_button()
         
         #temp button
+        #this long if statement is to check all conditions before displaying the cheat button
         if self.player.fund < 49 and self.player.win_amount <49 and not self.round_over and self.confirm_button.isActive == False and self.player.current_bet < 49 and self.ring_row.total_amount < 50:
             if self.add_1000_button.draw(self.game.display):
                 self.player.add_funds(added_amount=1000)
-        
         
         if self.back_button.draw(self.game.display):
             #TODO save player funds, and card piles
@@ -108,6 +112,7 @@ class Gameboard(State):
         self.game.reset_actions()
 
 #Gameboard helper function below
+ 
     #This function displays and adds functionality to the confirm button
     def display_confirm_button(self):
         #checks if player is deciding, if clicked, pass out cards
