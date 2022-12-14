@@ -3,17 +3,17 @@ import pygame,os
 from scripts.hand import Hand
 
 DEALER_STARTING_FUND = 99999999999999999999999999999999999999999
-PLAYER_STARTING_FUND = 1000
+
 class Player():
-    def __init__(self, game, gameboard, fund = PLAYER_STARTING_FUND):
+    def __init__(self, game, gameboard,fund):
         self.game = game
         self.gameboard = gameboard
         self.hand_list = [1,2,3,4,5] 
-        self.fund = fund
         self.win_amount = 0
         self.round_difference_amount=0
         self.current_bet = 0
-
+        self.fund = fund
+    
     #function add_Hand takes a specified order and adds it to player hand list
     def add_Hand(self, order:int ,bet_amount:int, x:float , y:float, isDealer=None):#Player can add a new hand when SPLITING
         #edge case when it is the dealers hand
@@ -88,11 +88,13 @@ class Player():
 
 
 class Dealer(Player,pygame.sprite.Sprite):
-    def __init__(self, game, gameboard):
-        super().__init__(game, gameboard, fund = DEALER_STARTING_FUND)
+    def __init__(self, game, gameboard,fund):
+        super().__init__(game, gameboard,fund)
         self.hand_list = [6] #puts the dealer last in the turn list
         self.add_Hand(order= 6,x= 750,y= 225, bet_amount=0,isDealer = True)
         self.dealer_image_path = os.path.abspath('images/dealer.png')
         self.dealer_image_surface = pygame.image.load(self.dealer_image_path).convert_alpha()
         self.dealer_image_surface = pygame.transform.rotozoom(self.dealer_image_surface,0,.2)
         self.rect = self.dealer_image_surface.get_rect(midtop=(1300/2,20)) #screen dimension is 1300x900
+    
+    
