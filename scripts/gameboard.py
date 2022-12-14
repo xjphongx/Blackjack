@@ -15,7 +15,8 @@ class Gameboard(State):
         #instantiating gameboard objects
         self.playing = False
         self.min_bet = 50
-        file = open('scripts/stats.json')
+        self.STATS_FILE_PATH = 'scripts/stats.json'
+        file = open(self.STATS_FILE_PATH)
         data = json.load(file)
         self.player = Player(game=self.game, gameboard=self,fund=data['fund'])
         self.dealer = Dealer(game=self.game, gameboard=self, fund=data['dealer_fund'])
@@ -77,6 +78,10 @@ class Gameboard(State):
         #controls the confirm and play again buttons to switch between the two buttons
         if self.round_over == False:
             self.display_confirm_button()
+            if self.back_button.draw(self.game.display):
+                #TODO and card piles
+                self.ring_row.clear() #clears the row 
+                self.game.actions["back"] = True
         else:
             self.display_play_again_button()
         
@@ -86,11 +91,6 @@ class Gameboard(State):
             if self.add_1000_button.draw(self.game.display):
                 self.player.add_funds(added_amount=1000)
         
-        if self.back_button.draw(self.game.display):
-            #TODO save player funds, and card piles
-            self.ring_row.clear() #clears the row 
-            self.game.actions["back"] = True
-
         #render the clickable button
         #Display the transparent image button over the WHOLE gameboard if the button is NOT ACTIVE
         if self.transparent_image_button.isActive == True:
@@ -108,6 +108,11 @@ class Gameboard(State):
     #state change to the title
     def update(self,actions):
         if actions["back"]:
+            #load player fund and dealer fund into json
+            with open(self.STATS_FILE_PATH, "w") as outfile:
+                json.dump({"fund": self.player.fund,
+                "dealer_fund": self.dealer.fund}, outfile)
+            outfile.close()
             self.exit_state()
         self.game.reset_actions()
 
@@ -217,6 +222,7 @@ class Gameboard(State):
         if hand.order in self.ring_row.ring_map.keys():
             #this is the ring object based on key(hand's order)
             hand.lost_amount -= hand.bet_amount
+            self.dealer.add_funds(hand.bet_amount)
             hand.bet_amount = 0 
             self.ring_row.ring_map[hand.order].hasChip = False  #for single hand in ring
             hand.hasChip = False #for hands in split
@@ -234,11 +240,15 @@ class Gameboard(State):
                     #Case where hand has blackjack
                     if player_hand.hasBlackjack:
                         player_hand.win_amount = player_hand.bet_amount*2.5 #updates the hand's win notification
-                        self.player.win_amount += player_hand.bet_amount*2.5 #updates the player's Fund notification
+                        #self.player.win_amount += player_hand.bet_amount*2.5 #updates the player's Fund notification
+                        self.player.add_funds(player_hand.bet_amount*2.5)
+                        self.dealer.subtract_funds(player_hand.bet_amount*2.5) #updates the dealer's fund
                         player_hand.bust = True #prevent constant looping 
                     else:
                         player_hand.win_amount = player_hand.bet_amount #updates the hand's win notification
-                        self.player.win_amount += player_hand.bet_amount*2 #updates the player's Fund notification
+                        #self.player.win_amount += player_hand.bet_amount*2 #updates the player's Fund notification
+                        self.player.add_funds(player_hand.bet_amount*2)
+                        self.dealer.subtract_funds(player_hand.bet_amount*2)
                         player_hand.bust = True #prevent constant looping 
                 #Dealer and Player both push
                 elif dealer_hand.hand_sum == player_hand.hand_sum:
@@ -257,10 +267,12 @@ class Gameboard(State):
                 #Case where hand has blackjack
                 if hand.hasBlackjack:
                     self.player.win_amount += hand.bet_amount*2.5
+                    self.dealer.fund -= hand.bet_amount*2.5
                     hand.win_amount = hand.bet_amount
                     hand.bust = True
                 else:
                     self.player.win_amount += hand.bet_amount*2
+                    self.dealer.fund -= hand.bet_amount*2
                     hand.win_amount = hand.bet_amount
                     hand.bust = True
         self.round_over = True

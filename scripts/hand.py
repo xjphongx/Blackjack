@@ -65,9 +65,9 @@ class Hand():
     
     def display_result(self):
         if self.win_amount > 0:
-            self.game.draw_text(f" + {self.win_amount}",20,self.x + 40, self.y + 90)
+            self.game.draw_text(f"+{self.win_amount}",20,self.x + 40, self.y + 90)
         if self.lost_amount < 0:
-            self.game.draw_text(f" {self.lost_amount}",20,self.x + 40, self.y + 90)
+            self.game.draw_text(f"{self.lost_amount}",20,self.x + 40, self.y + 90)
 
     #print out on terminal the contains of the card_list
     def show(self):
