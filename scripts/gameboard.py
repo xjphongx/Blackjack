@@ -319,8 +319,8 @@ class Gameboard(State):
         return False
 
     def start_round(self):       
-    #TODO THERE IS A BUG WHERE DEALER GETS A BLACKJACK AND THE BOARD IS GONE
-    # it goes into the next round, NOT play again button is found 
+        #Check if dealer has enough money
+        self.dealer.check_funds()
 
         #Check case where dealer has a blackjack to immediately end the game and collect bets
         if self.turn_list[-1].hasAce and (self.turn_list[-1].hand_upper_sum == 21):

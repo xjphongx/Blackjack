@@ -97,4 +97,8 @@ class Dealer(Player,pygame.sprite.Sprite):
         self.dealer_image_surface = pygame.transform.rotozoom(self.dealer_image_surface,0,.2)
         self.rect = self.dealer_image_surface.get_rect(midtop=(1300/2,20)) #screen dimension is 1300x900
     
+    def check_funds(self):
+        #Makes sure the dealer is not broke
+        if self.fund < 100000000000:
+            self.fund = 999999999999999
     
