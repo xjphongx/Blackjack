@@ -15,7 +15,7 @@ class Game():
         self.screen_title = pygame.display.set_caption("Black Jack")
         self.background_color = pygame.color.Color(0,132,113)
         self.font_path = os.path.abspath('font/Milkalte.otf')
-        self.background_music = pygame.mixer.Sound('audio/lounge_background_music.mp3')
+        self.background_music = pygame.mixer.Sound('audio/lounge_background_music.mp3') #song is Sf Chillz by Dopestuff
         self.background_music.set_volume(.10)
         self.background_music.play(loops=-1)
         self.state_stack = []
