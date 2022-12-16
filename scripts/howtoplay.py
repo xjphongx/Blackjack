@@ -12,6 +12,7 @@ class Tutorial(State):
         self.column_x_2= column_offset*3
         self.column_x_3= self.column_x*5 
         self.image_row_y = 600
+        #images and buttons
         back_image = pygame.image.load("images/buttons/back_button.png").convert_alpha()
         self.back_button = Button(self.back_x, self.back_y, back_image, .10)
         next_image = pygame.image.load("images/buttons/next_button.png").convert_alpha()
@@ -19,11 +20,9 @@ class Tutorial(State):
         self.image_1 = pygame.image.load("images/tutorial/tutorial_image1.png").convert_alpha()
         self.image_1 = pygame.transform.rotozoom(self.image_1,0,.98)
         self.image_1_rect = self.image_1.get_rect(center=(self.column_x,self.image_row_y))
-        
         self.image_2 = pygame.image.load("images/tutorial/tutorial_image2.png").convert_alpha()
         self.image_2 = pygame.transform.rotozoom(self.image_2,0,.98)
         self.image_2_rect = self.image_2.get_rect(center=(self.column_x_2,self.image_row_y))
-
         self.image_3 = pygame.image.load("images/tutorial/tutorial_image3.png").convert_alpha()
         self.image_3 = pygame.transform.rotozoom(self.image_3,0,.98)
         self.image_3_rect = self.image_3.get_rect(center=(self.column_x_3,self.image_row_y))
@@ -32,6 +31,7 @@ class Tutorial(State):
     def render(self,display):
         display.fill(self.game.background_color)
         self.game.draw_text('How to Play', 100, self.game.display_width/2, self.game.display_height/10)
+        self.game.draw_text(text='1',text_size= 50,x= 50,y= 850)
         #TODO - add text instructions 
         self.game.draw_text('Objective: ', 70, self.back_x+50, self.back_y +125)
         self.game.draw_text('Beat the Dealer by... ', 50, self.back_x+125, self.back_y +200)
@@ -81,6 +81,7 @@ class Tutorial_2(State):
         self.prev_state.render(display)
         display.fill(self.game.background_color)
         self.game.draw_text('How to Play', 100, self.game.display_width/2, self.game.display_height/10)
+        self.game.draw_text(text='2',text_size= 50,x= 50,y= 850)
         self.game.display.blit(self.tutorial_image,self.tutorial_image_rect)
         if self.back_button.draw(self.game.display):
             self.game.actions["back"] = True
@@ -121,6 +122,7 @@ class Tutorial_3(State):
         self.prev_state.render(display)
         display.fill(self.game.background_color)
         self.game.draw_text('How to Play', 100, self.game.display_width/2, self.game.display_height/10)
+        self.game.draw_text(text='3',text_size= 50,x= 50,y= 850)
         self.game.draw_text('Player Actions Menu:', 60, self.game.display_width/3-50, self.back_y +125)
         self.game.display.blit(self.image_double_1,self.image_double_1_rect)
         self.game.display.blit(self.image_double_2,self.image_double_2_rect)
