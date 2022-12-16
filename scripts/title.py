@@ -1,4 +1,4 @@
-import pygame
+import pygame,webbrowser
 from scripts.state import State
 from scripts.loading import Loading
 from scripts.howtoplay import Tutorial #allow state transition interation
@@ -22,13 +22,16 @@ class Title(State):
         self.quit_y = self.center_height + 100
         quit_image = pygame.image.load("images/buttons/quit_button.png").convert_alpha()
         self.quit_button = Button(self.quit_x, self.quit_y, quit_image, self.game.IMAGE_SCALE)
-
+        #Linkedin button
+        linkedin_image = pygame.image.load("images/buttons/linkedin_button.png").convert_alpha()
+        self.linkedin_button = Button(x=1180,y=850, image=linkedin_image, scale=.07)
 
     def render(self, display):
         #render all title screen objects here
         display.fill(self.game.background_color)
         self.game.draw_text('Blackjack', 150, self.game.display_width/2, self.game.display_height/5)
-        self.game.draw_text('Game by Jimmy Phong',20, 1150,885) #adding game credits to author    
+        self.game.draw_text('Song: SF Chillz by Dopestuff',20, 1150,775) #adding game credits to author    
+        self.game.draw_text('Game by Jimmy Phong',20, 1180,805) #adding game credits to author    
 
         #render the clickable buttons 
         if self.play_game_button.draw(self.game.display):
@@ -42,7 +45,10 @@ class Title(State):
             self.game.playing = False
             pygame.quit()
             exit()
-
+        elif self.linkedin_button.draw(self.game.display):
+            #send to browser hyper link
+            webbrowser.open(r"https://www.linkedin.com/in/jimmyphong/")
+            
 
     def update(self, actions):
         #checks actions and creates state for state transition
