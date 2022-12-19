@@ -4,6 +4,7 @@
 The player attempts to beat the dealer by getting close to 21 as possible, without going over, or have the dealer bust.
 
 ## Example Playthrough 
+![blackjack_run](https://user-images.githubusercontent.com/31776718/208351380-d703d02a-e816-44c5-bddd-973bbd45613e.gif)
 
 
 ## Installation
