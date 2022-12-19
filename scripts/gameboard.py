@@ -168,7 +168,9 @@ class Gameboard(State):
                 self.deck_pile.combine(self.discard_pile.stack) #takes the stack object as an argument
                 self.discard_pile.clear()
                 self.deck_pile.shuffle()
-                    
+            
+            #updates to json
+            self.update_funds_to_json()  
             #reset all the objects so the next round can start
             self.player.reset_UI()
             self.delete_extra_hands()
@@ -228,7 +230,7 @@ class Gameboard(State):
             hand.hasChip = False #for hands in split
         #This section is for extra hands when spliting 
         if hand.isExtra:
-            hand.hasChip = False
+            hand.hasChip = False   
     
     #function compare_hand will compare the dealer's hand to all the player's hand and resolve winning condition
     def compare_hand(self, dealer_hand: Hand):
@@ -240,14 +242,14 @@ class Gameboard(State):
                     #Case where hand has blackjack
                     if player_hand.hasBlackjack:
                         player_hand.win_amount = player_hand.bet_amount*2.5 #updates the hand's win notification
-                        #self.player.win_amount += player_hand.bet_amount*2.5 #updates the player's Fund notification
-                        self.player.add_funds(player_hand.bet_amount*2.5)
+                        self.player.win_amount += player_hand.bet_amount*2.5 #updates the player's Fund notification
+                        #self.player.add_funds(player_hand.bet_amount*2.5)
                         self.dealer.subtract_funds(player_hand.bet_amount*2.5) #updates the dealer's fund
                         player_hand.bust = True #prevent constant looping 
                     else:
                         player_hand.win_amount = player_hand.bet_amount #updates the hand's win notification
-                        #self.player.win_amount += player_hand.bet_amount*2 #updates the player's Fund notification
-                        self.player.add_funds(player_hand.bet_amount*2)
+                        self.player.win_amount += player_hand.bet_amount*2 #updates the player's Fund notification
+                        #self.player.add_funds(player_hand.bet_amount*2)
                         self.dealer.subtract_funds(player_hand.bet_amount*2)
                         player_hand.bust = True #prevent constant looping 
                 #Dealer and Player both push
@@ -258,6 +260,7 @@ class Gameboard(State):
                 #Dealer has bigger hand than player's current hand, dealer wins            
                 else: 
                     self.bust(player_hand)
+        #end the current round                     
         self.round_over = True
 
     #function player_win gives the all NON-busted hand the winning bets 
@@ -274,7 +277,7 @@ class Gameboard(State):
                     self.player.win_amount += hand.bet_amount*2
                     self.dealer.fund -= hand.bet_amount*2
                     hand.win_amount = hand.bet_amount
-                    hand.bust = True
+                    hand.bust = True           
         self.round_over = True
 
     #function pass cards will give out 2 cards to each active hand
@@ -428,7 +431,13 @@ class Gameboard(State):
             if hand.isExtra:
                 del self.turn_list[i]
         print(f"after delete hands {self.turn_list}")
-                
+            
+    def update_funds_to_json(self):
+        #opens the json file and updates the funds
+        with open(self.STATS_FILE_PATH, "w") as outfile:
+                json.dump({"fund": self.player.fund,
+                "dealer_fund": self.dealer.fund}, outfile)
+                outfile.close()
                         
                         
                         
